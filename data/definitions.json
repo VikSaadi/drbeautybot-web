@@ -1,0 +1,285 @@
+{
+  "__meta": {
+    "updatedAt": "2025-12-13",
+    "changelog": [
+      "2025-12-13: Creación inicial de definitions.json (~30 definiciones) para CAPA DEFINICIONES.",
+      "2025-12-13: Keywords pensadas para matching robusto con normalizeText + matchKeywordNormalized."
+    ]
+  },
+  "items": [
+    {
+      "id": "def_vision_borrosa",
+      "term": "visión borrosa",
+      "keywords": ["vision borrosa", "vista borrosa", "veo borroso", "veo borrosa", "se me nubla la vision", "se me nubla"],
+      "definition": "La visión borrosa es cuando la vista pierde nitidez (se ve “nublado”, desenfocado o con poca claridad). Puede ocurrir por causas benignas (fatiga ocular, sequedad, migraña) pero también por causas que requieren valoración urgente, especialmente si aparece de forma súbita.",
+      "safetyNote": "Si la visión borrosa aparece de forma repentina, empeora, se acompaña de dolor ocular/cabeza intenso, debilidad, dificultad para hablar, o ocurrió después de un procedimiento facial/inyección, busca valoración médica urgente."
+    },
+    {
+      "id": "def_ptosis",
+      "term": "ptosis",
+      "keywords": ["ptosis", "parpado caido", "párpado caído", "caida de parpado", "caída de párpado"],
+      "definition": "Ptosis significa “caída del párpado”. En estética puede ocurrir, por ejemplo, como efecto no deseado tras toxina botulínica cuando el músculo elevador del párpado se afecta parcialmente.",
+      "safetyNote": "Si hay ptosis súbita con visión doble, dolor fuerte, asimetría facial marcada o debilidad, conviene valoración médica."
+    },
+    {
+      "id": "def_occlusion_vascular",
+      "term": "oclusión vascular",
+      "keywords": ["oclusion vascular", "oclusión vascular", "vaso tapado", "obstruccion vascular", "obstrucción vascular"],
+      "definition": "Una oclusión vascular es cuando un vaso sanguíneo se bloquea (por ejemplo, por presión externa o por entrada accidental de material). En procedimientos con rellenos, es una complicación seria porque puede comprometer el flujo de sangre a la piel o, en casos raros, estructuras más profundas.",
+      "safetyNote": "Dolor intenso desproporcionado, palidez/morado, piel fría, cambios rápidos de color o alteraciones visuales tras un relleno requieren atención inmediata."
+    },
+    {
+      "id": "def_necrosis",
+      "term": "necrosis",
+      "keywords": ["necrosis", "piel negra", "tejido muerto", "zona negra", "costra negra"],
+      "definition": "Necrosis es muerte de tejido. En estética suele relacionarse con falta de riego sanguíneo o infección grave, y puede comenzar con dolor intenso, cambios de color y piel fría, evolucionando a ampollas o zonas oscuras.",
+      "safetyNote": "Si sospechas necrosis (sobre todo tras inyección/procedimiento), busca valoración médica urgente."
+    },
+    {
+      "id": "def_granuloma",
+      "term": "granuloma",
+      "keywords": ["granuloma", "bolitas duras", "nodos", "nódulos", "nodulos duros"],
+      "definition": "Un granuloma es una reacción inflamatoria del cuerpo a un material extraño o a un estímulo persistente. Puede presentarse como nódulos o “bolitas” firmes, a veces sensibles, semanas o meses después.",
+      "safetyNote": "Si hay enrojecimiento progresivo, calor, dolor importante, fiebre o secreción, conviene valoración médica."
+    },
+    {
+      "id": "def_biofilm",
+      "term": "biofilm",
+      "keywords": ["biofilm", "biopelicula", "biopelícula"],
+      "definition": "Un biofilm es una comunidad de microorganismos que se adhieren a una superficie y se protegen con una “matriz”. En estética se menciona cuando hay infecciones persistentes o reacciones inflamatorias crónicas relacionadas con implantes o rellenos.",
+      "safetyNote": "Infecciones persistentes o inflamación recurrente tras procedimientos deben evaluarse por un médico."
+    },
+    {
+      "id": "def_hialuronidasa",
+      "term": "hialuronidasa",
+      "keywords": ["hialuronidasa", "enzima para disolver", "disolver acido hialuronico", "disolver relleno"],
+      "definition": "La hialuronidasa es una enzima que puede degradar el ácido hialurónico. Se usa en medicina para situaciones específicas (por ejemplo, complicaciones o correcciones), y su uso debe ser médico y con criterio clínico.",
+      "safetyNote": "No es para automedicación. Si sospechas una complicación por relleno, lo prudente es valoración médica inmediata."
+    },
+    {
+      "id": "def_hematoma",
+      "term": "hematoma",
+      "keywords": ["hematoma", "moreton", "moretón", "equimosis", "mancha morada"],
+      "definition": "Un hematoma (moretón) es acumulación de sangre bajo la piel por ruptura de vasos pequeños. Puede aparecer tras inyecciones o traumatismos y suele resolverse con el tiempo.",
+      "safetyNote": "Si el dolor es intenso, el hematoma crece rápido o hay cambios de color preocupantes, consulta a un profesional."
+    },
+    {
+      "id": "def_edema",
+      "term": "edema",
+      "keywords": ["edema", "hinchazon", "hinchazón", "inflamacion", "inflamación"],
+      "definition": "Edema es hinchazón por acumulación de líquido en tejidos. Tras procedimientos puede ser esperable, pero su evolución y asociación con otros síntomas importa.",
+      "safetyNote": "Edema que progresa rápido, duele mucho, se acompaña de fiebre, secreción o cambios de color debe valorarse."
+    },
+    {
+      "id": "def_anafilaxia",
+      "term": "anafilaxia",
+      "keywords": ["anafilaxia", "reaccion alergica grave", "reacción alérgica grave", "me falta el aire por alergia"],
+      "definition": "La anafilaxia es una reacción alérgica grave y potencialmente mortal. Puede causar dificultad para respirar, hinchazón de labios/ojos, ronchas extensas, mareo o desmayo.",
+      "safetyNote": "Si hay dificultad para respirar, opresión en el pecho, hinchazón rápida o desmayo: urgencias de inmediato."
+    },
+
+    {
+      "id": "def_acido_hialuronico",
+      "term": "ácido hialurónico",
+      "keywords": ["acido hialuronico", "ácido hialurónico", "hialuronico", "hialurónico", "ah", "filler de acido hialuronico"],
+      "definition": "El ácido hialurónico es una sustancia que retiene agua y da soporte a tejidos. En estética se usa como relleno reabsorbible para volumen, hidratación o contorno, según el producto y la técnica.",
+      "safetyNote": "Aunque suele ser seguro en manos expertas, puede haber complicaciones. Cambios de color, dolor intenso o alteraciones visuales tras una inyección requieren atención inmediata."
+    },
+    {
+      "id": "def_toxina_botulinica",
+      "term": "toxina botulínica",
+      "keywords": ["toxina botulinica", "toxina botulínica", "botox", "btx"],
+      "definition": "La toxina botulínica es una proteína que reduce temporalmente la contracción de ciertos músculos. En estética se usa para líneas de expresión y algunas indicaciones funcionales.",
+      "safetyNote": "Debe aplicarse por personal capacitado. Si hay dificultad para tragar/respirar o debilidad marcada, busca atención médica."
+    },
+    {
+      "id": "def_bioestimulador",
+      "term": "bioestimulador",
+      "keywords": ["bioestimulador", "bioestimulador de colageno", "bioestimulador de colágeno"],
+      "definition": "Un bioestimulador es un producto que busca inducir formación de colágeno de manera gradual (por ejemplo PLLA o CaHA en ciertas indicaciones), con resultados progresivos.",
+      "safetyNote": "La técnica y selección del paciente son clave; nódulos persistentes o inflamación importante deben valorarse."
+    },
+    {
+      "id": "def_caha",
+      "term": "hidroxiapatita de calcio (CaHA)",
+      "keywords": ["caha", "hidroxiapatita de calcio", "hidroxiapatita", "radiesse"],
+      "definition": "La CaHA es un material usado como relleno y/o estimulador de colágeno en ciertas zonas e indicaciones. No se revierte como AH y su manejo ante complicaciones puede ser distinto.",
+      "safetyNote": "Síntomas intensos o cambios de color tras inyección requieren valoración inmediata."
+    },
+    {
+      "id": "def_plla",
+      "term": "ácido poli-L-láctico (PLLA)",
+      "keywords": ["plla", "acido poli l lactico", "ácido poli-l-láctico", "sculptra", "lanluma"],
+      "definition": "El PLLA es un bioestimulador que promueve colágeno. Se usa para mejora gradual y requiere técnica adecuada. Puede dar inflamación y, en algunos casos, nódulos.",
+      "safetyNote": "Bultos dolorosos, enrojecimiento progresivo o síntomas sistémicos deben valorarse."
+    },
+    {
+      "id": "def_pcl",
+      "term": "policaprolactona (PCL)",
+      "keywords": ["pcl", "policaprolactona", "ellanse", "ellansé"],
+      "definition": "La PCL en microesferas suspendidas en gel puede usarse como relleno/bioestimulador de mayor duración en algunos mercados. La autorización y disponibilidad dependen del país.",
+      "safetyNote": "Ante complicaciones, el manejo puede ser más complejo por la duración del material."
+    },
+    {
+      "id": "def_pmma",
+      "term": "PMMA",
+      "keywords": ["pmma", "polimetilmetacrilato", "bellafill", "artefill"],
+      "definition": "PMMA es un relleno de efecto muy prolongado/permanente en forma de microesferas. Puede asociarse a granulomas o irregularidades tardías y suele ser más difícil de corregir que un relleno reabsorbible.",
+      "safetyNote": "Nódulos persistentes, inflamación crónica o cambios importantes deben valorarse por especialista."
+    },
+    {
+      "id": "def_biopolimeros",
+      "term": "biopolímeros",
+      "keywords": ["biopolimeros", "biopolímeros", "modelantes", "sustancia modelante"],
+      "definition": "En medicina estética, “biopolímeros” suele referirse a rellenos permanentes/no autorizados o de procedencia incierta. Se asocian con complicaciones serias y difíciles de manejar.",
+      "safetyNote": "Si hay dolor intenso, cambios de color, fiebre o alteraciones visuales: urgencias."
+    },
+    {
+      "id": "def_silicona_liquida",
+      "term": "silicona líquida inyectable",
+      "keywords": ["silicona liquida", "silicona líquida", "silicona inyectable", "silicone oil injection"],
+      "definition": "La silicona líquida inyectable para fines cosméticos se asocia con complicaciones severas (migración, inflamación crónica, embolias). No se recomienda como relleno estético.",
+      "safetyNote": "Síntomas respiratorios, dolor fuerte, cambios de color o visuales requieren atención inmediata."
+    },
+    {
+      "id": "def_infeccion",
+      "term": "infección",
+      "keywords": ["infeccion", "infección", "pus", "secrecion", "secreción", "calor", "enrojecimiento"],
+      "definition": "Una infección es la invasión de microorganismos en un tejido. En procedimientos puede presentarse con dolor, calor, enrojecimiento, secreción, fiebre o empeoramiento progresivo.",
+      "safetyNote": "Fiebre, pus, dolor intenso o empeoramiento rápido requieren valoración médica."
+    },
+    {
+      "id": "def_ipL",
+      "term": "IPL",
+      "keywords": ["ipl", "luz pulsada", "luz pulsada intensa"],
+      "definition": "IPL significa “luz pulsada intensa”. Se usa en estética para algunas pigmentaciones, lesiones vasculares y depilación en ciertos casos. No es un láser, aunque se le confunde.",
+      "safetyNote": "Quemaduras, ampollas o dolor intenso después de un procedimiento deben evaluarse."
+    },
+    {
+      "id": "def_laser",
+      "term": "láser",
+      "keywords": ["laser", "láser", "nd:yag", "alejandrita", "diodo"],
+      "definition": "En estética, “láser” es una fuente de luz con características específicas. Diferentes láseres tienen usos distintos (depilación, lesiones vasculares, pigmento, etc.).",
+      "safetyNote": "Dolor intenso, ampollas, cambios de color marcados o síntomas oculares tras exposición requieren valoración."
+    },
+    {
+      "id": "def_hifu",
+      "term": "HIFU",
+      "keywords": ["hifu", "ultrasonido focalizado", "ultrasonido focalizado de alta intensidad"],
+      "definition": "HIFU es ultrasonido focalizado de alta intensidad. Se usa para estimular tensado y colágeno en algunas indicaciones.",
+      "safetyNote": "Dolor intenso persistente, alteraciones sensitivas marcadas o debilidad deben valorarse."
+    },
+    {
+      "id": "def_radiofrecuencia",
+      "term": "radiofrecuencia",
+      "keywords": ["radiofrecuencia", "rf"],
+      "definition": "La radiofrecuencia utiliza energía para calentar tejidos de forma controlada buscando estimular colágeno. Puede causar enrojecimiento o sensibilidad temporal.",
+      "safetyNote": "Quemadura, ampollas o dolor progresivo deben valorarse."
+    },
+    {
+      "id": "def_microneedling",
+      "term": "microneedling",
+      "keywords": ["microneedling", "dermapen", "microagujas", "micro agujas"],
+      "definition": "Microneedling es una técnica con microagujas para estimular reparación y colágeno. Se usa en textura, cicatrices y algunas pigmentaciones con criterio.",
+      "safetyNote": "Infección, dolor importante, secreción o fiebre requieren valoración."
+    },
+    {
+      "id": "def_peeling",
+      "term": "peeling químico",
+      "keywords": ["peeling", "peeling quimico", "peeling químico"],
+      "definition": "Un peeling químico aplica sustancias para exfoliar capas superficiales (o más profundas según el tipo) con objetivos como textura, manchas o acné.",
+      "safetyNote": "Dolor intenso, ampollas extensas o signos de infección requieren valoración."
+    },
+    {
+      "id": "def_melasma",
+      "term": "melasma",
+      "keywords": ["melasma", "paño", "pano", "manchas hormonales"],
+      "definition": "El melasma es una hiperpigmentación común en cara, influida por sol y factores hormonales. Requiere manejo constante (fotoprotección y planes guiados).",
+      "safetyNote": "Si hay irritación severa por tratamientos, conviene ajustar con un profesional."
+    },
+    {
+      "id": "def_hiperpigmentacion",
+      "term": "hiperpigmentación postinflamatoria",
+      "keywords": ["hiperpigmentacion", "hiperpigmentación", "mancha postinflamatoria", "mancha por inflamacion"],
+      "definition": "Es una mancha que aparece después de inflamación o irritación (acné, depilación, láser, etc.). Puede mejorar con el tiempo y cuidados adecuados.",
+      "safetyNote": "Evitar irritación adicional y proteger del sol ayuda; ante empeoramiento marcado, consulta."
+    },
+    {
+      "id": "def_queloide",
+      "term": "queloide",
+      "keywords": ["queloide", "cicatriz queloide", "cicatriz hipertrófica", "cicatriz hipertrofica"],
+      "definition": "Un queloide es una cicatriz que crece más allá del borde de la herida original. No todas las cicatrices elevadas son queloides; algunas son hipertróficas.",
+      "safetyNote": "Si crece, duele o pica mucho, vale la pena valoración para opciones de manejo."
+    },
+    {
+      "id": "def_rosacea",
+      "term": "rosácea",
+      "keywords": ["rosacea", "rosácea", "enrojecimiento facial cronico", "ardor facial"],
+      "definition": "La rosácea es una condición inflamatoria crónica con enrojecimiento, sensibilidad y a veces brotes tipo acné. Tiene desencadenantes (sol, calor, alcohol, irritantes) y manejo individual.",
+      "safetyNote": "Irritación intensa tras un procedimiento requiere evaluación y ajuste."
+    },
+    {
+      "id": "def_diplopia",
+      "term": "visión doble (diplopía)",
+      "keywords": ["diplopia", "diplopía", "vision doble", "visión doble", "veo doble", "veo duplicado"],
+      "definition": "La visión doble (diplopía) es ver dos imágenes de un mismo objeto. Puede ocurrir por causas benignas (fatiga, problemas de refracción) o por causas neurológicas/oculares que requieren valoración, especialmente si aparece de forma súbita.",
+      "safetyNote": "Si la visión doble aparece de forma repentina, se acompaña de dolor intenso, debilidad, dificultad para hablar, o ocurrió tras un procedimiento facial/inyección, busca valoración médica urgente."
+    },
+    {
+      "id": "def_falta_aire_opresion_pecho",
+      "term": "falta de aire u opresión en el pecho",
+      "keywords": ["falta de aire", "me falta el aire", "dificultad para respirar", "me ahogo", "opresion en el pecho", "opresión en el pecho", "dolor en el pecho", "pecho apretado"],
+      "definition": "La falta de aire u opresión/dolor en el pecho son síntomas que pueden tener múltiples causas. En general se consideran señales de alarma porque pueden indicar un problema respiratorio o cardiovascular que requiere evaluación.",
+      "safetyNote": "Si hay falta de aire, opresión/dolor en el pecho, desmayo o empeoramiento rápido, acude a urgencias de inmediato o llama al número de emergencias local."
+    },
+    {
+      "id": "def_piel_fria_entumecimiento",
+      "term": "piel fría / entumecimiento",
+      "keywords": ["piel fria", "piel fría", "entumecimiento", "hormigueo", "adormecimiento", "zona dormida", "no siento la zona"],
+      "definition": "La piel fría o el entumecimiento pueden indicar alteración del flujo sanguíneo o irritación/compresión nerviosa. Después de procedimientos estéticos, el contexto y la rapidez con la que aparece importan mucho.",
+      "safetyNote": "Si se acompaña de dolor intenso, cambios de color (palidez/morado/negro) o empeora rápido tras una inyección, requiere valoración médica urgente."
+    },
+    {
+      "id": "def_cambio_color_piel",
+      "term": "cambio de color en la piel (palidez/morado/negro)",
+      "keywords": ["cambio de color", "piel palida", "piel pálida", "palido", "pálido", "morado", "violaceo", "violáceo", "negro", "se puso blanco", "se puso morado"],
+      "definition": "Un cambio de color marcado en la piel puede indicar inflamación intensa, hematoma importante o, en situaciones raras pero graves, disminución del flujo sanguíneo en un área.",
+      "safetyNote": "Cambio brusco de color con dolor intenso o piel fría, especialmente tras rellenos, requiere evaluación inmediata."
+    },
+    {
+      "id": "def_ampollas_quemadura",
+      "term": "ampollas / quemadura",
+      "keywords": ["ampolla", "ampollas", "quemadura", "me queme", "me quemé", "piel levantada", "flictena", "flictenas"],
+      "definition": "Las ampollas pueden aparecer por quemadura térmica o química, fricción o irritación intensa. En estética pueden verse después de láser/IPL/peelings si hubo exceso de energía, sensibilidad aumentada o cuidado inadecuado.",
+      "safetyNote": "Ampollas extensas, dolor intenso, secreción, fiebre o empeoramiento progresivo deben valorarse por un profesional."
+    },
+    {
+      "id": "def_mareo_desmayo",
+      "term": "mareo o desmayo",
+      "keywords": ["mareo", "me mareo", "desmayo", "me desmaye", "me desmayé", "casi me desmayo", "me fui para atras"],
+      "definition": "El mareo o desmayo puede relacionarse con factores vasovagales (ansiedad/dolor), deshidratación o causas médicas más serias. El contexto y síntomas acompañantes son importantes.",
+      "safetyNote": "Si hay desmayo, dificultad para respirar, dolor en el pecho o debilidad marcada, busca atención médica inmediata."
+    },
+    {
+      "id": "def_trazabilidad_lote",
+      "term": "trazabilidad (marca/lote/registro)",
+      "keywords": ["trazabilidad", "lote", "numero de lote", "número de lote", "caducidad", "etiqueta", "sticker", "holograma", "abrir frente a mi", "abrieron frente a mi"],
+      "definition": "La trazabilidad es la posibilidad de identificar con claridad qué producto se aplicó (marca, lote, caducidad y procedencia). En estética es clave para seguridad, seguimiento y para actuar mejor si hay una reacción o complicación.",
+      "safetyNote": "Si no pueden mostrar marca/lote/caducidad o el producto no tiene trazabilidad, es una señal de riesgo. Si ya te lo aplicaron y tienes síntomas, busca valoración médica."
+    },
+    {
+      "id": "def_registro_sanitario_cofepris",
+      "term": "registro sanitario (COFEPRIS)",
+      "keywords": ["registro sanitario", "cofepris", "producto autorizado", "producto aprobado", "permiso sanitario", "aviso sanitario"],
+      "definition": "En México, COFEPRIS es la autoridad sanitaria que regula y vigila, entre otras cosas, dispositivos y productos utilizados en salud. El “registro sanitario” (cuando aplica) y la trazabilidad ayudan a reducir riesgo de productos falsificados o no autorizados.",
+      "safetyNote": "Que un producto sea popular no significa que sea seguro o autorizado. La recomendación práctica es exigir trazabilidad y atención en un entorno médico con responsabilidad sanitaria."
+    },
+    {
+      "id": "def_asimetria_post_toxina",
+      "term": "asimetría / debilidad tras toxina",
+      "keywords": ["asimetria", "asimetría", "me quedo chueca", "me quedó chueca", "sonrisa chueca", "cara chueca", "debilidad", "debilidad facial", "se me cae la ceja", "ceja caida", "ceja caída"],
+      "definition": "Tras toxina botulínica puede ocurrir asimetría temporal si un músculo queda más relajado que otro. La mayoría de veces es transitoria y mejora conforme pasa el efecto o con ajustes médicos.",
+      "safetyNote": "Si la asimetría es súbita y se acompaña de debilidad en brazo/pierna, dificultad para hablar o alteración visual, busca atención médica urgente (porque puede no estar relacionado con estética)."
+    }
+  ]
+}

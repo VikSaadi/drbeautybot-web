@@ -1,0 +1,20 @@
+[
+  {
+    "countryCode": "MX",
+    "countryName": "México",
+    "emergencyNumber": "911",
+    "notes": "Número único de emergencias en México."
+  },
+  {
+    "countryCode": "CO",
+    "countryName": "Colombia",
+    "emergencyNumber": "123",
+    "notes": "Línea de emergencias unificada."
+  },
+  {
+    "countryCode": "ES",
+    "countryName": "España",
+    "emergencyNumber": "112",
+    "notes": "Número de emergencias en la Unión Europea."
+  }
+]

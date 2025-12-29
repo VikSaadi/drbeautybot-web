@@ -1,0 +1,441 @@
+[
+  {
+    "id": "edema_moreton_leve_rellenos",
+    "procedimiento": "rellenos",
+    "nombre": "Edema y moretones leves posteriores a relleno",
+    "nivel": 1,
+    "sintomasClave": [
+      "ligeramente hinchado",
+      "poquito inflamado",
+      "moreton pequeno",
+      "moretón pequeño",
+      "pequeno moreton",
+      "pequeño moretón",
+      "ligero moreton",
+      "ligero moretón",
+      "un poco morado",
+      "hinchazon leve",
+      "hinchazón leve",
+      "leve inflamacion",
+      "leve inflamación",
+      "se me inflamo poquito",
+      "se me inflamó poquito"
+    ],
+    "orientacionPaciente": "Después de los rellenos es frecuente presentar algo de inflamación y pequeños moretones, sobre todo los primeros días. Mientras el dolor sea tolerable, la piel mantenga un color normal y no haya cambios bruscos de temperatura, por lo general se considera una reacción esperable. Puedes aplicar frío local suave (no directo) y seguir las indicaciones de tu médico. Si notas dolor intenso, cambios de color importantes o empeoramiento rápido, es importante contactar a tu médico cuanto antes.",
+    "notasInternas": "Nivel 1: esperado/leve."
+  },
+  {
+    "id": "nodulos_bultos_tempranos_rellenos",
+    "procedimiento": "rellenos",
+    "nombre": "Bultos o irregularidades tempranas tras relleno",
+    "nivel": 2,
+    "sintomasClave": [
+      "bolitas",
+      "bolitas duras",
+      "bultitos",
+      "bultos",
+      "nudos",
+      "nodulos",
+      "nódulos",
+      "se sienten bolitas",
+      "se siente una bola",
+      "se siente duro",
+      "se me hizo un bulto",
+      "irregular",
+      "irregularidad",
+      "grumos",
+      "me quedo como abultado",
+      "me quedó como abultado"
+    ],
+    "orientacionPaciente": "Después de un relleno pueden aparecer pequeñas irregularidades o bolitas, sobre todo en los primeros días, por inflamación o distribución del material. Lo prudente es NO masajear fuerte ni manipular en exceso la zona (a menos que tu médico lo haya indicado). Contacta a tu médico para que valore si es parte de la evolución normal o si requiere ajuste. Si aparece dolor intenso, piel fría o cambios marcados de color, busca valoración inmediata.",
+    "notasInternas": "Nivel 2: suele requerir revisión, pero no siempre es urgencia."
+  },
+  {
+    "id": "inflamacion_tardia_rellenos",
+    "procedimiento": "rellenos",
+    "nombre": "Inflamación tardía (semanas/meses) tras relleno",
+    "nivel": 3,
+    "sintomasClave": [
+      "se me inflamo de repente",
+      "se me inflamó de repente",
+      "se me hincho de repente",
+      "se me hinchó de repente",
+      "se inflamo semanas despues",
+      "se inflamó semanas después",
+      "meses despues se inflamo",
+      "meses después se inflamó",
+      "inflamacion tardia",
+      "inflamación tardía",
+      "se me puso rojo semanas despues",
+      "se me puso rojo meses despues",
+      "me reaparecio la inflamacion",
+      "me reapareció la inflamación"
+    ],
+    "orientacionPaciente": "Una inflamación que aparece semanas o meses después de un relleno no siempre es grave, pero sí amerita valoración médica. Puede relacionarse con reacción inflamatoria tardía o con procesos intercurrentes. Lo más prudente es contactar al médico que te trató para una evaluación. Si hay fiebre, secreción, dolor intenso o empeora rápido, busca atención prioritaria.",
+    "notasInternas": "Nivel 3: requiere valoración directa; diferenciales (inflamación tardía, infección, granuloma)."
+  },
+  {
+    "id": "infeccion_post_relleno",
+    "procedimiento": "rellenos",
+    "nombre": "Datos de infección después de relleno",
+    "nivel": 4,
+    "sintomasClave": [
+      "pus",
+      "secrecion",
+      "secreción",
+      "calor en la zona",
+      "caliente al tacto",
+      "enrojecimiento que empeora",
+      "rojo y caliente",
+      "dolor que empeora",
+      "fiebre",
+      "mal olor",
+      "salida de liquido",
+      "salida de líquido"
+    ],
+    "orientacionPaciente": "Si hay enrojecimiento que progresa, calor local, secreción/pus, fiebre o dolor que empeora después de un relleno, podría tratarse de una infección u otra complicación que requiere valoración médica pronta. DrBeautyBot no puede diagnosticar a distancia: contacta de inmediato a tu médico o acude a una valoración prioritaria, especialmente si hay fiebre o empeoramiento rápido.",
+    "notasInternas": "Nivel 4: atención prioritaria. No dar esquemas de antibiótico."
+  },
+  {
+    "id": "alteracion_visual_post_relleno",
+    "procedimiento": "rellenos",
+    "nombre": "Alteraciones visuales tras relleno facial",
+    "nivel": 5,
+    "sintomasClave": [
+      "vision borrosa",
+      "visión borrosa",
+      "veo borroso",
+      "veo borrosa",
+      "no veo bien",
+      "perdi la vision",
+      "perdí la visión",
+      "perdida de vision",
+      "pérdida de visión",
+      "se me nubla la vision",
+      "se me nubla la visión",
+      "veo doble",
+      "diplopia",
+      "me quedo ciego",
+      "me quedé ciego"
+    ],
+    "orientacionPaciente": "Las alteraciones visuales (visión borrosa, pérdida de visión, ver doble o sensación de que se nubla la vista) después de una inyección facial pueden ser una señal de complicación grave. DrBeautyBot no puede valorarlo a distancia. Debes buscar atención médica urgente de inmediato (urgencias) y contactar al médico que realizó el procedimiento ya.",
+    "notasInternas": "Nivel 5: urgencia real.",
+    "marcarComoUrgencia": true
+  },
+  {
+    "id": "oclusion_vascular_aguda_rellenos",
+    "procedimiento": "rellenos",
+    "nombre": "Oclusión vascular aguda posterior a relleno",
+    "nivel": 5,
+    "sintomasClave": [
+      "dolor muy fuerte",
+      "dolor brutal",
+      "dolor insoportable",
+      "dolor intenso y constante",
+      "piel blanca",
+      "piel muy palida",
+      "piel muy pálida",
+      "piel como marmoleada",
+      "marmoleado",
+      "manchas moradas alrededor",
+      "zona fria al tacto",
+      "zona fría al tacto",
+      "cambio brusco de color",
+      "se me puso blanco",
+      "se me pone blanco",
+      "piel fria",
+      "piel fría"
+    ],
+    "orientacionPaciente": "Por la combinación de dolor intenso y cambios llamativos de color o temperatura en la piel después de un relleno, esto podría corresponder a una complicación grave. DrBeautyBot no puede valorar ni tratar este tipo de situaciones a distancia. Debes contactar de inmediato al médico que realizó el procedimiento o acudir a un servicio de urgencias. No esperes a ver si mejora solo y no intentes manejarlo por tu cuenta en casa.",
+    "notasInternas": "Nivel 5. Debe activar urgencias.",
+    "marcarComoUrgencia": true
+  },
+
+  {
+    "id": "moreton_leve_toxina",
+    "procedimiento": "toxina",
+    "nombre": "Moretones leves tras toxina botulínica",
+    "nivel": 1,
+    "sintomasClave": [
+      "moreton pequeno",
+      "moretón pequeño",
+      "puntitos morados",
+      "se me hizo un moreton",
+      "se me hizo un moretón",
+      "marquita morada",
+      "hematoma pequeno",
+      "hematoma pequeño"
+    ],
+    "orientacionPaciente": "Tras la aplicación de toxina botulínica pueden aparecer pequeños moretones en los puntos de punción. Suelen ser temporales. Evita manipular la zona y sigue las indicaciones de tu médico. Si hay dolor intenso, fiebre, o cambios de visión, busca valoración médica.",
+    "notasInternas": "Nivel 1."
+  },
+  {
+    "id": "asimetria_leve_toxina",
+    "procedimiento": "toxina",
+    "nombre": "Asimetría leve tras toxina botulínica",
+    "nivel": 2,
+    "sintomasClave": [
+      "me quedo chueca la ceja",
+      "me quedo chueco",
+      "una ceja mas alta",
+      "una ceja más alta",
+      "sonrisa rara",
+      "asimetria",
+      "asimetría",
+      "se ve disparejo",
+      "se ve desigual"
+    ],
+    "orientacionPaciente": "La toxina botulínica puede causar asimetrías leves durante los primeros días o cuando empieza a hacer efecto. Lo más prudente es esperar la evolución inicial y contactar a tu médico para una revisión/ajuste si es necesario. No intentes corregirlo por tu cuenta.",
+    "notasInternas": "Nivel 2."
+  },
+  {
+    "id": "ptosis_parpado_toxina",
+    "procedimiento": "toxina",
+    "nombre": "Caída de párpado (ptosis) tras toxina",
+    "nivel": 3,
+    "sintomasClave": [
+      "se me cayo el parpado",
+      "se me cayó el párpado",
+      "parpado caido",
+      "párpado caído",
+      "ojo pesado",
+      "se me baja el parpado",
+      "se me baja el párpado",
+      "no puedo abrir bien el ojo"
+    ],
+    "orientacionPaciente": "La caída de párpado (ptosis) puede ocurrir como efecto adverso de la toxina botulínica. No suele ser una urgencia vital, pero sí amerita valoración y seguimiento con tu médico. Evita automedicarte. Si además hay dificultad para hablar, tragar o respirar, busca atención urgente.",
+    "notasInternas": "Nivel 3."
+  },
+  {
+    "id": "debilidad_generalizada_post_toxina",
+    "procedimiento": "toxina",
+    "nombre": "Debilidad generalizada o síntomas sistémicos tras toxina",
+    "nivel": 5,
+    "sintomasClave": [
+      "dificultad para respirar",
+      "me falta el aire",
+      "me ahogo",
+      "dificultad para tragar",
+      "no puedo tragar",
+      "se me va la voz",
+      "hablo raro",
+      "debilidad en todo el cuerpo",
+      "debilidad generalizada",
+      "me siento muy debil",
+      "me siento muy débil"
+    ],
+    "orientacionPaciente": "Si presentas dificultad para respirar, tragar, hablar, debilidad generalizada o síntomas que se sienten “más allá” del área tratada después de toxina botulínica, es importante buscar valoración médica urgente. DrBeautyBot no puede manejar urgencias en tiempo real. Acude a urgencias o contacta servicios de emergencia de inmediato.",
+    "notasInternas": "Nivel 5: urgencia.",
+    "marcarComoUrgencia": true
+  },
+
+  {
+    "id": "eritema_leve_laser",
+    "procedimiento": "laser",
+    "nombre": "Enrojecimiento/ardor leve tras láser",
+    "nivel": 1,
+    "sintomasClave": [
+      "rojito",
+      "rojez leve",
+      "enrojecimiento leve",
+      "ardor leve",
+      "calorcito",
+      "siento caliente",
+      "me arde poquito"
+    ],
+    "orientacionPaciente": "Tras un procedimiento con láser puede presentarse enrojecimiento o ardor leve por un corto periodo. Sigue las indicaciones de cuidado de tu clínica/médico (fotoprotección estricta, evitar calor, no irritar la zona). Si aparecen ampollas, dolor intenso o secreción, requiere valoración.",
+    "notasInternas": "Nivel 1."
+  },
+  {
+    "id": "quemadura_ampollas_laser",
+    "procedimiento": "laser",
+    "nombre": "Ampollas o quemadura tras láser",
+    "nivel": 4,
+    "sintomasClave": [
+      "ampolla",
+      "ampollas",
+      "me queme",
+      "me quemé",
+      "quemadura",
+      "se levanto la piel",
+      "se levantó la piel",
+      "costra grande",
+      "dolor muy fuerte"
+    ],
+    "orientacionPaciente": "La aparición de ampollas, quemadura o dolor intenso después de láser puede requerir valoración médica pronta para evitar complicaciones como infección o manchas persistentes. Evita reventar ampollas o manipular la piel. Contacta a tu médico/clínica para evaluación prioritaria.",
+    "notasInternas": "Nivel 4: prioritaria."
+  },
+  {
+    "id": "lesion_ocular_laser",
+    "procedimiento": "laser",
+    "nombre": "Posible lesión ocular asociada a láser",
+    "nivel": 5,
+    "sintomasClave": [
+      "me duele el ojo",
+      "dolor en el ojo",
+      "vision borrosa",
+      "visión borrosa",
+      "veo manchas",
+      "destellos",
+      "no veo bien",
+      "me arde el ojo",
+      "ojo rojo y dolor"
+    ],
+    "orientacionPaciente": "Si hay dolor ocular, visión borrosa, destellos o alteraciones visuales después de un procedimiento con láser (especialmente cerca de ojos), es importante buscar valoración médica urgente (idealmente oftalmología/urgencias).",
+    "notasInternas": "Nivel 5: urgencia por posible daño ocular.",
+    "marcarComoUrgencia": true
+  },
+
+  {
+    "id": "infeccion_hilos",
+    "procedimiento": "hilos",
+    "nombre": "Datos de infección tras hilos tensores",
+    "nivel": 4,
+    "sintomasClave": [
+      "pus",
+      "secrecion",
+      "secreción",
+      "enrojecimiento que empeora",
+      "dolor que empeora",
+      "fiebre",
+      "caliente al tacto",
+      "mal olor"
+    ],
+    "orientacionPaciente": "Si después de colocación de hilos hay enrojecimiento progresivo, calor local, secreción/pus, fiebre o dolor que empeora, puede tratarse de una infección u otra complicación que requiere valoración médica pronta. Contacta a tu médico para revisión prioritaria.",
+    "notasInternas": "Nivel 4."
+  },
+  {
+    "id": "extrusion_hilo",
+    "procedimiento": "hilos",
+    "nombre": "Extrusión o exposición de hilo",
+    "nivel": 3,
+    "sintomasClave": [
+      "se me asoma el hilo",
+      "se me salio el hilo",
+      "se me salió el hilo",
+      "se ve el hilo",
+      "punta del hilo",
+      "me pica y se ve algo",
+      "se me abrio un puntito",
+      "se me abrió un puntito"
+    ],
+    "orientacionPaciente": "Si se observa o se siente que un hilo se está exponiendo, lo prudente es evitar manipular la zona y contactar al médico que lo colocó para valoración. A veces requiere ajuste o manejo en consultorio. Si hay pus, fiebre o dolor importante, requiere atención prioritaria.",
+    "notasInternas": "Nivel 3."
+  },
+
+  {
+    "id": "nodulos_bioestimuladores",
+    "procedimiento": "bioestimuladores",
+    "nombre": "Nódulos o bultos tras bioestimuladores",
+    "nivel": 3,
+    "sintomasClave": [
+      "bolitas",
+      "bultos",
+      "nodulos",
+      "nódulos",
+      "se siente granulado",
+      "se siente duro",
+      "se me hicieron bolitas",
+      "me salieron bolitas"
+    ],
+    "orientacionPaciente": "Tras bioestimuladores pueden aparecer bultos o nódulos, especialmente si la técnica o el plano no fueron adecuados o si hay reacción inflamatoria. Lo prudente es que tu médico te valore directamente. Evita masajear fuerte o manipular en exceso salvo indicación médica.",
+    "notasInternas": "Nivel 3."
+  },
+  {
+    "id": "granuloma_bioestimuladores",
+    "procedimiento": "bioestimuladores",
+    "nombre": "Reacción inflamatoria importante o granuloma (sospecha) tras bioestimuladores",
+    "nivel": 4,
+    "sintomasClave": [
+      "inflamacion que no se quita",
+      "inflamación que no se quita",
+      "se me inflama cada rato",
+      "se me inflama seguido",
+      "bolas duras que crecen",
+      "bultos que crecen",
+      "dolor que empeora"
+    ],
+    "orientacionPaciente": "Si la inflamación es persistente, recurrente o progresa, o si aparecen bultos duros que aumentan, es importante una valoración médica prioritaria. Algunas reacciones pueden requerir manejo especializado y seguimiento.",
+    "notasInternas": "Nivel 4."
+  },
+
+  {
+    "id": "pah_criolipolisis",
+    "procedimiento": "criolipolisis",
+    "nombre": "Aumento paradójico de tejido (PAH) tras criolipólisis (sospecha)",
+    "nivel": 2,
+    "sintomasClave": [
+      "me crecio la grasa",
+      "me creció la grasa",
+      "se me hizo un bulto duro",
+      "se me hizo una placa dura",
+      "se me marco un rectangulo",
+      "se me marcó un rectángulo",
+      "empeoro en vez de mejorar",
+      "empeoró en vez de mejorar"
+    ],
+    "orientacionPaciente": "En casos poco frecuentes, tras criolipólisis puede ocurrir un aumento paradójico del tejido en la zona tratada. No suele ser una urgencia inmediata, pero sí requiere valoración con un especialista para confirmar el diagnóstico y discutir opciones.",
+    "notasInternas": "Nivel 2: seguimiento y confirmación."
+  },
+
+  {
+    "id": "quemadura_quimica_peeling",
+    "procedimiento": "peelings",
+    "nombre": "Quemadura química o reacción intensa tras peeling",
+    "nivel": 4,
+    "sintomasClave": [
+      "me quema mucho",
+      "ardor muy fuerte",
+      "dolor intenso",
+      "ampollas",
+      "se levanto la piel",
+      "se levantó la piel",
+      "costras grandes",
+      "me arde horrible"
+    ],
+    "orientacionPaciente": "Si hay ardor muy intenso, dolor importante, ampollas o desprendimiento de piel después de un peeling, es importante una valoración médica prioritaria. Evita aplicar productos irritantes por tu cuenta y sigue las indicaciones de tu médico.",
+    "notasInternas": "Nivel 4."
+  },
+
+  {
+    "id": "infeccion_microneedling",
+    "procedimiento": "microneedling",
+    "nombre": "Datos de infección tras microneedling",
+    "nivel": 4,
+    "sintomasClave": [
+      "pus",
+      "secrecion",
+      "secreción",
+      "fiebre",
+      "enrojecimiento que empeora",
+      "caliente al tacto",
+      "dolor que empeora"
+    ],
+    "orientacionPaciente": "Si tras microneedling hay fiebre, secreción, enrojecimiento que progresa, calor local o dolor creciente, puede tratarse de infección u otra complicación. Busca valoración médica prioritaria.",
+    "notasInternas": "Nivel 4."
+  },
+
+  {
+    "id": "anafilaxia_reaccion_alergica_grave",
+    "procedimiento": "otros",
+    "nombre": "Reacción alérgica grave (anafilaxia) – sospecha",
+    "nivel": 5,
+    "sintomasClave": [
+      "dificultad para respirar",
+      "me falta el aire",
+      "me ahogo",
+      "se me hincho la cara",
+      "se me hinchó la cara",
+      "se me hincho la lengua",
+      "se me hinchó la lengua",
+      "se me hinchan los labios",
+      "ronchas por todo el cuerpo",
+      "urticaria",
+      "me desmaye",
+      "me desmayé"
+    ],
+    "orientacionPaciente": "Si hay dificultad para respirar, hinchazón de labios/lengua/cara, ronchas generalizadas o desmayo tras un procedimiento o sustancia, puede ser una reacción alérgica grave. Busca atención médica urgente de inmediato (urgencias).",
+    "notasInternas": "Nivel 5: urgencia.",
+    "marcarComoUrgencia": true
+  }
+]

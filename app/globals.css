@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  /* 🎨 Paleta base clara tipo “cream” */
+  --background: #FCEFB4;
   --foreground: #171717;
 }
 
@@ -19,8 +20,102 @@
   }
 }
 
+/* Base global */
+html,
+body {
+  min-height: 100%;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  overflow-x: hidden; /* evita scroll horizontal */
 }
+
+/* 🌟 Tapiz animado para Dr. BeautyBot (se aplica en <body class="drb-body">) */
+.drb-body {
+  background-color: #FEF9E7;
+  background-image: url("https://i.ibb.co/CpBPm566/Gemini-Generated-Image-qd3yggqd3yggqd3y.png");
+  background-repeat: repeat;
+  background-size: 400px auto;
+  animation: drbBackgroundScroll 120s linear infinite;
+}
+
+@keyframes drbBackgroundScroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -400px -400px;
+  }
+}
+
+/* 🌈 Fondo crema con manchas pastel para otras landings
+   (se usaba con className="beauty-body") */
+.beauty-body {
+  background-color: #FCEFB4;
+  background-image:
+    radial-gradient(circle at 90% 10%, #B6EBCF 0%, transparent 25%),
+    radial-gradient(circle at 10% 90%, #F5C2BC 0%, transparent 20%);
+  background-attachment: fixed;
+}
+
+/* ✨ Hover suave para tarjetas/botones tipo “wave landing” */
+.btn-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* 🎛️ Escala/hover para los botones redondos del nuevo front */
+.btn-scale {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-scale:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+}
+
+.btn-scale:active {
+  transform: scale(0.98);
+}
+
+/* 🫧 Flotación suave de la ilustración del robot */
+.anim-float {
+  animation: drbFloat 6s ease-in-out infinite;
+}
+
+@keyframes drbFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 🌥️ Sombra suave reutilizable para cards/botones */
+.shadow-soft {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Log de modificaciones (globals.css) ---
+ * 2025-12-16:
+ * - Se cambia el color base de fondo a #FCEFB4 para alinearlo con el nuevo Home.
+ * - Se ajusta la tipografía global de body para usar la fuente sans configurada (Geist).
+ * - Se añade .beauty-body con fondo crema y manchas pastel para la landing de DrBeautyBot.
+ * - Se añade .btn-hover para animación suave de botones y tarjetas.
+ * - Se fuerza overflow-x: hidden en body para evitar scroll horizontal con las ondas SVG.
+ *
+ * 2025-12-26:
+ * - Se añade .drb-body con el tapiz animado de íconos para el nuevo front de Dr. BeautyBot.
+ * - Se añaden las utilidades .btn-scale, .anim-float y .shadow-soft usadas en el nuevo diseño.
+ * - Se mantiene .beauty-body para posibles pantallas futuras con fondo pastel estático.
+ */
