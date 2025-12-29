@@ -1,6 +1,12 @@
 'use client';
 
 /*
+  CHANGELOG — 2025-12-28
+  - Se envuelve la página de chat en un <Suspense> con un componente interno
+    ChatPageInner para cumplir con el requisito de Next 16 al usar useSearchParams.
+*/
+
+/*
   CHANGELOG — 2025-12-26 (E)
   - Mobile FIX: el botón "Nueva conversación" se mueve abajo-derecha (floating),
     para evitar superposición con el logo superior.
@@ -75,6 +81,7 @@
     y SOLO para mensajes del bot, ahora dentro de cada burbuja.
 */
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
@@ -112,7 +119,7 @@ const QUICK_DISCLAIMER =
 const SESSION_KEY = 'drbeautybot_chat_session_id';
 
 function generateSessionId(): string {
-  // @ts-expect-error - crypto puede no estar tipado en algunos targets
+  // Nota: en algunos entornos crypto.randomUUID puede no existir, por eso el check defensivo
   const uuid = typeof crypto !== 'undefined' && crypto?.randomUUID ? crypto.randomUUID() : null;
   if (uuid) return uuid;
 
@@ -128,7 +135,7 @@ const BOT_AVATAR_URL = 'https://i.ibb.co/XZLzLMW9/DON-REDONDON.png';
 /** 🔎🔎🔎 FONDO DEL CHAT — CAMBIAR AQUÍ (SEÑALIZACIÓN) 🔎🔎🔎 */
 const CHAT_BG_URL = 'https://i.ibb.co/Y7VkGPrX/IMG-7139.jpg';
 
-export default function ChatPage() {
+function ChatPageInner() {
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode'); // "quick" | "profile" | null
 
@@ -289,7 +296,8 @@ export default function ChatPage() {
         {
           id: userId + 1,
           sender: 'bot',
-          text: 'Ha ocurrido un problema al procesar tu mensaje. Revisa tu conexión y vuelve a intentarlo, por favor.',
+          text:
+            'Ha ocurrido un problema al procesar tu mensaje. Revisa tu conexión y vuelve a intentarlo, por favor.',
         },
       ]);
     } finally {
@@ -302,7 +310,7 @@ export default function ChatPage() {
       className="min-h-screen flex flex-col items-center justify-center px-4 py-6 chat-bg-animated"
       style={{
         backgroundColor: '#FEF9E7',
-        backgroundImage: `url(${CHAT_BG_URL})`, // 🔎🔎🔎 FONDO DEL CHAT — CAMBIAR AQUÍ 🔎🔎🔎
+        backgroundImage: `url(${CHAT_BG_URL})`,
         backgroundRepeat: 'repeat',
         backgroundSize: '420px auto',
       }}
@@ -462,5 +470,19 @@ export default function ChatPage() {
         </section>
       </div>
     </main>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen flex items-center justify-center px-4 py-6">
+          <p className="text-sm text-slate-700">Cargando chat…</p>
+        </main>
+      }
+    >
+      <ChatPageInner />
+    </Suspense>
   );
 }

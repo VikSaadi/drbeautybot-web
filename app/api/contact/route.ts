@@ -53,7 +53,7 @@ export async function POST(req: Request) {
     const { data, error } = await resend.emails.send({
       from: `Dr. BeautyBot Contacto <${CONTACT_FROM_EMAIL}>`,
       to: [CONTACT_INBOX_EMAIL],
-      reply_to: email,
+      replyTo: email,
       subject: `Nuevo mensaje (${typeLabel}) - Dr. BeautyBot`,
       html,
     });
