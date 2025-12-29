@@ -1,4 +1,3 @@
-'use server';
 import 'server-only';
 
 /*
@@ -7,7 +6,8 @@ import 'server-only';
     falle cuando no existe secrets/firebase-service-account.json
     (por ejemplo, en Vercel).
   - Si el JSON no está disponible, se exporta un cliente Firestore "no-op"
-    que simplemente ignora las operaciones de logging en lugar de lanzar error.
+    que ignora operaciones de logging en lugar de lanzar error.
+  - Se elimina 'use server' para evitar que Next 16 trate exports como Server Actions.
 */
 
 import fs from 'node:fs';
@@ -15,8 +15,8 @@ import path from 'node:path';
 import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { FieldValue, getFirestore } from 'firebase-admin/firestore';
 
-// Pequeño cliente Firestore "no-op" para entornos sin Service Account.
-// Implementa únicamente lo que usamos en el proyecto (collection/add/doc/set/update/get).
+// Cliente Firestore "no-op" para entornos sin Service Account.
+// Implementa únicamente lo típico: collection/doc/set/update/get + add.
 function createNoopDb() {
   const asyncNoop = async (..._args: unknown[]) => {};
   return {
@@ -59,7 +59,7 @@ if (fs.existsSync(serviceAccountPath)) {
 } else {
   console.warn(
     `[firebase-admin] Service Account JSON no encontrado en ${serviceAccountPath}. ` +
-      'Se usará un cliente Firestore no-op (solo para evitar errores en entornos como Vercel); ' +
+      'Se usará un cliente Firestore no-op (solo para evitar errores en Vercel); ' +
       'no se escribirán datos reales de logging.',
   );
   adminDbInternal = createNoopDb();
@@ -68,6 +68,4 @@ if (fs.existsSync(serviceAccountPath)) {
 
 export const adminDb = adminDbInternal;
 export const serverTimestamp = () => FieldValue.serverTimestamp();
-
-// (opcional) útil para debug
 export const adminProjectId = adminProjectIdInternal;
