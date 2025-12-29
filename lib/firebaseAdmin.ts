@@ -1,35 +1,25 @@
 import 'server-only';
 
 /*
-  CHANGELOG — 2025-12-28
+  CHANGELOG — 2025-12-28 (B)
+  - Se tipa adminDb como Firestore (firebase-admin) para que TS infiera tipos
+    (ej: runTransaction -> Transaction) y evitar "implicit any" en callbacks.
+  - Se agrega runTransaction "no-op" para entornos sin Service Account (Vercel),
+    evitando crasheos en runtime si el código intenta loggear.
+*/
+
+/*
+  CHANGELOG — 2025-12-28 (A)
   - Se hace opcional el uso de Firebase Admin para evitar que el build
-    falle cuando no existe secrets/firebase-service-account.json
-    (por ejemplo, en Vercel).
-  - Si el JSON no está disponible, se exporta un cliente Firestore "no-op"
-    que ignora operaciones de logging en lugar de lanzar error.
-  - Se elimina 'use server' para evitar que Next 16 trate exports como Server Actions.
+    falle cuando no existe secrets/firebase-service-account.json (Vercel).
+  - Si el JSON no está disponible, se usa un cliente Firestore "no-op".
 */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { FieldValue, getFirestore } from 'firebase-admin/firestore';
-
-// Cliente Firestore "no-op" para entornos sin Service Account.
-// Implementa únicamente lo típico: collection/doc/set/update/get + add.
-function createNoopDb() {
-  const asyncNoop = async (..._args: unknown[]) => {};
-  return {
-    collection: (_name: string) => ({
-      doc: (_id?: string) => ({
-        set: asyncNoop,
-        update: asyncNoop,
-        get: async () => ({ exists: false }),
-      }),
-      add: asyncNoop,
-    }),
-  };
-}
+import type { Firestore } from 'firebase-admin/firestore';
 
 // ✅ Ruta absoluta al JSON dentro de /secrets
 const serviceAccountPath = path.join(
@@ -38,8 +28,46 @@ const serviceAccountPath = path.join(
   'firebase-service-account.json',
 );
 
-let adminDbInternal: any;
+let adminDbInternal: Firestore;
 let adminProjectIdInternal: string | undefined;
+
+/**
+ * Firestore no-op que cumple lo suficiente para que el backend no truene
+ * cuando no hay Service Account (p.ej. en Vercel).
+ * Nota: se castea a Firestore por compatibilidad de tipos.
+ */
+function createNoopFirestore(): Firestore {
+  const asyncNoop = async (..._args: unknown[]) => {};
+
+  const noopTx = {
+    get: async (_ref: unknown) => ({ exists: false, data: () => undefined }),
+    set: asyncNoop,
+    update: asyncNoop,
+    create: asyncNoop,
+    delete: asyncNoop,
+  };
+
+  const noopDb = {
+    runTransaction: async (updateFunction: (tx: any) => Promise<any>) => {
+      return updateFunction(noopTx);
+    },
+    collection: (_name: string) => ({
+      doc: (_id?: string) => ({
+        set: asyncNoop,
+        update: asyncNoop,
+        get: async () => ({ exists: false, data: () => undefined }),
+      }),
+      add: asyncNoop,
+    }),
+    doc: (_path: string) => ({
+      set: asyncNoop,
+      update: asyncNoop,
+      get: async () => ({ exists: false, data: () => undefined }),
+    }),
+  };
+
+  return noopDb as unknown as Firestore;
+}
 
 if (fs.existsSync(serviceAccountPath)) {
   const raw = fs.readFileSync(serviceAccountPath, 'utf8');
@@ -59,10 +87,9 @@ if (fs.existsSync(serviceAccountPath)) {
 } else {
   console.warn(
     `[firebase-admin] Service Account JSON no encontrado en ${serviceAccountPath}. ` +
-      'Se usará un cliente Firestore no-op (solo para evitar errores en Vercel); ' +
-      'no se escribirán datos reales de logging.',
+      'Se usará un Firestore no-op (solo para evitar errores en Vercel).',
   );
-  adminDbInternal = createNoopDb();
+  adminDbInternal = createNoopFirestore();
   adminProjectIdInternal = undefined;
 }
 
