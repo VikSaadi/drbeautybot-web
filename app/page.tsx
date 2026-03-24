@@ -27,7 +27,7 @@ export default function HomePage() {
         <h1 className="mb-2">
           <span className="sr-only">Chatea con Dr. BeautyBot, tu experta en medicina estética</span>
           <img
-            src="https://i.ibb.co/67kBFBRY/TIPOGRAFIA-SOLA-doctorbeautybot-logo-rekorte.png"
+            src="/images/TIPOGRAFIA-SOLA-doctorbeautybot-logo-rekorte.png"
             alt="Dr. BeautyBot - Medicina Estética"
             className="mx-auto w-full max-w-[420px] drop-shadow-xl"
           />
@@ -36,7 +36,7 @@ export default function HomePage() {
         {/* Ilustración del robot + pantalla */}
         <div className="mb-8 relative w-full max-w-2xl flex justify-center">
           <img
-            src="https://i.ibb.co/MDBspJsL/monito-rekorte-3-OK.png"
+            src="/images/monito-rekorte-3-OK.png"
             alt="Dr. BeautyBot analizando en pantalla holográfica"
             className="w-full max-w-[420px] h-auto object-contain drop-shadow-xl anim-float"
           />

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, ReactNode } from 'react';
 import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 /*
   CHANGELOG — 2025-12-27 (B)
@@ -11,10 +12,17 @@ import Link from 'next/link';
   - Se mantiene fondo tipo tapiz con animación suave estilo /donations.
   - Botón "Volver al chat" detecta si hay perfil guardado y redirige a /chat?mode=profile
     o /chat?mode=quick en caso contrario.
+
+  CHANGELOG — 2026-03-24
+  - Migración de imágenes de ImgBB a assets locales en /public/images/.
+  - Se agrega <BackButton /> para navegación estilo app nativa.
 */
 
-const FAQ_BG_URL = 'https://i.ibb.co/k6DhyGNp/IMG-7142.jpg';
-const FAQ_LOGO_URL = 'https://i.ibb.co/CprzcnhH/Adobe-Express-file.png';
+// const FAQ_BG_URL = 'https://i.ibb.co/k6DhyGNp/IMG-7142.jpg';
+const FAQ_BG_URL = '/images/IMG_7142.JPG';
+
+// const FAQ_LOGO_URL = 'https://i.ibb.co/CprzcnhH/Adobe-Express-file.png';
+const FAQ_LOGO_URL = '/images/Adobe-Express-file.png';
 
 interface FaqItem {
   title: string;
@@ -48,9 +56,9 @@ const FAQ_ITEMS: FaqItem[] = [
         </p>
         <ul className="list-disc pl-5 space-y-1">
           <li>
-            <strong>Consulta rápida:</strong> ideal para dudas puntuales, por ejemplo “¿qué tan
-            común es que salga un moretón después de toxina?” o “¿qué significa ácido hialurónico
-            reticulado?”.
+            <strong>Consulta rápida:</strong> ideal para dudas puntuales, por ejemplo "¿qué tan
+            común es que salga un moretón después de toxina?" o "¿qué significa ácido hialurónico
+            reticulado?".
           </li>
           <li>
             <strong>Consulta personalizada:</strong> si completas tu perfil, el bot tendrá más
@@ -164,10 +172,9 @@ export default function FaqPage() {
         backgroundImage: `url(${FAQ_BG_URL})`,
         backgroundRepeat: 'repeat',
         backgroundSize: '420px auto',
-        paddingTop: 'calc(env(safe-area-inset-top, 0px) + 4rem)', // 👈 baja todo en móvil
+        paddingTop: 'calc(env(safe-area-inset-top, 0px) + 4rem)',
       }}
     >
-      {/* Animación suave del tapiz */}
       <style>{`
         @keyframes faqBgScroll {
           from { background-position: 0 0; }
@@ -184,6 +191,12 @@ export default function FaqPage() {
       `}</style>
 
       <section className="w-full max-w-4xl flex flex-col items-center text-center z-10">
+
+        {/* Botón regresar */}
+        <div className="w-full mb-2 text-left">
+          <BackButton />
+        </div>
+
         {/* Logo siempre visible, centrado */}
         <img
           src={FAQ_LOGO_URL}

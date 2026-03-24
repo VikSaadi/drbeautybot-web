@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
+import BackButton from '@/components/BackButton';
 
 /*
   CHANGELOG — 2025-12-28
@@ -13,10 +14,17 @@ import Link from 'next/link';
   - Layout alineado al estilo /donations y /faq: logo centrado, tarjeta crema con header azul.
   - Formulario de contacto con campos básicos y mensaje de confirmación simple (alert).
   - Botón "Volver al chat" con detección de perfil guardado (profile vs quick).
+
+  CHANGELOG — 2026-03-24
+  - Migración de imágenes de ImgBB a assets locales en /public/images/.
+  - Se agrega <BackButton /> para navegación estilo app nativa.
 */
 
-const CONTACT_BG_URL = 'https://i.ibb.co/tT0fGvpq/IMG-7155.jpg';
-const CONTACT_LOGO_URL = 'https://i.ibb.co/5W7zQF67/robotingo-ok.png';
+// const CONTACT_BG_URL = 'https://i.ibb.co/tT0fGvpq/IMG-7155.jpg';
+const CONTACT_BG_URL = '/images/IMG_7155.JPG';
+
+// const CONTACT_LOGO_URL = 'https://i.ibb.co/5W7zQF67/robotingo-ok.png';
+const CONTACT_LOGO_URL = '/images/robotingo-ok.png';
 
 export default function ContactPage() {
   const [chatHref, setChatHref] = useState('/chat?mode=quick');
@@ -46,7 +54,6 @@ export default function ContactPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // limpiar mensajes previos
     setFeedback(null);
     setFeedbackType(null);
 
@@ -88,7 +95,6 @@ export default function ContactPage() {
       setFeedback('¡Gracias por tu mensaje! Lo revisaré con mucho cuidado 💕');
       setFeedbackType('success');
 
-      // limpiamos campos más “volátiles”, pero conservamos nombre/correo
       setIsCompany(false);
       setCompanyName('');
       setMessageType('');
@@ -110,7 +116,7 @@ export default function ContactPage() {
         backgroundImage: `url(${CONTACT_BG_URL})`,
         backgroundRepeat: 'repeat',
         backgroundSize: '420px auto',
-        paddingTop: 'calc(env(safe-area-inset-top, 0px) + 4rem)', // 👈 baja el logo en móvil
+        paddingTop: 'calc(env(safe-area-inset-top, 0px) + 4rem)',
       }}
     >
       <style>{`
@@ -129,7 +135,13 @@ export default function ContactPage() {
       `}</style>
 
       <section className="w-full max-w-3xl flex flex-col items-center text-center z-10">
-        {/* Logo siempre visible */}
+
+        {/* Botón regresar */}
+        <div className="w-full mb-2 text-left">
+          <BackButton />
+        </div>
+
+        {/* Logo */}
         <img
           src={CONTACT_LOGO_URL}
           alt="Dr. BeautyBot"
@@ -151,7 +163,6 @@ export default function ContactPage() {
           {/* Formulario */}
           <div className="bg-[#FBEEDC] px-5 py-6 md:px-7 md:py-7">
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Nombre completo */}
               <div className="space-y-1">
                 <label htmlFor="name" className="text-sm font-semibold text-slate-900">
                   Nombre completo
@@ -166,7 +177,6 @@ export default function ContactPage() {
                 />
               </div>
 
-              {/* Correo electrónico */}
               <div className="space-y-1">
                 <label htmlFor="email" className="text-sm font-semibold text-slate-900">
                   Correo electrónico
@@ -181,7 +191,6 @@ export default function ContactPage() {
                 />
               </div>
 
-              {/* Empresa / institución */}
               <div className="space-y-2">
                 <label className="flex items-center gap-2 text-sm text-slate-800">
                   <input
@@ -210,7 +219,6 @@ export default function ContactPage() {
                 )}
               </div>
 
-              {/* Tipo de mensaje */}
               <div className="space-y-1">
                 <label htmlFor="messageType" className="text-sm font-semibold text-slate-900">
                   Tipo de mensaje
@@ -230,7 +238,6 @@ export default function ContactPage() {
                 </select>
               </div>
 
-              {/* Mensaje */}
               <div className="space-y-1">
                 <label htmlFor="message" className="text-sm font-semibold text-slate-900">
                   Mensaje
@@ -245,7 +252,6 @@ export default function ContactPage() {
                 />
               </div>
 
-              {/* Consentimiento de correo */}
               <div className="space-y-2">
                 <label className="flex items-start gap-2 text-xs text-slate-700">
                   <input
@@ -261,7 +267,6 @@ export default function ContactPage() {
                 </label>
               </div>
 
-              {/* Feedback inline */}
               {feedback && (
                 <p
                   className={`text-xs text-center rounded-xl px-3 py-2 border ${
@@ -274,7 +279,6 @@ export default function ContactPage() {
                 </p>
               )}
 
-              {/* Botones */}
               <div className="flex flex-col gap-3 pt-2">
                 <button
                   type="submit"

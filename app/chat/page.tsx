@@ -129,11 +129,11 @@ function generateSessionId(): string {
 }
 
 /** ✅ ASSETS (fáciles de encontrar y cambiar) */
-const CHAT_LOGO_URL = 'https://i.ibb.co/nNGLPYz5/doctorbeautybot-logo-rekorte.png';
-const BOT_AVATAR_URL = 'https://i.ibb.co/XZLzLMW9/DON-REDONDON.png';
+const CHAT_LOGO_URL = '/images/doctorbeautybot-logo-rekorte.png';
+const BOT_AVATAR_URL = '/images/DON-REDONDON.png';
 
 /** 🔎🔎🔎 FONDO DEL CHAT — CAMBIAR AQUÍ (SEÑALIZACIÓN) 🔎🔎🔎 */
-const CHAT_BG_URL = 'https://i.ibb.co/Y7VkGPrX/IMG-7139.jpg';
+const CHAT_BG_URL = '/images/IMG_7139.JPG';
 
 function ChatPageInner() {
   const searchParams = useSearchParams();

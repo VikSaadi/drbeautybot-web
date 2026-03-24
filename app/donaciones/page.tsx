@@ -10,21 +10,27 @@
     - Si existe → /chat?mode=profile
     - Si no existe → /chat?mode=quick.
   - 2025-12-27 (B): Tamaño del logo homologado con /faq y /contact (w-full max-w-[260px]).
+
+  CHANGELOG — 2026-03-24
+  - Migración de imágenes de ImgBB a assets locales en /public/images/.
+  - Se agrega <BackButton /> para navegación estilo app nativa.
 */
 
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import BackButton from '@/components/BackButton';
 
 /** ✅ ASSETS (fáciles de encontrar y cambiar) */
-const DONATIONS_LOGO_URL = 'https://i.ibb.co/0y2m1R74/Untitled.png';
+// const DONATIONS_LOGO_URL = 'https://i.ibb.co/0y2m1R74/Untitled.png';
+const DONATIONS_LOGO_URL = '/images/Untitled.png';
 
 /** 🔎🔎🔎 FONDO DONACIONES — CAMBIAR AQUÍ (SEÑALIZACIÓN) 🔎🔎🔎 */
-const DONATIONS_BG_URL = 'https://i.ibb.co/VWvTYBtj/IMG-7141.jpg';
+// const DONATIONS_BG_URL = 'https://i.ibb.co/VWvTYBtj/IMG-7141.jpg';
+const DONATIONS_BG_URL = '/images/IMG_7141.JPG';
 
 export default function DonacionesPage() {
   const router = useRouter();
 
-  // ✅ Parallax sin background-attachment: fixed
   const mainRef = useRef<HTMLElement | null>(null);
   const rafRef = useRef<number | null>(null);
 
@@ -65,19 +71,16 @@ export default function DonacionesPage() {
     } catch (error) {
       console.error('No se pudo leer drbeautybot_profile desde localStorage:', error);
     }
-
     router.push('/chat?mode=quick');
   };
 
   return (
     <main
-      ref={(el) => {
-        mainRef.current = el;
-      }}
+      ref={(el) => { mainRef.current = el; }}
       className="min-h-screen flex flex-col items-center px-4 py-10"
       style={{
         backgroundColor: '#FEF9E7',
-        backgroundImage: `url(${DONATIONS_BG_URL})`, // 🔎🔎🔎 FONDO DONACIONES — CAMBIAR AQUÍ 🔎🔎🔎
+        backgroundImage: `url(${DONATIONS_BG_URL})`,
         backgroundRepeat: 'repeat',
         backgroundSize: '420px auto',
         backgroundPosition: 'center 0px',
@@ -87,7 +90,13 @@ export default function DonacionesPage() {
       <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/40" />
 
       <div className="relative w-full max-w-3xl z-10 flex flex-col items-center">
-        {/* Logo centrado, tamaño homologado */}
+
+        {/* Botón regresar */}
+        <div className="w-full mb-2 text-left">
+          <BackButton />
+        </div>
+
+        {/* Logo centrado */}
         <img
           src={DONATIONS_LOGO_URL}
           alt="Dr. BeautyBot"
@@ -103,8 +112,7 @@ export default function DonacionesPage() {
         {/* Tarjeta principal */}
         <section
           className="
-            mt-2
-            w-full
+            mt-2 w-full
             rounded-[32px]
             bg-[#FDF7EC]/95
             border border-black/10
@@ -152,14 +160,10 @@ export default function DonacionesPage() {
                 type="button"
                 onClick={handleBackToChat}
                 className="
-                  px-5 py-2.5
-                  rounded-full
-                  bg-[#FCCD78]
-                  hover:bg-[#FAD28C]
+                  px-5 py-2.5 rounded-full
+                  bg-[#FCCD78] hover:bg-[#FAD28C]
                   text-sm font-semibold text-slate-900
-                  shadow-md
-                  border border-[#F4C56F]/80
-                  transition
+                  shadow-md border border-[#F4C56F]/80 transition
                 "
               >
                 Volver al chat
