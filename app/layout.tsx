@@ -12,6 +12,11 @@
   - Se añade la clase `drb-body` al <body> para aplicar el fondo tipo tapiz animado definido en globals.css.
 */
 
+/*
+  CHANGELOG — 2026-03-24
+  - Se añade soporte PWA: manifest.json y theme-color meta tag.
+*/
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -48,6 +53,9 @@ export default function RootLayout({
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
+        {/* PWA */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#a8d5b5" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased drb-body`}
