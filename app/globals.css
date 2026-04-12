@@ -1,121 +1,544 @@
-@import "tailwindcss";
+/* ─────────────────────────────────────────────────────────────
+   Dr. BeautyBot — globals.css  v2.1
+   CHANGELOG 2026-03-26
+   - Dark mode: variables [data-theme="dark"], sin duplicar componentes.
+   - Toggle: basta con document.documentElement.setAttribute('data-theme','dark').
+   - Todas las clases drb-* se adaptan automáticamente.
+   - Añadidas variables --drb-onboarding-* para el onboarding animado.
+───────────────────────────────────────────────────────────── */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── 1. VARIABLES — LIGHT MODE (default) ─────────────────── */
 :root {
-  /* 🎨 Paleta base clara tipo “cream” */
-  --background: #FCEFB4;
-  --foreground: #171717;
+  /* Fondos */
+  --drb-bg-base:        linear-gradient(160deg, #f0e6ff 0%, #fce4f0 55%, #e8f0ff 100%);
+  --drb-bg-color:       #f0e6ff;
+  --drb-bg-chat:        #f0e6ff;
+
+  /* Superficies */
+  --drb-surface:        rgba(255, 255, 255, 0.78);
+  --drb-surface-strong: rgba(255, 255, 255, 0.95);
+  --drb-surface-card:   rgba(255, 255, 255, 0.85);
+
+  /* Bordes */
+  --drb-border:         rgba(180, 140, 220, 0.35);
+  --drb-border-soft:    rgba(180, 140, 220, 0.2);
+
+  /* Texto */
+  --drb-text-primary:   #2d1a4a;
+  --drb-text-secondary: #6b46a8;
+  --drb-text-muted:     #8b6fa8;
+  --drb-text-hint:      #9b82b8;
+
+  /* Paleta acento (igual en ambos modos) */
+  --drb-accent:         #b794f4;
+  --drb-accent-pink:    #ed64a6;
+  --drb-gradient-cta:   linear-gradient(135deg, #b794f4, #ed64a6);
+  --drb-gradient-bubble:linear-gradient(135deg, #c9b0f5, #d8a8e8);
+
+  /* Burbuja bot */
+  --drb-bubble-bot-bg:  rgba(255, 255, 255, 0.92);
+  --drb-bubble-bot-border: rgba(180, 140, 220, 0.2);
+
+  /* Input */
+  --drb-input-bg:       rgba(255, 255, 255, 0.9);
+  --drb-input-border:   rgba(180, 140, 220, 0.35);
+  --drb-input-placeholder: #9b82b8;
+
+  /* Tapiz chat */
+  --drb-tapiz-url:      url('/images/IMG_7139.JPG');
+  --drb-tapiz-size:     380px;
+  --drb-tapiz-duration: 140s;
+  --drb-tapiz-bg:       #f0e6ff;
+
+  /* Onboarding */
+  --drb-ob-bg:          linear-gradient(160deg, #f0e6ff 0%, #fce4f0 55%, #e8f0ff 100%);
+  --drb-ob-card:        rgba(255, 255, 255, 0.82);
+  --drb-ob-text:        #2d1a4a;
+  --drb-ob-subtext:     #8b6fa8;
+  --drb-ob-dot:         rgba(183, 148, 244, 0.3);
+  --drb-ob-feature-bg:  rgba(255, 255, 255, 0.75);
+
+  /* Toggle dark mode button */
+  --drb-toggle-bg:      rgba(255, 255, 255, 0.8);
+  --drb-toggle-border:  rgba(180, 140, 220, 0.3);
+  --drb-toggle-text:    #8b6fa8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── 2. VARIABLES — DARK MODE ────────────────────────────── */
+[data-theme="dark"] {
+  /* Fondos */
+  --drb-bg-base:        linear-gradient(160deg, #0f0d1a 0%, #130d1f 50%, #0d1020 100%);
+  --drb-bg-color:       #0f0d1a;
+  --drb-bg-chat:        #110e1e;
+
+  /* Superficies */
+  --drb-surface:        rgba(26, 23, 48, 0.92);
+  --drb-surface-strong: rgba(20, 18, 35, 0.98);
+  --drb-surface-card:   rgba(30, 27, 53, 0.95);
+
+  /* Bordes */
+  --drb-border:         rgba(183, 148, 244, 0.18);
+  --drb-border-soft:    rgba(183, 148, 244, 0.1);
+
+  /* Texto */
+  --drb-text-primary:   #e8e0ff;
+  --drb-text-secondary: #c4a8f5;
+  --drb-text-muted:     #8b7aaa;
+  --drb-text-hint:      #5a4d7a;
+
+  /* Acento — igual en ambos modos */
+  --drb-accent:         #b794f4;
+  --drb-accent-pink:    #ed64a6;
+  --drb-gradient-cta:   linear-gradient(135deg, #b794f4, #ed64a6);
+  --drb-gradient-bubble:linear-gradient(135deg, #6b3fa8, #8b2d6a);
+
+  /* Burbuja bot */
+  --drb-bubble-bot-bg:  rgba(30, 27, 53, 0.95);
+  --drb-bubble-bot-border: rgba(183, 148, 244, 0.15);
+
+  /* Input */
+  --drb-input-bg:       rgba(255, 255, 255, 0.06);
+  --drb-input-border:   rgba(183, 148, 244, 0.2);
+  --drb-input-placeholder: #5a4d7a;
+
+  /* Tapiz chat — patrón geométrico sutil en dark */
+  --drb-tapiz-url:      none;
+  --drb-tapiz-bg:       #110e1e;
+
+  /* Onboarding */
+  --drb-ob-bg:          linear-gradient(160deg, #0f0d1a 0%, #130d1f 50%, #0d1020 100%);
+  --drb-ob-card:        rgba(26, 23, 48, 0.92);
+  --drb-ob-text:        #e8e0ff;
+  --drb-ob-subtext:     #8b7aaa;
+  --drb-ob-dot:         rgba(183, 148, 244, 0.2);
+  --drb-ob-feature-bg:  rgba(255, 255, 255, 0.04);
+
+  /* Toggle dark mode button */
+  --drb-toggle-bg:      rgba(26, 23, 48, 0.9);
+  --drb-toggle-border:  rgba(183, 148, 244, 0.2);
+  --drb-toggle-text:    #8b7aaa;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ── 3. RESET Y BASE ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; }
 
-/* Base global */
-html,
 body {
-  min-height: 100%;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--drb-text-primary);
+  background-color: var(--drb-bg-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
-  overflow-x: hidden; /* evita scroll horizontal */
+/* ── 4. FONDOS DE PÁGINA ─────────────────────────────────── */
+
+.drb-home-bg {
+  background: var(--drb-bg-base);
+  min-height: 100dvh;
+  transition: background 0.3s ease;
 }
 
-/* 🌟 Tapiz animado para Dr. BeautyBot (se aplica en <body class="drb-body">) */
-.drb-body {
-  background-color: #FEF9E7;
-  background-image: url("https://i.ibb.co/CpBPm566/Gemini-Generated-Image-qd3yggqd3yggqd3y.png");
+/* Chat — tapiz con parallax animado (light) / patrón geométrico (dark) */
+@keyframes drb-tapiz-scroll {
+  from { background-position: 0 0; }
+  to   { background-position: calc(-1 * var(--drb-tapiz-size)) calc(-1 * var(--drb-tapiz-size)); }
+}
+
+.drb-chat-messages {
+  background-color: var(--drb-tapiz-bg);
+  background-image: var(--drb-tapiz-url);
   background-repeat: repeat;
-  background-size: 400px auto;
-  animation: drbBackgroundScroll 120s linear infinite;
+  background-size: var(--drb-tapiz-size) auto;
+  animation: drb-tapiz-scroll var(--drb-tapiz-duration) linear infinite;
+  transition: background-color 0.3s ease;
 }
 
-@keyframes drbBackgroundScroll {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: -400px -400px;
-  }
-}
-
-/* 🌈 Fondo crema con manchas pastel para otras landings
-   (se usaba con className="beauty-body") */
-.beauty-body {
-  background-color: #FCEFB4;
+/* Tapiz dark: patrón geométrico sutil sin imagen */
+[data-theme="dark"] .drb-chat-messages {
   background-image:
-    radial-gradient(circle at 90% 10%, #B6EBCF 0%, transparent 25%),
-    radial-gradient(circle at 10% 90%, #F5C2BC 0%, transparent 20%);
-  background-attachment: fixed;
+    repeating-linear-gradient(45deg, transparent, transparent 40px,
+      rgba(183,148,244,0.025) 40px, rgba(183,148,244,0.025) 41px),
+    repeating-linear-gradient(-45deg, transparent, transparent 40px,
+      rgba(237,100,166,0.02) 40px, rgba(237,100,166,0.02) 41px);
+  animation: none;
 }
 
-/* ✨ Hover suave para tarjetas/botones tipo “wave landing” */
-.btn-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+@media (max-width: 640px) {
+  .drb-chat-messages { animation-duration: 180s; }
 }
 
-.btn-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+/* Legacy */
+.drb-body  { background: var(--drb-bg-base); }
+.drb-chat-bg { background: var(--drb-bg-base); }
+
+/* ── 5. ANIMACIONES ──────────────────────────────────────── */
+
+@keyframes drb-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+.drb-float { animation: drb-float 3.5s ease-in-out infinite; }
+
+@keyframes drb-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(183,148,244,0.65), 0 4px 18px rgba(183,148,244,0.45);
+  }
+  55% {
+    box-shadow: 0 0 0 14px rgba(183,148,244,0), 0 4px 18px rgba(183,148,244,0.45);
+  }
+}
+.drb-pulse { animation: drb-pulse 2.2s ease-out infinite; }
+
+@keyframes drb-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.drb-fade-up { animation: drb-fade-up 0.35s ease-out both; }
+
+/* Onboarding: slide horizontal — adelante */
+@keyframes drb-slide-in {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes drb-slide-out {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-40px); }
 }
 
-/* 🎛️ Escala/hover para los botones redondos del nuevo front */
+/* Onboarding: slide horizontal — atrás */
+@keyframes drb-slide-in-back {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Onboarding: feature cards con delay escalonado */
+@keyframes drb-feature-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Onboarding: pop-in del círculo final */
+@keyframes drb-pop-in {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.drb-pop-in { animation: drb-pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* Confetti cayendo */
+@keyframes drb-confetti-fall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(400px) rotate(360deg); opacity: 0; }
+}
+
+/* Sparkles parpadeantes */
+@keyframes drb-twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
+.drb-twinkle { animation: drb-twinkle 2s ease-in-out infinite; }
+
 .btn-scale {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.btn-scale:active { transform: scale(0.96); opacity: 0.88; }
+
+/* ── 6. COMPONENTES REUTILIZABLES ────────────────────────── */
+
+.drb-card {
+  background: var(--drb-surface);
+  border: 0.5px solid var(--drb-border);
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background 0.3s ease;
 }
 
-.btn-scale:hover {
-  transform: scale(1.03);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+.drb-cta {
+  background: var(--drb-gradient-cta);
+  color: #fff;
+  border: none;
 }
 
-.btn-scale:active {
-  transform: scale(0.98);
+.drb-pill {
+  background: var(--drb-surface);
+  border: 0.5px solid var(--drb-border);
+  border-radius: 999px;
+  color: var(--drb-text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* 🫧 Flotación suave de la ilustración del robot */
-.anim-float {
-  animation: drbFloat 6s ease-in-out infinite;
+.drb-pill-hot {
+  background: linear-gradient(135deg, rgba(201,176,245,0.45), rgba(240,184,216,0.45));
+  border-color: rgba(183,148,244,0.45);
 }
 
-@keyframes drbFloat {
-  0%,
-  100% {
-    transform: translateY(0);
+.drb-banner {
+  background: rgba(183,148,244,0.12);
+  border: 0.5px solid rgba(183,148,244,0.3);
+  border-radius: 14px;
+}
+
+/* Burbujas del chat */
+.drb-bubble-bot {
+  background: var(--drb-bubble-bot-bg);
+  border: 0.5px solid var(--drb-bubble-bot-border);
+  border-radius: 4px 16px 16px 16px;
+  color: var(--drb-text-primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+.drb-bubble-user {
+  background: var(--drb-gradient-bubble);
+  border-radius: 16px 4px 16px 16px;
+  color: var(--drb-text-primary);
+}
+
+.drb-disclaimer {
+  background: var(--drb-surface-strong);
+  border-bottom: 0.5px solid var(--drb-border-soft);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.3s ease;
+}
+
+.drb-suggest-card {
+  background: var(--drb-surface-card);
+  border: 0.5px solid var(--drb-border);
+  border-radius: 14px;
+  color: var(--drb-text-secondary);
+  align-self: center;
+  text-align: center;
+}
+
+.drb-chat-header {
+  background: var(--drb-surface-strong);
+  border-bottom: 0.5px solid var(--drb-border-soft);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.3s ease;
+}
+
+.drb-input {
+  background: var(--drb-input-bg);
+  border: 0.5px solid var(--drb-input-border);
+  border-radius: 999px;
+  color: var(--drb-text-primary);
+  transition: border-color 0.15s, background 0.3s ease;
+}
+.drb-input::placeholder { color: var(--drb-input-placeholder); }
+.drb-input:focus {
+  outline: none;
+  border-color: var(--drb-accent);
+  box-shadow: 0 0 0 3px rgba(183,148,244,0.2);
+}
+
+/* ── 7. DARK MODE TOGGLE BUTTON ──────────────────────────── */
+.drb-theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--drb-toggle-bg);
+  border: 1px solid var(--drb-toggle-border);
+  color: var(--drb-toggle-text);
+  cursor: pointer; font-size: 16px;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+.drb-theme-toggle:active { transform: scale(0.92); }
+
+/* ── 8. SCROLLBAR INVISIBLE ──────────────────────────────── */
+.drb-scroll-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.drb-scroll-hide::-webkit-scrollbar { display: none; }
+
+/* ── 9. TUTORIAL OVERLAY ─────────────────────────────────── */
+.drb-tutorial-overlay {
+  background: rgba(15, 5, 30, 0.85);
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+
+.drb-tutorial-card {
+  background: var(--drb-surface-strong);
+  border-radius: 22px; padding: 24px 22px;
+  max-width: 300px; width: 88%; text-align: center;
+  box-shadow: 0 12px 40px rgba(130,80,200,0.3);
+  animation: drb-fade-up 0.3s ease-out both;
+}
+
+.drb-tutorial-bubble {
+  background: var(--drb-surface-strong);
+  border-radius: 14px; padding: 10px 14px;
+  font-size: 13px; color: var(--drb-text-primary); line-height: 1.5;
+  box-shadow: 0 4px 16px rgba(130,80,200,0.2);
+  max-width: 240px; animation: drb-fade-up 0.25s ease-out both;
+}
+
+.drb-tutorial-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,0.3); transition: all 0.2s;
+}
+.drb-tutorial-dot.active {
+  background: white; width: 20px; border-radius: 4px;
+}
+
+/* ── 10. ONBOARDING ──────────────────────────────────────── */
+.drb-ob-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: var(--drb-ob-bg);
+  display: flex; flex-direction: column;
+  transition: background 0.3s ease;
+}
+
+.drb-ob-slide {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px 28px 16px;
+  animation: drb-slide-in 0.45s ease both;
+}
+
+.drb-ob-title {
+  font-size: 24px; font-weight: 700; text-align: center;
+  color: var(--drb-ob-text); line-height: 1.3; margin-bottom: 10px;
+}
+
+.drb-ob-sub {
+  font-size: 14px; color: var(--drb-ob-subtext);
+  text-align: center; line-height: 1.55; max-width: 280px;
+}
+
+.drb-ob-feature {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 15px; border-radius: 18px; width: 100%;
+  background: var(--drb-ob-feature-bg);
+  border: 1px solid var(--drb-border-soft);
+  animation: drb-feature-in 0.4s ease both;
+}
+
+.drb-ob-feature-icon {
+  width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  background: linear-gradient(135deg, rgba(183,148,244,0.25), rgba(237,100,166,0.15));
+  border: 1px solid rgba(183,148,244,0.3);
+}
+
+.drb-ob-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--drb-ob-dot);
+  transition: all 0.3s ease;
+}
+.drb-ob-dot.active {
+  width: 24px; border-radius: 4px;
+  background: var(--drb-gradient-cta);
+}
+
+.drb-ob-progress {
+  height: 3px; background: var(--drb-border-soft); flex-shrink: 0;
+}
+.drb-ob-progress-fill {
+  height: 100%; border-radius: 999px;
+  background: var(--drb-gradient-cta);
+  transition: width 0.5s ease;
+}
+
+/* ── 13. DARK MODE: SELECT NATIVO ───────────────────────────
+   El <select> nativo ignora CSS en algunos navegadores/SO.
+   Forzamos colores en dark mode con appearance: none + override.
+─────────────────────────────────────────────────────────── */
+[data-theme="dark"] select {
+  background-color: #1e1b35 !important;
+  color: #e8e0ff !important;
+  border-color: rgba(183,148,244,0.2) !important;
+  color-scheme: dark;
+}
+
+[data-theme="dark"] select option {
+  background-color: #1e1b35 !important;
+  color: #e8e0ff !important;
+}
+
+[data-theme="dark"] select:focus {
+  border-color: rgba(183,148,244,0.5) !important;
+  outline: none;
+}
+
+/* Input text en dark mode */
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] textarea {
+  background-color: rgba(30,27,53,0.95) !important;
+  color: #e8e0ff !important;
+  border-color: rgba(183,148,244,0.2) !important;
+}
+
+[data-theme="dark"] input[type="text"]::placeholder,
+[data-theme="dark"] input[type="email"]::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #5a4d7a !important;
+}
+   En light: multiply elimina el fondo negro de los PNG.
+   En dark:  screen los ilumina sobre fondo oscuro.
+   Uso: className="drb-img-blend" en el <img>, sin mixBlendMode inline.
+─────────────────────────────────────────────────────────────── */
+.drb-img-blend {
+  mix-blend-mode: multiply;
+  transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .drb-img-blend {
+  mix-blend-mode: screen;
+  filter: brightness(0.88) saturate(1.1) !important;
+}
+
+/* ── 12. DARK MODE: texto en acordeón y contenedores ─────────
+   Fixes para elementos con colores hardcodeados heredados.
+─────────────────────────────────────────────────────────────── */
+
+/* Texto de botones de acordeón FAQ */
+[data-theme="dark"] button span,
+[data-theme="dark"] button p {
+  color: var(--drb-text-primary);
+}
+
+/* Texto de contenido abierto en acordeón */
+[data-theme="dark"] .drb-faq-body {
+  color: var(--drb-text-secondary);
+}
+[data-theme="dark"] .drb-faq-body strong {
+  color: var(--drb-accent);
+}
+
+/* Cards blancas en dark mode */
+[data-theme="dark"] .drb-dark-card {
+  background: var(--drb-surface-card) !important;
+  border-color: var(--drb-border-soft) !important;
+}
+
+/* Placeholder de inputs en dark */
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--drb-input-placeholder) !important;
+}
+/* ── WRITE HINT: solo visible en desktop (dentro del AndroidFrame) ── */
+/* Agregar esto al final de globals.css */
+
+@media (min-width: 768px) {
+  .drb-write-hint {
+    display: flex !important;
   }
-  50% {
-    transform: translateY(-10px);
+}
+
+@media (max-width: 767px) {
+  .drb-write-hint {
+    display: none !important;
   }
 }
-
-/* 🌥️ Sombra suave reutilizable para cards/botones */
-.shadow-soft {
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.1);
-}
-
-/* --- Log de modificaciones (globals.css) ---
- * 2025-12-16:
- * - Se cambia el color base de fondo a #FCEFB4 para alinearlo con el nuevo Home.
- * - Se ajusta la tipografía global de body para usar la fuente sans configurada (Geist).
- * - Se añade .beauty-body con fondo crema y manchas pastel para la landing de DrBeautyBot.
- * - Se añade .btn-hover para animación suave de botones y tarjetas.
- * - Se fuerza overflow-x: hidden en body para evitar scroll horizontal con las ondas SVG.
- *
- * 2025-12-26:
- * - Se añade .drb-body con el tapiz animado de íconos para el nuevo front de Dr. BeautyBot.
- * - Se añaden las utilidades .btn-scale, .anim-float y .shadow-soft usadas en el nuevo diseño.
- * - Se mantiene .beauty-body para posibles pantallas futuras con fondo pastel estático.
- */

@@ -1,89 +1,21 @@
 'use client';
 
-/*
-  CHANGELOG — 2025-12-28
-  - Se envuelve la página de chat en un <Suspense> con un componente interno
-    ChatPageInner para cumplir con el requisito de Next 16 al usar useSearchParams.
-*/
-
-/*
-  CHANGELOG — 2025-12-26 (E)
-  - Mobile FIX: el botón "Nueva conversación" se mueve abajo-derecha (floating),
-    para evitar superposición con el logo superior.
-  - Desktop: el botón permanece arriba a la derecha (como estaba).
-  - Se agrega movimiento tipo parallax/scroll infinito al fondo (CSS animation),
-    reemplazando backgroundAttachment: 'fixed' (poco fiable en mobile).
-*/
-
-/*
-  CHANGELOG — 2025-12-26 (D)
-  - FIX logo flotante: se elimina el padding-top interno del <section> (pt-12/md:pt-16)
-    que creaba la franja crema superior (parecía que la tarjeta “subía” con el logo).
-  - En su lugar, se usa margin-top externo en la tarjeta (mt-16/md:mt-20) para reservar
-    espacio real arriba sin afectar el layout interno del chat.
-*/
-
-/*
-  CHANGELOG — 2025-12-26 (C)
-  - Logo: ahora flota FUERA de la ventana del chat (overlay), centrado respecto a la tarjeta.
-  - Se usa wrapper relative + posicionamiento absolute con top negativo.
-  - Se mantiene PNG transparente, tamaño grande y sombra.
-*/
-
-/*
-  CHANGELOG — 2025-12-26
-  - Logo superior: se mueve al centro de la ventana del chat (sin contenedor/botón),
-    manteniendo PNG transparente y añadiendo sombra tipo “flotante”.
-  - Logo superior: se incrementa el tamaño para que sea claramente visible.
-  - Fondo: se cambia el tapiz al nuevo patrón (con señalización para localizar la línea).
-*/
-
-/*
-  CHANGELOG — 2025-12-22 (B)
-  - Se elimina por completo el botón/ícono de clip en la barra de entrada.
-  - Se rediseña el botón “Nueva conversación” con color amarillo pastel
-    acorde a la paleta principal del chat.
-*/
-
-/*
-  CHANGELOG — 2025-12-22
-  - Se fija la altura de la tarjeta de chat para tener un layout más consistente
-    (tanto en desktop como en móvil) y que el scroll ocurra solo dentro del área
-    de mensajes.
-  - Se añade auto-scroll al final del listado de mensajes cada vez que el usuario
-    o el bot envían un mensaje, para que siempre se vea la parte más reciente
-    de la conversación.
-  - FIX: se simplifica la estructura del contenedor de mensajes usando
-    flex-1 + min-h-0 + overflow-y-auto directamente sobre la zona de mensajes,
-    evitando que el contenido “empuje” la barra de entrada y desaparezca.
-*/
-
-/*
-  CHANGELOG — 2025-12-18
-  - Se elimina la leyenda “AESTHETICA AI / Tu guía amigable…” y se reemplaza
-    por un contenedor neutro para futuro logo en el header.
-  - Se mejora la legibilidad del texto en el input: color de texto más oscuro
-    y placeholder diferenciado.
-  - Se deshabilita el botón de clip (adjuntar) dejándolo solo como ícono
-    decorativo, sin interacción.
-*/
-
-/*
-  CHANGELOG — 2025-12-17
-  - Nuevo layout de chat estilo “WhatsApp” dentro de una tarjeta central:
-    - Fondo oscuro global y tarjeta clara con encabezado verde menta.
-    - Burbujas: usuario a la derecha en verde menta, bot a la izquierda en blanco.
-  - Se mantiene intacta la lógica de:
-    - sessionId por pestaña (sessionStorage) y botón “Nueva conversación”.
-    - Lectura de perfil desde localStorage y saludo inicial según modo/perfil.
-    - Envío a /api/chat con { message, mode, profile, sessionId }.
-  - La cinta amarilla QUICK_DISCLAIMER se conserva SOLO en modo "quick"
-    y SOLO para mensajes del bot, ahora dentro de cada burbuja.
-*/
+/**
+ * CHANGELOG app/chat/page.tsx
+ * - 2026-03-25 v2.0.3: Eliminado botón flotante. Avatar header 52px.
+ * - 2026-03-26 v2.1: Dark mode, compartir respuestas, tarjeta visual.
+ * - 2026-04-05 v2.2: Header disclaimer con botón X. Typewriter effect.
+ * - 2026-04-10 v2.3:
+ *   - Header compacto para viewport estrecho (marco Android en desktop):
+ *     · Avatar reducido de 52px a 40px
+ *     · Gap y padding más compactos
+ *     · Badge "modo personalizado" en línea con el estado (una sola fila)
+ *     · Botón "Nueva" solo con ícono en viewports muy estrechos
+ */
 
 import { Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 type Sender = 'user' | 'bot';
 
@@ -100,388 +32,651 @@ interface StoredProfile {
   area?: string;
   interests?: string[];
   previousProcedures?: string[];
+  botoxZones?: string[];
+  fillerMaterials?: string[];
+  fillerZones?: string[];
+  healthConditions?: string[];
+  healthOther?: string;
   isPregnant?: boolean;
+  procedureDates?: Record<string, { month: string; year: string }>;
 }
 
 const areaLabels: Record<string, string> = {
   'rostro-general': 'rostro en general',
-  toxina: 'toxina botulínica',
-  rellenos: 'fillers / rellenos',
-  labios: 'labios',
-  laser: 'láser / manchas / depilación',
-  'cicatrices-acne': 'cicatrices de acné',
-  otros: 'otros tratamientos estéticos',
+  toxina:           'toxina botulínica',
+  rellenos:         'fillers / rellenos',
+  labios:           'labios',
+  laser:            'láser / manchas / depilación',
+  'cicatrices-acne':'cicatrices de acné',
+  otros:            'otros tratamientos estéticos',
 };
 
-const QUICK_DISCLAIMER =
-  'Esta es una consulta rápida. La información que te daré es general y no sustituye una consulta médica.';
-
-const SESSION_KEY = 'drbeautybot_chat_session_id';
+const SESSION_KEY   = 'drbeautybot_chat_session_id';
+const PROFILE_KEY   = 'drbeautybot_profile';
+const HISTORY_KEY   = 'drb_chat_history';
+const BOT_AVATAR    = '/images/DON-REDONDON.png';
+const DISCLAIMER    = 'La información proporcionada es orientativa y no sustituye una consulta médica profesional. Ante cualquier duda, consulta a tu médico.';
+const TYPEWRITER_MS    = 18;
+const TYPEWRITER_CHARS = 3;
 
 function generateSessionId(): string {
-  // Nota: en algunos entornos crypto.randomUUID puede no existir, por eso el check defensivo
-  const uuid = typeof crypto !== 'undefined' && crypto?.randomUUID ? crypto.randomUUID() : null;
-  if (uuid) return uuid;
-
-  return `sess_${Date.now()}_${Math.random().toString(16).slice(2)}_${Math.random()
-    .toString(16)
-    .slice(2)}`;
+  if (typeof crypto !== 'undefined' && crypto?.randomUUID) return crypto.randomUUID();
+  return 'sess_' + Date.now() + '_' + Math.random().toString(16).slice(2);
 }
 
-/** ✅ ASSETS (fáciles de encontrar y cambiar) */
-const CHAT_LOGO_URL = '/images/doctorbeautybot-logo-rekorte.png';
-const BOT_AVATAR_URL = '/images/DON-REDONDON.png';
-
-/** 🔎🔎🔎 FONDO DEL CHAT — CAMBIAR AQUÍ (SEÑALIZACIÓN) 🔎🔎🔎 */
-const CHAT_BG_URL = '/images/IMG_7139.JPG';
+function saveToHistory(sessionId: string, firstMessage: string) {
+  try {
+    const raw     = localStorage.getItem(HISTORY_KEY);
+    const history = raw ? (JSON.parse(raw) as { id: string; title: string; meta: string }[]) : [];
+    if (history.find((h) => h.id === sessionId)) return;
+    const title = firstMessage.length > 48 ? firstMessage.slice(0, 45) + '…' : firstMessage;
+    history.unshift({ id: sessionId, title, meta: 'Ahora mismo' });
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 10)));
+  } catch { /* ignore */ }
+}
 
 function ChatPageInner() {
+  const router       = useRouter();
   const searchParams = useSearchParams();
-  const mode = searchParams.get('mode'); // "quick" | "profile" | null
+  const mode         = searchParams.get('mode');
+  const topicParam   = searchParams.get('topic');
 
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [input, setInput] = useState('');
-  const [isSending, setIsSending] = useState(false);
-  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [messages,       setMessages]       = useState<ChatMessage[]>([]);
+  const [input,          setInput]          = useState('');
+  const [isSending,      setIsSending]      = useState(false);
+  const [sessionId,      setSessionId]      = useState<string | null>(null);
+  const [hasProfile,     setHasProfile]     = useState(false);
+  const [showSuggest,    setShowSuggest]    = useState(false);
+  const [firstSaved,     setFirstSaved]     = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(true);
+  const messagesScrollRef = useRef<HTMLDivElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
 
+  const [copiedId,  setCopiedId]  = useState<number | null>(null);
+  const [shareMsg,  setShareMsg]  = useState<ChatMessage | null>(null);
+  const shareCardRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
     try {
-      const existing = window.sessionStorage.getItem(SESSION_KEY);
-      if (existing) {
-        setSessionId(existing);
-        return;
+      const ex = sessionStorage.getItem(SESSION_KEY);
+      if (ex) setSessionId(ex);
+      else {
+        const id = generateSessionId();
+        sessionStorage.setItem(SESSION_KEY, id);
+        setSessionId(id);
       }
-
-      const created = generateSessionId();
-      window.sessionStorage.setItem(SESSION_KEY, created);
-      setSessionId(created);
-    } catch (err) {
-      console.error('No se pudo inicializar sessionId (sessionStorage):', err);
-      setSessionId(generateSessionId());
-    }
+    } catch { setSessionId(generateSessionId()); }
+    try { setHasProfile(!!localStorage.getItem(PROFILE_KEY)); } catch { /* ignore */ }
   }, []);
 
   useEffect(() => {
-    if (!messagesEndRef.current) return;
-    try {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    } catch {
-      // ignore
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, [messages]);
 
-  const startNewConversation = () => {
-    try {
-      const created = generateSessionId();
-      if (typeof window !== 'undefined') {
-        window.sessionStorage.setItem(SESSION_KEY, created);
-      }
-      setSessionId(created);
-      setIsSending(false);
-      setInput('');
-      setMessages([]);
-    } catch (err) {
-      console.error('No se pudo iniciar nueva conversación:', err);
-      setIsSending(false);
-      setInput('');
-      setMessages([]);
-    }
-  };
+
 
   useEffect(() => {
     if (messages.length > 0) return;
+    let profile: StoredProfile | null = null;
+    try { const r = localStorage.getItem(PROFILE_KEY); if (r) profile = JSON.parse(r); } catch { /* ignore */ }
 
-    const greetingQuick =
-      'Hola 💬, esta es una consulta rápida. Si más adelante quieres orientación más personalizada, podemos completar tu perfil.';
-    const greetingDefault =
-      'Hola 💉✨, soy DrBeautyBot. Te iré dando información adaptada a tu caso, pero recuerda que esto no sustituye una consulta médica.';
-
-    let storedProfile: StoredProfile | null = null;
-    try {
-      if (typeof window !== 'undefined') {
-        const raw = window.localStorage.getItem('drbeautybot_profile');
-        if (raw) storedProfile = JSON.parse(raw) as StoredProfile;
-      }
-    } catch (error) {
-      console.error('No se pudo leer el perfil guardado:', error);
-    }
-
-    let text: string;
-
-    if (mode === 'quick') {
-      text = greetingQuick;
-    } else if (storedProfile) {
-      const namePart = storedProfile.name ? `Hola, ${storedProfile.name}. ` : 'Hola. ';
-      const areaKey = storedProfile.area ?? '';
-      const areaLabel = areaLabels[areaKey] ?? '';
-      const areaPart = areaLabel ? `He visto que te interesa ${areaLabel}. ` : '';
-      const tail =
-        'Te iré dando información orientativa basada en tus datos, pero recuerda que esto no sustituye una consulta médica.';
-      text = `${namePart}${areaPart}${tail}`;
+    let greeting: string;
+    if (mode === 'quick' || !profile) {
+      greeting = 'Hola 💬 Esta es una consulta rápida. Si quieres orientación más personalizada, completa tu perfil desde el menú principal.\n\nℹ️ ' + DISCLAIMER;
     } else {
-      text = greetingDefault;
+      const name    = profile.name ? 'Hola, ' + profile.name + '. ' : 'Hola. ';
+      const area    = areaLabels[profile.area ?? ''] ?? '';
+      const areaTxt = area ? 'He visto que te interesa ' + area + '. ' : '';
+      greeting = name + areaTxt + 'Te iré dando información orientativa — cuéntame en qué puedo ayudarte.\n\nℹ️ ' + DISCLAIMER;
     }
 
-    const now = Date.now();
-    const initialMessages: ChatMessage[] = [{ id: now, sender: 'bot', text }];
+    const now  = Date.now();
+    const init: ChatMessage[] = [{ id: now, sender: 'bot', text: greeting }];
+    if (profile?.isPregnant && mode !== 'quick') {
+      init.push({ id: now + 1, sender: 'bot', text: '⚠️ NO ES RECOMENDABLE REALIZARSE PROCEDIMIENTOS COMO RELLENOS, TOXINA BOTULÍNICA, ETC. DURANTE EL EMBARAZO O LACTANCIA. Al continuar aceptas que tus dudas son de carácter informativo.' });
+    }
+    setMessages(init);
+    if (topicParam) {
+      setTimeout(() => sendMessage('Quiero información sobre ' + topicParam, profile, now + 10), 600);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, topicParam]);
 
-    if (mode !== 'quick' && storedProfile?.isPregnant) {
-      initialMessages.push({
-        id: now + 1,
-        sender: 'bot',
-        text:
-          'NO ES RECOMENDABLE REALIZARSE PROCEDIMIENTOS COMO RELLENOS, TOXINA BOTULÍNICA, ETC DURANTE EL EMBARAZO O LACTANCIA, CUALQUIER MANEJO DE COMPLICACIONES PUEDE AFECTAR LA SALUD DE TU BEBÉ Y LA TUYA. ' +
-          'AL CONTINUAR ACEPTAS QUE TODAS TUS DUDAS SON DE CARÁCTER INFORMATIVO / EDUCATIVO / INVESTIGATIVO Y QUE NO TIENES INTENCIÓN DE REALIZARTE PROCEDIMIENTOS SINO HASTA EL TÉRMINO DE TU LACTANCIA Y CON CONSENTIMIENTO DE TU MÉDICO.',
+  const startNew = () => {
+    try {
+      const id = generateSessionId();
+      sessionStorage.setItem(SESSION_KEY, id);
+      setSessionId(id);
+    } catch { /* ignore */ }
+    setMessages([]); setInput(''); setIsSending(false); setShowSuggest(false); setFirstSaved(false);
+  };
+
+  const typewriterEmit = async (
+    delta: string,
+    getAccumulated: () => string,
+    setAccumulated: (s: string) => void,
+    botId: number,
+  ) => {
+    let local = getAccumulated();
+    let i = 0;
+    while (i < delta.length) {
+      const chars = delta.slice(i, i + TYPEWRITER_CHARS);
+      local += chars;
+      i += TYPEWRITER_CHARS;
+      setAccumulated(local);
+      setMessages((prev) => prev.map((m) => m.id === botId ? { ...m, text: local } : m));
+      if (i < delta.length) {
+        await new Promise<void>((resolve) => setTimeout(resolve, TYPEWRITER_MS));
+      }
+    }
+  };
+
+  const sendMessage = async (text: string, profile: StoredProfile | null, baseId: number) => {
+    setMessages((prev) => [...prev, { id: baseId, sender: 'user', text }]);
+    setIsSending(true);
+    if (!firstSaved && sessionId) { saveToHistory(sessionId, text); setFirstSaved(true); }
+
+    const history = messages
+      .filter((_, i) => i > 0 || messages[0]?.sender !== 'bot')
+      .slice(-8)
+      .map((m) => ({ role: m.sender === 'user' ? 'user' : 'assistant', text: m.text }));
+
+    let uid: string | null = null;
+    try {
+      const { getAnonymousUid } = await import('@/lib/firebase');
+      uid = await getAnonymousUid();
+    } catch { /* offline */ }
+
+    const botId = baseId + 1;
+    setMessages((prev) => [...prev, { id: botId, sender: 'bot', text: '' }]);
+
+    let accumulated = '';
+    const getAcc = () => accumulated;
+    const setAcc = (s: string) => { accumulated = s; };
+
+    try {
+      const res = await fetch((process.env.NEXT_PUBLIC_API_URL ?? '') + '/api/chat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text, history, uid, mode,
+          profile: mode === 'quick' ? null : profile, sessionId,
+        }),
       });
-    }
 
-    setMessages(initialMessages);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, messages.length]);
+      const contentType = res.headers.get('content-type') ?? '';
+
+      if (contentType.includes('text/event-stream')) {
+        const reader = res.body!.getReader();
+        const decoder = new TextDecoder();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n').filter((l) => l.startsWith('data: '));
+          for (const line of lines) {
+            const payload = line.slice(6);
+            if (payload === '[DONE]') break;
+            try {
+              const { text: delta } = JSON.parse(payload);
+              if (delta) await typewriterEmit(delta, getAcc, setAcc, botId);
+            } catch { /* ignore */ }
+          }
+        }
+      } else {
+        const data = (await res.json()) as { reply?: string };
+        const reply = data?.reply ?? 'Hubo un problema. Intenta de nuevo.';
+        await typewriterEmit(reply, getAcc, setAcc, botId);
+      }
+
+      const botCount = messages.filter((m) => m.sender === 'bot').length;
+      if (!hasProfile && botCount >= 1) setShowSuggest(true);
+
+    } catch {
+      setMessages((prev) =>
+        prev.map((m) => m.id === botId
+          ? { ...m, text: 'Ha ocurrido un problema. Revisa tu conexión e intenta de nuevo.' }
+          : m
+        )
+      );
+    } finally { setIsSending(false); }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const trimmed = input.trim();
     if (!trimmed || isSending) return;
-
-    let storedProfile: StoredProfile | null = null;
-    try {
-      if (typeof window !== 'undefined') {
-        const raw = window.localStorage.getItem('drbeautybot_profile');
-        if (raw) storedProfile = JSON.parse(raw) as StoredProfile;
-      }
-    } catch (error) {
-      console.error('No se pudo leer el perfil guardado:', error);
-    }
-
-    const effectiveProfile = mode === 'quick' ? null : storedProfile;
-    const userId = Date.now();
-
-    setMessages((prev) => [...prev, { id: userId, sender: 'user', text: trimmed }]);
+    let profile: StoredProfile | null = null;
+    try { const r = localStorage.getItem(PROFILE_KEY); if (r) profile = JSON.parse(r); } catch { /* ignore */ }
     setInput('');
-    setIsSending(true);
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: trimmed,
-          mode,
-          profile: effectiveProfile,
-          sessionId: sessionId ?? null,
-        }),
-      });
-
-      const data = (await res.json()) as { reply?: string };
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: userId + 1,
-          sender: 'bot',
-          text:
-            data?.reply ??
-            'He recibido tu mensaje, pero hubo un problema al generar una respuesta. Intenta de nuevo en unos minutos.',
-        },
-      ]);
-    } catch (error) {
-      console.error('Error al llamar a /api/chat:', error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: userId + 1,
-          sender: 'bot',
-          text:
-            'Ha ocurrido un problema al procesar tu mensaje. Revisa tu conexión y vuelve a intentarlo, por favor.',
-        },
-      ]);
-    } finally {
-      setIsSending(false);
-    }
+    await sendMessage(trimmed, profile, Date.now());
   };
 
-  return (
-    <main
-      className="min-h-screen flex flex-col items-center justify-center px-4 py-6 chat-bg-animated"
-      style={{
-        backgroundColor: '#FEF9E7',
-        backgroundImage: `url(${CHAT_BG_URL})`,
-        backgroundRepeat: 'repeat',
-        backgroundSize: '420px auto',
-      }}
-    >
-      {/* ✅ Parallax/scroll infinito suave del tapiz (mejor que backgroundAttachment en mobile) */}
-      <style>{`
-        @keyframes chatBgScroll {
-          from {
-            background-position: 0 0;
-          }
-          to {
-            background-position: -420px -420px;
-          }
-        }
-        .chat-bg-animated {
-          animation: chatBgScroll 140s linear infinite;
-        }
-        @media (max-width: 640px) {
-          .chat-bg-animated {
-            animation-duration: 180s;
-          }
-        }
-      `}</style>
+  const isPersonalized = hasProfile && mode !== 'quick';
 
-      {/* ✅ Botón en DESKTOP (arriba derecha como antes) */}
-      <header className="hidden sm:flex w-full max-w-3xl mb-4 items-center justify-end">
-        <button
-          type="button"
-          onClick={startNewConversation}
-          className="px-5 py-2 rounded-full bg-[#FCCD78] hover:bg-[#FAD28C] text-[0.85rem] font-semibold text-slate-900 shadow-md border border-[#F4C56F]/80 transition"
-          title="Genera un nuevo sessionId y reinicia el chat"
-        >
-          Nueva conversación
-        </button>
+  const copyText = useCallback(async (msg: ChatMessage) => {
+    try {
+      await navigator.clipboard.writeText(msg.text);
+      setCopiedId(msg.id);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch { /* ignore */ }
+  }, []);
+
+  const shareNative = useCallback(async (msg: ChatMessage) => {
+    const shareData = {
+      title: 'Dr. BeautyBot — Medicina Estética',
+      text: '💬 "Mira la respuesta que me dio mi Dr. BeautyBot"\n\n' + msg.text + '\n\n💜 Información orientativa, no diagnóstico médico.\n📸 @drbeautybot · drbeautybot.app\n🤖 Disponible en Google Play',
+    };
+    try {
+      if (navigator.share && navigator.canShare?.(shareData)) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(shareData.text);
+        setCopiedId(msg.id);
+        setTimeout(() => setCopiedId(null), 2000);
+      }
+    } catch { /* usuario canceló */ }
+  }, []);
+
+  return (
+    <div className="drb-home-bg" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+
+      {/* ── HEADER DESKTOP (solo fuera del marco Android) ── */}
+      <header className="hidden sm:flex" style={{
+        padding: '12px 16px', justifyContent: 'space-between', alignItems: 'center',
+        maxWidth: '768px', width: '100%', margin: '0 auto',
+      }}>
+        <button onClick={() => router.push('/')} style={{
+          padding: '8px 16px', borderRadius: '999px',
+          background: 'var(--drb-surface-card)', border: '1px solid var(--drb-border-soft)',
+          fontSize: '14px', fontWeight: 500, color: 'var(--drb-text-secondary)', cursor: 'pointer',
+        }}>‹ Inicio</button>
+        <button onClick={startNew} style={{
+          padding: '8px 20px', borderRadius: '999px',
+          background: 'var(--drb-surface-card)', border: '1px solid var(--drb-border-soft)',
+          fontSize: '14px', fontWeight: 600, color: 'var(--drb-text-secondary)', cursor: 'pointer',
+        }}>Nueva conversación</button>
       </header>
 
-      {/* ✅ Wrapper relative para overlays (logo + botón mobile floating) */}
-      <div className="relative w-full max-w-3xl">
-        {/* ✅ Logo flotando POR FUERA de la tarjeta (overlay) */}
-        <img
-          src={CHAT_LOGO_URL}
-          alt="Dr. BeautyBot"
-          draggable={false}
-          className="
-            pointer-events-none select-none
-            absolute left-1/2 -translate-x-1/2
-            -top-20 md:-top-28
-            h-[120px] md:h-[170px] w-auto object-contain
-            drop-shadow-[0_18px_34px_rgba(0,0,0,0.35)]
-            z-30
-          "
-        />
+      <div style={{
+        flex: 1, display: 'flex', flexDirection: 'column',
+        width: '100%', maxWidth: '768px', margin: '0 auto', minHeight: 0,
+      }} className="sm:px-3 sm:pb-3 sm:pt-1">
 
-        {/* ✅ Botón en MOBILE: abajo-derecha, fuera de la tarjeta (no choca con el logo) */}
-        <button
-          type="button"
-          onClick={startNewConversation}
-          className="
-            sm:hidden
-            fixed right-4 bottom-5
-            px-5 py-2 rounded-full bg-[#FCCD78] active:bg-[#FAD28C]
-            text-[0.85rem] font-semibold text-slate-900
-            shadow-[0_18px_40px_rgba(0,0,0,0.30)]
-            border border-[#F4C56F]/80 transition
-            z-50
-          "
-          title="Genera un nuevo sessionId y reinicia el chat"
-        >
-          Nueva conversación
-        </button>
+        <div style={{
+          flex: 1, display: 'flex', flexDirection: 'column',
+          background: 'white', overflow: 'hidden', minHeight: 0,
+          position: 'relative',
+        }} className="sm:rounded-[28px] sm:shadow-[0_18px_48px_rgba(130,80,200,0.18)] sm:border sm:border-[rgba(180,140,220,0.2)]">
 
-        {/* ✅ Tarjeta de chat (con mt para reservar espacio externo al logo) */}
-        <section className="mt-12 md:mt-16 w-full h-[74vh] rounded-[32px] bg-[#FDF7EC] shadow-[0_18px_40px_rgba(0,0,0,0.35)] overflow-hidden border border-black/5 flex flex-col">
-          {/* Encabezado del chat */}
-          <div className="flex items-center gap-3 bg-[#B6EBCF] px-5 py-3">
-            <div className="h-11 w-11 rounded-full bg-white flex items-center justify-center shadow-inner overflow-hidden">
+          {/* ── HEADER DEL CHAT v2.3 — compacto ── */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            padding: '8px 12px',
+            background: 'var(--drb-surface-strong)',
+            borderBottom: '1px solid var(--drb-border-soft)',
+            flexShrink: 0,
+            minHeight: 0,
+          }}>
+            {/* Botón atrás — solo mobile nativo */}
+            <button onClick={() => router.push('/')} className="sm:hidden" style={{
+              fontSize: '20px', color: 'var(--drb-text-muted)', background: 'none',
+              border: 'none', cursor: 'pointer', lineHeight: 1, flexShrink: 0,
+              padding: '0 2px',
+            }}>‹</button>
+
+            {/* Avatar — reducido a 40px */}
+            <div style={{
+              width: '40px', height: '40px', borderRadius: '50%',
+              overflow: 'hidden', flexShrink: 0,
+              border: '2px solid rgba(180,140,220,0.35)',
+              background: '#e8f5ee',
+              boxShadow: '0 2px 8px rgba(130,80,200,0.12)',
+            }}>
               <img
-                src={BOT_AVATAR_URL}
-                alt="Avatar Dr. BeautyBot"
-                className="h-full w-full object-cover"
-                draggable={false}
+                src={BOT_AVATAR} alt="Dr. BeautyBot" draggable={false}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </div>
 
-            <div className="flex flex-col">
-              <span className="font-semibold text-slate-900 text-sm">Dr. BeautyBot</span>
-              <span className="text-xs text-emerald-700 flex items-center gap-1">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            {/* Nombre + estado + badge en columna compacta */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              {/* Fila 1: nombre + badge */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'nowrap' }}>
+                <p style={{
+                  fontSize: '13px', fontWeight: 600,
+                  color: 'var(--drb-text-primary)', margin: 0,
+                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                }}>Dr. BeautyBot</p>
+                <span style={{
+                  fontSize: '9px', fontWeight: 500, padding: '2px 7px',
+                  borderRadius: '999px', flexShrink: 0, whiteSpace: 'nowrap',
+                  background: isPersonalized ? 'rgba(183,148,244,0.2)' : 'rgba(183,148,244,0.12)',
+                  color: isPersonalized ? 'var(--drb-text-secondary)' : 'var(--drb-text-muted)',
+                }}>{isPersonalized ? 'personalizado' : 'rápido'}</span>
+              </div>
+              {/* Fila 2: estado */}
+              <p style={{
+                fontSize: '11px', color: '#48bb78', fontWeight: 500, margin: 0,
+                display: 'flex', alignItems: 'center', gap: '4px',
+              }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#68d391', display: 'inline-block', flexShrink: 0 }} />
                 {isSending ? 'Escribiendo…' : 'En línea'}
-              </span>
+              </p>
             </div>
+
+            {/* Botón nueva — icono + texto corto */}
+            <button onClick={startNew} style={{
+              padding: '5px 10px', borderRadius: '999px', flexShrink: 0,
+              background: 'rgba(183,148,244,0.12)', color: 'var(--drb-text-muted)',
+              fontSize: '11px', fontWeight: 600, border: 'none', cursor: 'pointer',
+              whiteSpace: 'nowrap',
+            }}>+ Nueva</button>
           </div>
 
-          {/* Zona de mensajes */}
-          <div className="flex-1 min-h-0 bg-[#FBEEDC] px-4 py-4 md:px-6 md:py-5 overflow-y-auto">
-            <div className="space-y-3 pr-1">
-              {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={
-                      msg.sender === 'user'
-                        ? 'rounded-3xl bg-[#B6EBCF] px-4 py-3 text-sm md:text-[15px] text-slate-900 max-w-[80%] shadow-md rounded-br-md'
-                        : 'rounded-3xl bg-white px-0 py-0 text-sm md:text-[15px] text-slate-900 max-w-[80%] shadow-md rounded-bl-md overflow-hidden'
-                    }
-                  >
-                    {mode === 'quick' && msg.sender === 'bot' && (
-                      <div className="bg-yellow-300 text-black text-[0.72rem] font-semibold px-3 py-1 border-b border-yellow-400">
-                        {QUICK_DISCLAIMER}
-                      </div>
-                    )}
+          {/* ── DISCLAIMER con X ── */}
+          {showDisclaimer && (
+            <div style={{
+              display: 'flex', alignItems: 'flex-start', gap: '8px',
+              padding: '7px 12px',
+              background: 'var(--drb-surface-strong)',
+              borderBottom: '1px solid var(--drb-border-soft)',
+              flexShrink: 0,
+            }}>
+              <span style={{ fontSize: '12px', flexShrink: 0, marginTop: '1px' }}>ℹ️</span>
+              <p style={{ flex: 1, fontSize: '11px', color: 'var(--drb-text-secondary)', lineHeight: 1.45, margin: 0 }}>
+                {DISCLAIMER}
+              </p>
+              <button
+                onClick={() => setShowDisclaimer(false)}
+                aria-label="Cerrar aviso"
+                style={{
+                  flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer',
+                  fontSize: '16px', color: 'var(--drb-text-muted)', lineHeight: 1,
+                  padding: '0 0 0 4px',
+                }}
+              >×</button>
+            </div>
+          )}
 
-                    <div className="px-3 py-2 text-[0.9rem] leading-relaxed whitespace-pre-line">
-                      {msg.text}
-                    </div>
+          {/* ── ZONA DE MENSAJES ── */}
+          <div
+            ref={messagesScrollRef}
+            className="drb-scroll-hide"
+            style={{
+              flex: 1, overflowY: 'auto', padding: '12px', minHeight: 0,
+              backgroundImage: 'url(/images/IMG_7139.JPG)',
+              backgroundRepeat: 'repeat',
+              backgroundSize: '380px auto',
+              animation: 'drb-tapiz-scroll 140s linear infinite',
+              backgroundColor: '#f0e6ff',
+            }}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+
+              {messages.map((msg) => (
+                <div key={msg.id} style={{
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+                  gap: '4px',
+                }}>
+                  <div style={{
+                    maxWidth: '80%', padding: '9px 13px',
+                    fontSize: '13px', lineHeight: 1.55, whiteSpace: 'pre-line',
+                    borderRadius: msg.sender === 'user' ? '18px 18px 4px 18px' : '4px 18px 18px 18px',
+                    background: msg.sender === 'user' ? 'var(--drb-gradient-bubble)' : 'var(--drb-bubble-bot-bg)',
+                    border: msg.sender === 'bot' ? '0.5px solid var(--drb-bubble-bot-border)' : 'none',
+                    color: 'var(--drb-text-primary)',
+                    boxShadow: '0 1px 4px rgba(130,80,200,0.1)',
+                  }}>
+                    {msg.text}
+                    {isSending && msg.sender === 'bot' && msg === messages[messages.length - 1] && msg.text.length > 0 && (
+                      <span style={{
+                        display: 'inline-block', width: '2px', height: '13px',
+                        background: '#b794f4', marginLeft: '2px', verticalAlign: 'middle',
+                        animation: 'drb-pulse 0.8s ease-in-out infinite',
+                      }} />
+                    )}
                   </div>
+
+                  {msg.sender === 'bot' && !isSending && (
+                    <div style={{ display: 'flex', gap: '5px', paddingLeft: '4px' }}>
+                      <button onClick={() => copyText(msg)} style={{
+                        display: 'flex', alignItems: 'center', gap: '3px',
+                        padding: '3px 8px', borderRadius: '999px',
+                        fontSize: '10px', fontWeight: 500, cursor: 'pointer',
+                        background: copiedId === msg.id ? 'rgba(72,187,120,0.15)' : 'var(--drb-surface-card)',
+                        border: copiedId === msg.id ? '1px solid rgba(72,187,120,0.3)' : '1px solid var(--drb-border-soft)',
+                        color: copiedId === msg.id ? '#38a169' : 'var(--drb-text-muted)',
+                        transition: 'all 0.2s',
+                      }}>{copiedId === msg.id ? '✓ Copiado' : '📋 Copiar'}</button>
+                      <button onClick={() => setShareMsg(msg)} style={{
+                        display: 'flex', alignItems: 'center', gap: '3px',
+                        padding: '3px 8px', borderRadius: '999px',
+                        fontSize: '10px', fontWeight: 500, cursor: 'pointer',
+                        background: 'var(--drb-surface-card)',
+                        border: '1px solid var(--drb-border-soft)',
+                        color: 'var(--drb-text-muted)',
+                      }}>📤 Compartir</button>
+                    </div>
+                  )}
                 </div>
               ))}
 
-              {messages.length === 0 && (
-                <p className="text-sm text-slate-500 text-center mt-4">
-                  Cargando conversación con DrBeautyBot…
-                </p>
+              {/* Typing indicator */}
+              {isSending && (() => {
+                const lastMsg = messages[messages.length - 1];
+                if (lastMsg?.sender === 'bot' && lastMsg.text.length > 0) return null;
+                return (
+                  <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                    <div style={{
+                      padding: '10px 16px', borderRadius: '4px 18px 18px 18px',
+                      background: 'var(--drb-bubble-bot-bg)', border: '0.5px solid var(--drb-bubble-bot-border)',
+                      display: 'flex', gap: '5px', alignItems: 'center',
+                    }}>
+                      {[0, 150, 300].map((delay) => (
+                        <span key={delay} className="animate-bounce" style={{
+                          width: '7px', height: '7px', borderRadius: '50%',
+                          background: '#b794f4', animationDelay: delay + 'ms', display: 'inline-block',
+                        }} />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Sugerencia perfil */}
+              {showSuggest && !hasProfile && (
+                <div style={{
+                  alignSelf: 'center', textAlign: 'center',
+                  padding: '14px 18px', borderRadius: '18px', maxWidth: '260px',
+                  background: 'var(--drb-surface-card)', border: '0.5px solid var(--drb-border)',
+                  marginTop: '6px', boxShadow: '0 4px 16px rgba(130,80,200,0.1)',
+                }}>
+                  <p style={{ fontSize: '12px', color: 'var(--drb-text-secondary)', lineHeight: 1.5, margin: '0 0 10px' }}>
+                    ¿Quieres que recuerde tus datos para respuestas más precisas?
+                  </p>
+                  <button onClick={() => router.push('/profile')} style={{
+                    padding: '7px 18px', borderRadius: '999px',
+                    background: 'linear-gradient(135deg, #b794f4, #ed64a6)',
+                    color: 'white', fontSize: '12px', fontWeight: 600,
+                    border: 'none', cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(183,148,244,0.4)',
+                  }}>✨ Completar Mis Datos</button>
+                </div>
               )}
+
+              {/* ── HINT ESCRITURA — sticky en desktop, invisible en mobile ── */}
+              <div style={{
+                position: 'sticky',
+                bottom: '8px',
+                display: 'flex',
+                justifyContent: 'center',
+                zIndex: 10,
+                pointerEvents: 'none',
+              }}>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                  }}
+                  style={{
+                    display: 'none', // override via media query in globals o inline below
+                    cursor: 'pointer',
+                    pointerEvents: 'auto',
+                    alignItems: 'center', gap: '6px',
+                    padding: '6px 14px', borderRadius: '999px',
+                    background: 'linear-gradient(135deg, rgba(183,148,244,0.95), rgba(237,100,166,0.95))',
+                    color: 'white', fontSize: '11px', fontWeight: 600,
+                    boxShadow: '0 4px 16px rgba(183,148,244,0.5)',
+                    whiteSpace: 'nowrap',
+                    border: '1px solid rgba(255,255,255,0.25)',
+                    animation: 'drb-pulse 2.5s ease-in-out infinite',
+                  }}
+                  className="drb-write-hint"
+                >
+                  ✏️ Escribe tu pregunta abajo ↓
+                </div>
+              </div>
 
               <div ref={messagesEndRef} />
             </div>
           </div>
 
-          {/* Barra de entrada */}
-          <form
-            onSubmit={handleSubmit}
-            className="flex items-center gap-3 border-t border-black/5 bg-[#FDF7EC] px-4 py-3 md:px-5 md:py-4"
-          >
-            <div className="flex-1">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Escribe un mensaje…"
-                disabled={isSending}
-                className="w-full rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm md:text-[15px] text-slate-900 placeholder:text-slate-400 shadow-inner outline-none focus:border-[#9BD4F5] focus:ring-2 focus:ring-[#9BD4F5]/40"
-              />
-            </div>
 
-            <button
-              type="submit"
-              disabled={isSending || !input.trim()}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#FCCD78] text-xl shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
-              aria-label="Enviar"
-            >
-              ➤
-            </button>
+
+          {/* ── BARRA DE ENTRADA ── */}
+          <form ref={formRef} onSubmit={handleSubmit} style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            padding: '10px 12px',
+            background: 'var(--drb-surface-strong)',
+            borderTop: '1px solid var(--drb-border-soft)',
+            flexShrink: 0,
+          }}>
+            <input
+              type="text" value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Escribe un mensaje…"
+              disabled={isSending}
+              className="drb-input"
+              style={{
+                flex: 1, padding: '9px 14px', borderRadius: '999px',
+                border: '1px solid rgba(180,140,220,0.35)',
+                background: 'var(--drb-input-bg)',
+                fontSize: '13px', color: 'var(--drb-text-primary)', outline: 'none',
+              }}
+            />
+            <button type="submit" disabled={isSending || !input.trim()} aria-label="Enviar" style={{
+              width: '38px', height: '38px', borderRadius: '50%', flexShrink: 0,
+              background: 'linear-gradient(135deg, #b794f4, #ed64a6)',
+              color: 'white', fontSize: '13px', border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(183,148,244,0.4)',
+              opacity: (isSending || !input.trim()) ? 0.5 : 1,
+            }}>➤</button>
           </form>
-        </section>
+
+        </div>
       </div>
-    </main>
+
+      {/* ── MODAL COMPARTIR ── */}
+      {shareMsg && (
+        <div
+          onClick={() => setShareMsg(null)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 500,
+            background: 'rgba(15,5,30,0.82)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '24px 16px',
+          }}
+        >
+          <div onClick={(e) => e.stopPropagation()} style={{
+            width: '100%', maxWidth: '340px',
+            animation: 'drb-fade-up 0.3s ease both',
+            display: 'flex', flexDirection: 'column', gap: '12px',
+          }}>
+            <div ref={shareCardRef} style={{
+              borderRadius: '24px', overflow: 'hidden',
+              background: 'linear-gradient(135deg, #f0e6ff, #fce4f0, #e8f0ff)',
+              boxShadow: '0 12px 40px rgba(130,80,200,0.3)',
+            }}>
+              <div style={{
+                background: 'linear-gradient(135deg, #b794f4, #ed64a6)',
+                padding: '14px 18px', display: 'flex', alignItems: 'center', gap: '10px',
+              }}>
+                <div style={{
+                  width: '36px', height: '36px', borderRadius: '50%',
+                  overflow: 'hidden', border: '2px solid rgba(255,255,255,0.4)',
+                  background: '#e8f5ee', flexShrink: 0,
+                }}>
+                  <img src={BOT_AVATAR} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div>
+                  <p style={{ fontSize: '13px', fontWeight: 700, color: 'white', margin: 0 }}>Dr. BeautyBot</p>
+                  <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.8)', margin: 0 }}>drbeautybot.app · Medicina Estética</p>
+                </div>
+              </div>
+              <div style={{ padding: '12px 18px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ fontSize: '13px' }}>💬</span>
+                <p style={{ fontSize: '12px', fontWeight: 600, color: '#8b6fa8', margin: 0, fontStyle: 'italic' }}>
+                  "Mira la respuesta que me dio mi Dr. BeautyBot"
+                </p>
+              </div>
+              <div style={{ padding: '12px 18px 14px' }}>
+                <p style={{
+                  fontSize: '14px', lineHeight: 1.6, color: '#2d1a4a',
+                  margin: '0 0 14px', whiteSpace: 'pre-line',
+                  display: '-webkit-box', WebkitLineClamp: 7,
+                  WebkitBoxOrient: 'vertical', overflow: 'hidden',
+                }}>{shareMsg.text}</p>
+                <div style={{ paddingTop: '12px', borderTop: '1px solid rgba(183,148,244,0.2)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <p style={{ fontSize: '10.5px', color: '#9b82b8', margin: 0 }}>💜 Información orientativa, no diagnóstico médico.</p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '11px', color: '#b794f4', fontWeight: 600 }}>📸 @drbeautybot</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 700, color: '#b794f4' }}>drbeautybot.app</span>
+                      <span style={{ fontSize: '9.5px', color: '#9b82b8' }}>🤖 Disponible en Google Play</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button onClick={() => copyText(shareMsg)} style={{
+                flex: 1, padding: '12px', borderRadius: '999px',
+                background: copiedId === shareMsg.id ? 'rgba(72,187,120,0.15)' : 'rgba(255,255,255,0.12)',
+                border: copiedId === shareMsg.id ? '1px solid rgba(72,187,120,0.3)' : '1px solid rgba(255,255,255,0.2)',
+                color: copiedId === shareMsg.id ? '#68d391' : 'white',
+                fontSize: '13px', fontWeight: 500, cursor: 'pointer', transition: 'all 0.2s',
+              }}>{copiedId === shareMsg.id ? '✓ ¡Copiado!' : '📋 Copiar texto'}</button>
+              <button onClick={() => shareNative(shareMsg)} style={{
+                flex: 1, padding: '12px', borderRadius: '999px',
+                background: 'linear-gradient(135deg, #b794f4, #ed64a6)',
+                border: 'none', color: 'white',
+                fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(183,148,244,0.45)',
+              }}>📤 Compartir</button>
+            </div>
+            <button onClick={() => setShareMsg(null)} style={{
+              padding: '10px', borderRadius: '999px',
+              background: 'transparent', border: '1px solid rgba(255,255,255,0.15)',
+              color: 'rgba(255,255,255,0.6)', fontSize: '13px', cursor: 'pointer',
+            }}>Cancelar</button>
+          </div>
+        </div>
+      )}
+
+    </div>
   );
 }
 
 export default function ChatPage() {
   return (
-    <Suspense
-      fallback={
-        <main className="min-h-screen flex items-center justify-center px-4 py-6">
-          <p className="text-sm text-slate-700">Cargando chat…</p>
-        </main>
-      }
-    >
+    <Suspense fallback={
+      <div className="drb-home-bg" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{ color: 'var(--drb-text-secondary)', fontSize: '14px' }}>Cargando chat…</p>
+      </div>
+    }>
       <ChatPageInner />
     </Suspense>
   );

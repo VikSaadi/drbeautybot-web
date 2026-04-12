@@ -17,9 +17,20 @@
   - Se añade soporte PWA: manifest.json y theme-color meta tag.
 */
 
+/*
+  CHANGELOG — 2026-04-05
+  - Se añade AndroidFrame wrapper.
+    · En desktop (≥ 768px): muestra el marco Android genérico con landing page
+      (título, botón Google Play, badge iOS, links sociales).
+    · En mobile (< 768px): children se renderizan directamente a pantalla completa.
+    · layout.tsx sigue siendo Server Component — la lógica de detección
+      vive en components/AndroidFrame.tsx (Client Component).
+*/
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AndroidFrame } from "@/components/AndroidFrame";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -60,7 +71,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased drb-body`}
       >
-        {children}
+        <AndroidFrame>{children}</AndroidFrame>
       </body>
     </html>
   );

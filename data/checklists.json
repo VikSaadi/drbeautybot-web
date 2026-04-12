@@ -1,0 +1,166 @@
+{
+  "toxina": {
+    "nombre": "Toxina Botulínica",
+    "emoji": "💉",
+    "antes": {
+      "titulo": "Días antes de tu cita",
+      "items": [
+        { "id": "t1", "texto": "Evita alcohol 24–48 horas antes", "urgencia": "alta" },
+        { "id": "t2", "texto": "Suspende ibuprofeno, aspirina y antiinflamatorios 5–7 días antes (consulta tu médico)", "urgencia": "alta" },
+        { "id": "t3", "texto": "Evita suplementos como omega-3, vitamina E, ginkgo biloba 1 semana antes", "urgencia": "media" },
+        { "id": "t4", "texto": "No hagas ejercicio intenso el día de la cita", "urgencia": "media" },
+        { "id": "t5", "texto": "Llega sin maquillaje en la zona a tratar", "urgencia": "alta" },
+        { "id": "t6", "texto": "Come algo ligero antes — evitar ayuno prolongado", "urgencia": "baja" }
+      ]
+    },
+    "durante": {
+      "titulo": "En la consulta, pregunta",
+      "items": [
+        { "id": "t7", "texto": "¿Qué marca de toxina usarás y cuántas unidades?", "urgencia": "alta" },
+        { "id": "t8", "texto": "¿Tienes fotografías de antes y después de casos similares?", "urgencia": "media" },
+        { "id": "t9", "texto": "¿Qué hago si no me gusta el resultado?", "urgencia": "media" },
+        { "id": "t10", "texto": "¿Cuándo puedo volver a ejercitarme?", "urgencia": "baja" }
+      ]
+    },
+    "despues": {
+      "titulo": "Después del procedimiento",
+      "items": [
+        { "id": "t11", "texto": "No te acuestes las primeras 4 horas", "urgencia": "alta" },
+        { "id": "t12", "texto": "Evita masajear la zona tratada 48 horas", "urgencia": "alta" },
+        { "id": "t13", "texto": "No hagas ejercicio intenso por 24 horas", "urgencia": "media" },
+        { "id": "t14", "texto": "Evita calor excesivo (sauna, sol directo) 24–48 horas", "urgencia": "media" },
+        { "id": "t15", "texto": "Resultados visibles en 3–7 días, máximos a las 2 semanas", "urgencia": "baja" }
+      ]
+    }
+  },
+  "ah": {
+    "nombre": "Rellenos de Ácido Hialurónico",
+    "emoji": "✨",
+    "antes": {
+      "titulo": "Días antes de tu cita",
+      "items": [
+        { "id": "a1", "texto": "Evita alcohol 48–72 horas antes", "urgencia": "alta" },
+        { "id": "a2", "texto": "Suspende ibuprofeno, aspirina y antiinflamatorios 5–7 días antes", "urgencia": "alta" },
+        { "id": "a3", "texto": "Evita suplementos que adelgazen la sangre (omega-3, vitamina E) 1 semana antes", "urgencia": "media" },
+        { "id": "a4", "texto": "Si eres propensa al herpes labial, consulta sobre profilaxis antiviral previa (zona labios)", "urgencia": "alta" },
+        { "id": "a5", "texto": "Llega sin maquillaje ni cremas en la zona", "urgencia": "alta" },
+        { "id": "a6", "texto": "Planifica la cita lejos de eventos importantes (inflamación inicial)", "urgencia": "media" }
+      ]
+    },
+    "durante": {
+      "titulo": "En la consulta, pregunta",
+      "items": [
+        { "id": "a7", "texto": "¿Qué marca de AH usarás y cuántos ml?", "urgencia": "alta" },
+        { "id": "a8", "texto": "¿Tienes hialuronidasa disponible en caso de necesitarla?", "urgencia": "alta" },
+        { "id": "a9", "texto": "¿Usarás cánula o aguja y por qué para mi caso?", "urgencia": "media" },
+        { "id": "a10", "texto": "¿Puedo ver el vial original antes de aplicarlo?", "urgencia": "alta" }
+      ]
+    },
+    "despues": {
+      "titulo": "Después del procedimiento",
+      "items": [
+        { "id": "a11", "texto": "Aplicar frío suavemente para reducir inflamación (no hielo directo)", "urgencia": "media" },
+        { "id": "a12", "texto": "Evitar masajear la zona 48–72 horas", "urgencia": "alta" },
+        { "id": "a13", "texto": "No exponerse al sol ni calor intenso 48 horas", "urgencia": "alta" },
+        { "id": "a14", "texto": "Evitar labios muy abiertos o gestos exagerados primeras 24h (zona labios)", "urgencia": "media" },
+        { "id": "a15", "texto": "La inflamación máxima es a las 24–72h, luego baja gradualmente", "urgencia": "baja" }
+      ]
+    }
+  },
+  "laser": {
+    "nombre": "Láser / Luz Pulsada",
+    "emoji": "☀️",
+    "antes": {
+      "titulo": "Días antes de tu cita",
+      "items": [
+        { "id": "l1", "texto": "EVITA el sol 4 semanas antes — es crítico para la seguridad", "urgencia": "alta" },
+        { "id": "l2", "texto": "Usa protector solar SPF 50+ diariamente las semanas previas", "urgencia": "alta" },
+        { "id": "l3", "texto": "Suspende retinol, ácido glicólico y exfoliantes 5–7 días antes", "urgencia": "alta" },
+        { "id": "l4", "texto": "Informa a tu médico si tomas isotretinoína o tetraciclinas (fotosensibilizantes)", "urgencia": "alta" },
+        { "id": "l5", "texto": "Llega con la piel limpia y sin maquillaje ni cremas", "urgencia": "alta" },
+        { "id": "l6", "texto": "No hagas depilación con cera en la zona los 15 días previos (depilación láser)", "urgencia": "media" }
+      ]
+    },
+    "durante": {
+      "titulo": "En la consulta, pregunta",
+      "items": [
+        { "id": "l7", "texto": "¿Qué tipo de láser o tecnología usarás para mi fototipo?", "urgencia": "alta" },
+        { "id": "l8", "texto": "¿El equipo tiene certificación vigente?", "urgencia": "alta" },
+        { "id": "l9", "texto": "¿Cuántas sesiones necesito y con qué frecuencia?", "urgencia": "media" },
+        { "id": "l10", "texto": "¿Qué riesgos existen para mi tono de piel específico?", "urgencia": "alta" }
+      ]
+    },
+    "despues": {
+      "titulo": "Después del procedimiento",
+      "items": [
+        { "id": "l11", "texto": "Aplica el calmante o hidratante que te recomiende tu médico", "urgencia": "alta" },
+        { "id": "l12", "texto": "EVITA el sol directamente al menos 4 semanas post-sesión", "urgencia": "alta" },
+        { "id": "l13", "texto": "Usa SPF 50+ todos los días, incluso en días nublados", "urgencia": "alta" },
+        { "id": "l14", "texto": "No rasques ni exfolies la zona durante la recuperación", "urgencia": "alta" },
+        { "id": "l15", "texto": "Es normal algo de rojez y calor en las primeras horas", "urgencia": "baja" }
+      ]
+    }
+  },
+  "hilos": {
+    "nombre": "Hilos Tensores",
+    "emoji": "🪡",
+    "antes": {
+      "titulo": "Días antes de tu cita",
+      "items": [
+        { "id": "h1", "texto": "Evita alcohol 48–72 horas antes", "urgencia": "alta" },
+        { "id": "h2", "texto": "Suspende anticoagulantes e ibuprofeno 7 días antes (consulta tu médico)", "urgencia": "alta" },
+        { "id": "h3", "texto": "No fumes — afecta la cicatrización y el resultado", "urgencia": "alta" },
+        { "id": "h4", "texto": "Llega sin maquillaje y con el cabello limpio y recogido", "urgencia": "media" },
+        { "id": "h5", "texto": "Planifica 7–10 días de recuperación visible (hematomas posibles)", "urgencia": "alta" }
+      ]
+    },
+    "durante": {
+      "titulo": "En la consulta, pregunta",
+      "items": [
+        { "id": "h6", "texto": "¿Qué tipo de hilos usarás (PDO, PLLA, PCL) y cuántos?", "urgencia": "alta" },
+        { "id": "h7", "texto": "¿Tienes experiencia documentada en esta técnica?", "urgencia": "alta" },
+        { "id": "h8", "texto": "¿Qué hago si hay asimetría o nódulos post-procedimiento?", "urgencia": "alta" },
+        { "id": "h9", "texto": "¿Cuándo puedo retomar el maquillaje y el ejercicio?", "urgencia": "media" }
+      ]
+    },
+    "despues": {
+      "titulo": "Después del procedimiento",
+      "items": [
+        { "id": "h10", "texto": "Duerme boca arriba con la cabeza elevada los primeros días", "urgencia": "alta" },
+        { "id": "h11", "texto": "Evita masajear la cara o gestos exagerados 2 semanas", "urgencia": "alta" },
+        { "id": "h12", "texto": "No hagas ejercicio intenso por 1 semana", "urgencia": "media" },
+        { "id": "h13", "texto": "Evita tratamientos faciales adicionales por 4 semanas", "urgencia": "media" },
+        { "id": "h14", "texto": "Los hematomas y asimetría inicial son normales y resuelven en 1–2 semanas", "urgencia": "baja" }
+      ]
+    }
+  },
+  "caha": {
+    "nombre": "Radiesse (CaHA)",
+    "emoji": "🔬",
+    "antes": {
+      "titulo": "Días antes de tu cita",
+      "items": [
+        { "id": "r1", "texto": "Evita alcohol 48 horas antes", "urgencia": "alta" },
+        { "id": "r2", "texto": "Suspende antiinflamatorios y suplementos anticoagulantes 5–7 días antes", "urgencia": "alta" },
+        { "id": "r3", "texto": "Informa si has tenido rellenos previos en la zona (posible interacción)", "urgencia": "alta" },
+        { "id": "r4", "texto": "Llega sin maquillaje", "urgencia": "media" }
+      ]
+    },
+    "durante": {
+      "titulo": "En la consulta, pregunta",
+      "items": [
+        { "id": "r5", "texto": "¿Usarás Radiesse puro o diluido para bioestimulación?", "urgencia": "alta" },
+        { "id": "r6", "texto": "¿Cuánto tiempo llevas usando este producto?", "urgencia": "media" },
+        { "id": "r7", "texto": "¿Cuándo veré resultados visibles?", "urgencia": "baja" }
+      ]
+    },
+    "despues": {
+      "titulo": "Después del procedimiento",
+      "items": [
+        { "id": "r8", "texto": "Masajear suavemente según indicaciones de tu médico (técnica específica)", "urgencia": "alta" },
+        { "id": "r9", "texto": "Evitar calor intenso y ejercicio 48 horas", "urgencia": "media" },
+        { "id": "r10", "texto": "El resultado mejora progresivamente en 2–3 meses", "urgencia": "baja" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,439 @@
+[
+  {
+    "id": "toxina",
+    "nombre": "Toxina Botulínica",
+    "emoji": "💉",
+    "categoria": "neuromodulador",
+    "descripcion": "Le dice temporalmente a ciertos músculos que se relajen, suavizando las líneas de expresión que se forman cuando te mueves. Entra de forma gradual en 7-14 días y dura entre 4 y 6 meses.",
+    "duracion": "4–6 meses",
+    "duracion_meses": 5,
+    "dolor": "Mínimo",
+    "dolor_nivel": 1,
+    "recuperacion": "Sin tiempo de inactividad",
+    "recuperacion_dias": 0,
+    "resultado_inicio": "3–7 días",
+    "resultado_maximo": "2 semanas",
+    "reversible": false,
+    "para_que": [
+      "Líneas de expresión (frente, entrecejo, patas de gallo)",
+      "Bruxismo — relaja los maseteros para aliviar el apretado de mandíbula",
+      "Sudoración excesiva (hiperhidrosis)",
+      "Lip flip — voltea levemente el labio superior para que se vea más lleno",
+      "Trap botox / Barbie botox — afina visualmente el cuello y los hombros",
+      "Nefertiti neck — tensado del cuello y la mandíbula"
+    ],
+    "no_recomendado": [
+      "Embarazo o lactancia — contraindicado",
+      "Enfermedades neuromusculares (miastenia gravis, ELA) — precaución o contraindicación",
+      "Alergia documentada a la toxina botulínica o sus excipientes",
+      "Expectativas de cambio estructural o de volumen — para eso existen rellenos"
+    ],
+    "preguntas_medico": [
+      "¿Qué marca de toxina usarás y por qué?",
+      "¿Cuántas unidades planeas para cada zona?",
+      "¿Tienes experiencia específica en esta zona?",
+      "¿Qué hago si no me convence el resultado o hay asimetría?"
+    ],
+    "red_flags_precio": {
+      "MX": {
+        "min": 800,
+        "moneda": "MXN",
+        "por": "zona",
+        "alerta": "Posible producto adulterado o no certificado"
+      },
+      "CO": {
+        "min": 150000,
+        "moneda": "COP",
+        "por": "zona",
+        "alerta": "Verifica certificación del producto"
+      },
+      "ES": {
+        "min": 150,
+        "moneda": "EUR",
+        "por": "zona",
+        "alerta": "Exige ver el vial original"
+      }
+    }
+  },
+  {
+    "id": "ah",
+    "nombre": "Ácido Hialurónico",
+    "emoji": "✨",
+    "categoria": "relleno",
+    "descripcion": "Relleno reabsorbible que añade volumen, define contornos o hidrata desde adentro. Tiene la gran ventaja de poder disolverse con hialuronidasa si hay una complicación o si el resultado no te convence. Dura entre 9 y 12 meses dependiendo de la zona y tu metabolismo.",
+    "duracion": "9–12 meses",
+    "duracion_meses": 10,
+    "dolor": "Leve a moderado",
+    "dolor_nivel": 2,
+    "recuperacion": "1–3 días (inflamación leve)",
+    "recuperacion_dias": 2,
+    "resultado_inicio": "Inmediato",
+    "resultado_maximo": "2 semanas (tras bajar la inflamación)",
+    "reversible": true,
+    "reversible_nota": "Se disuelve con hialuronidasa",
+    "para_que": [
+      "Volumen en labios",
+      "Relleno de ojeras y surcos nasogenianos",
+      "Proyección y definición de pómulos",
+      "Hidratación profunda (skinbooster)",
+      "Rinomodelación no quirúrgica",
+      "Definición mandibular y de mentón"
+    ],
+    "no_recomendado": [
+      "Embarazo o lactancia — contraindicado",
+      "Infección activa en la zona — esperar a que esté resuelta",
+      "Trastornos autoinmunes en brote — precaución",
+      "Anticoagulantes — mayor riesgo de hematoma, coordinar con médico tratante"
+    ],
+    "preguntas_medico": [
+      "¿Qué marca y gramaje de AH usarás para mi zona?",
+      "¿Tienes hialuronidasa disponible si ocurre algo?",
+      "¿Usas cánula o aguja? ¿Por qué para mi caso?",
+      "¿Cuántos ml planeas aplicar en total?"
+    ],
+    "red_flags_precio": {
+      "MX": {
+        "min": 3500,
+        "moneda": "MXN",
+        "por": "ml",
+        "alerta": "AH de calidad certificada no puede costar menos"
+      },
+      "CO": {
+        "min": 800000,
+        "moneda": "COP",
+        "por": "ml",
+        "alerta": "Producto posiblemente no certificado"
+      },
+      "ES": {
+        "min": 300,
+        "moneda": "EUR",
+        "por": "ml",
+        "alerta": "Exige ver el producto sellado de fábrica"
+      }
+    }
+  },
+  {
+    "id": "caha",
+    "nombre": "Radiesse (CaHA)",
+    "emoji": "🔬",
+    "categoria": "bioestimulador",
+    "descripcion": "Hace dos cosas a la vez: da volumen casi inmediato y estimula que tu propia piel produzca más colágeno con el tiempo. El gel que lo transporta se reabsorbe, pero el colágeno que estimuló se queda un tiempo más. No se puede disolver como el AH, así que la técnica y la selección del candidato son especialmente importantes.",
+    "duracion": "12–18 meses",
+    "duracion_meses": 15,
+    "dolor": "Moderado",
+    "dolor_nivel": 2,
+    "recuperacion": "2–5 días",
+    "recuperacion_dias": 3,
+    "resultado_inicio": "Inmediato + mejora progresiva",
+    "resultado_maximo": "2–3 meses",
+    "reversible": false,
+    "para_que": [
+      "Relleno y bioestimulación de manos",
+      "Mejillas, pómulos y definición facial",
+      "Flacidez leve-moderada",
+      "Estimulación de colágeno progresiva"
+    ],
+    "no_recomendado": [
+      "Embarazo o lactancia",
+      "Zonas de alto movimiento como labios — no indicado",
+      "Quienes buscan reversibilidad — no se disuelve con hialuronidasa",
+      "Piel muy delgada donde el riesgo de nódulos es mayor"
+    ],
+    "preguntas_medico": [
+      "¿Usarás Radiesse puro o diluido (hiperdilución)?",
+      "¿Cuántos ml incluye el plan?",
+      "¿Lo combinarás con AH en la misma sesión o zona?"
+    ],
+    "red_flags_precio": {
+      "MX": {
+        "min": 8000,
+        "moneda": "MXN",
+        "por": "sesión",
+        "alerta": "Radiesse original tiene costo elevado de fabricación"
+      },
+      "CO": {
+        "min": 1500000,
+        "moneda": "COP",
+        "por": "sesión",
+        "alerta": "Precio muy bajo sugiere producto falsificado"
+      },
+      "ES": {
+        "min": 400,
+        "moneda": "EUR",
+        "por": "sesión",
+        "alerta": "Verifica autenticidad del producto"
+      }
+    }
+  },
+  {
+    "id": "plla",
+    "nombre": "Sculptra (PLLA)",
+    "emoji": "🌿",
+    "categoria": "bioestimulador",
+    "descripcion": "El más gradual de los bioestimuladores. No rellena de inmediato — su trabajo es estimular a tus fibroblastos para que produzcan colágeno. Los resultados van apareciendo en semanas y pueden durar hasta 2 años. Requiere varias sesiones y paciencia, pero para quienes buscan mejoría natural y progresiva puede ser una gran opción.",
+    "duracion": "18–24 meses",
+    "duracion_meses": 21,
+    "dolor": "Leve",
+    "dolor_nivel": 1,
+    "recuperacion": "1–2 días",
+    "recuperacion_dias": 1,
+    "resultado_inicio": "4–6 semanas",
+    "resultado_maximo": "3–6 meses (tras 2–3 sesiones)",
+    "reversible": false,
+    "para_que": [
+      "Pérdida de volumen por envejecimiento (mejillas, sienes, mandíbula)",
+      "Mejora general de la calidad y densidad de la piel",
+      "Flacidez moderada del tercio medio",
+      "Quienes buscan resultados progresivos y naturales"
+    ],
+    "no_recomendado": [
+      "Embarazo o lactancia",
+      "Quienes buscan resultado inmediato — no es lo que hace",
+      "Zona periorbital (cerca de los ojos) — mayor riesgo de nódulos",
+      "Sin disponibilidad para el seguimiento de sesiones"
+    ],
+    "preguntas_medico": [
+      "¿Cuántas sesiones planeas para mi caso y con qué frecuencia?",
+      "¿Con qué lo diluyes y en qué concentración?",
+      "¿En cuánto tiempo esperan que vea resultados visibles?"
+    ],
+    "red_flags_precio": {
+      "MX": {
+        "min": 12000,
+        "moneda": "MXN",
+        "por": "sesión",
+        "alerta": "Sculptra original es importado, precio muy bajo es señal de alerta"
+      },
+      "CO": {
+        "min": 2000000,
+        "moneda": "COP",
+        "por": "sesión",
+        "alerta": "Verifica importación y registro INVIMA"
+      },
+      "ES": {
+        "min": 500,
+        "moneda": "EUR",
+        "por": "sesión",
+        "alerta": "Exige número de lote y caducidad del producto"
+      }
+    }
+  },
+  {
+    "id": "ellanse",
+    "nombre": "Ellansé (PCL-CMC)",
+    "emoji": "🔮",
+    "categoria": "bioestimulador",
+    "descripcion": "Único en su clase: da resultado casi inmediato como relleno y simultáneamente estimula colágeno con duración de 1 a 3 años según la variante (S, M, L o E). Importante tenerlo en cuenta: no se puede disolver con hialuronidasa, y si tienes Ellansé previo en una zona agregar AH puede dar resultados impredecibles.",
+    "duracion": "18–36 meses según variante (S/M/L/E)",
+    "duracion_meses": 24,
+    "dolor": "Leve a moderado",
+    "dolor_nivel": 2,
+    "recuperacion": "2–5 días",
+    "recuperacion_dias": 3,
+    "resultado_inicio": "Inmediato + mejora progresiva",
+    "resultado_maximo": "2–4 meses",
+    "reversible": false,
+    "para_que": [
+      "Pérdida de volumen facial moderada-severa",
+      "Surcos nasogenianos profundos",
+      "Definición mandibular y de mentón",
+      "Mejillas y zona temporal",
+      "Quienes buscan larga duración sin repetir sesiones frecuentemente"
+    ],
+    "no_recomendado": [
+      "Embarazo o lactancia",
+      "Zona de labios — no indicado para esta área",
+      "Quienes quieren reversibilidad — no se disuelve con hialuronidasa",
+      "Sin seguimiento médico a largo plazo"
+    ],
+    "preguntas_medico": [
+      "¿Qué variante de Ellansé usarás (S/M/L/E) y por qué para mi caso?",
+      "¿Cuántos ml incluye el tratamiento?",
+      "¿Tienes experiencia específica con este producto?",
+      "¿Qué hacemos si aparece un nódulo o alguna complicación?"
+    ],
+    "red_flags_precio": {
+      "MX": {
+        "min": 14000,
+        "moneda": "MXN",
+        "por": "sesión",
+        "alerta": "Ellansé es importado de alta gama. Precio muy bajo sugiere falsificación o vencido."
+      },
+      "CO": {
+        "min": 2500000,
+        "moneda": "COP",
+        "por": "sesión",
+        "alerta": "Verifica lote, caducidad y registro INVIMA."
+      },
+      "ES": {
+        "min": 600,
+        "moneda": "EUR",
+        "por": "sesión",
+        "alerta": "Exige ver el packaging original sellado antes de la aplicación."
+      }
+    }
+  },
+  {
+    "id": "laser_depilacion",
+    "nombre": "Depilación Láser",
+    "emoji": "⚡",
+    "categoria": "energia",
+    "descripcion": "El estándar de oro para eliminar vello de forma permanente. Usa energía lumínica concentrada para destruir el folículo piloso sin dañar la piel de alrededor. La reducción es de 80 a 90% tras 6-8 sesiones — no es instantánea, pero los resultados son duraderos y en muchos casos definitivos.",
+    "duracion": "Permanente (reducción del 80–90%)",
+    "duracion_meses": 999,
+    "dolor": "Leve a moderado",
+    "dolor_nivel": 2,
+    "recuperacion": "Sin tiempo de inactividad",
+    "recuperacion_dias": 0,
+    "resultado_inicio": "Tras 3–4 sesiones",
+    "resultado_maximo": "6–8 sesiones completadas",
+    "reversible": false,
+    "para_que": [
+      "Eliminación permanente de vello corporal y facial",
+      "Foliculitis recurrente o vello encarnado crónico",
+      "Hirsutismo (vello excesivo por causas hormonales, en coordinación con ginecólogo/endocrinólogo)",
+      "Simplificar la rutina de depilación a largo plazo"
+    ],
+    "no_recomendado": [
+      "Embarazo",
+      "Piel bronceada reciente — esperar a que la piel esté en su tono basal",
+      "Vello muy claro, gris, rubio o rojo — el láser actúa sobre la melanina del folículo y en estos casos la efectividad es muy baja",
+      "Medicamentos fotosensibilizantes — coordinar con médico tratante"
+    ],
+    "preguntas_medico": [
+      "¿Qué tipo de láser usarás para mi fototipo de piel?",
+      "¿El equipo tiene certificación vigente?",
+      "¿Cuántas sesiones estimas que necesito y con qué frecuencia?",
+      "¿Qué cuidados debo tener antes y después de cada sesión?"
+    ],
+    "red_flags_precio": {
+      "MX": {
+        "min": 800,
+        "moneda": "MXN",
+        "por": "sesión/zona",
+        "alerta": "Equipos certificados tienen costos operativos elevados. Precio muy bajo puede indicar equipo no certificado o sin mantenimiento."
+      },
+      "CO": {
+        "min": 150000,
+        "moneda": "COP",
+        "por": "sesión/zona",
+        "alerta": "Verifica certificación del equipo y del operador."
+      },
+      "ES": {
+        "min": 80,
+        "moneda": "EUR",
+        "por": "sesión/zona",
+        "alerta": "Exige certificación CE del equipo y cualificación del operador."
+      }
+    }
+  },
+  {
+    "id": "ipl",
+    "nombre": "IPL (Luz Pulsada Intensa)",
+    "emoji": "💡",
+    "categoria": "energia",
+    "descripcion": "Tecnología de luz de amplio espectro — no es un láser aunque se confunden mucho. Es útil para manchas superficiales y rojeces vasculares en fototipos claros, pero significativamente menos efectiva que el láser para depilación. En fototipos oscuros el riesgo de quemadura e hiperpigmentación es real.",
+    "duracion": "Temporal o parcial",
+    "duracion_meses": 3,
+    "dolor": "Leve a moderado",
+    "dolor_nivel": 2,
+    "recuperacion": "Sin tiempo de inactividad",
+    "recuperacion_dias": 0,
+    "resultado_inicio": "Variable",
+    "resultado_maximo": "Reducción parcial y temporal en la mayoría de casos",
+    "reversible": false,
+    "nota_clinica": "⚠️ La IPL NO es láser. Su efectividad para depilación es muy inferior, especialmente en fototipos oscuros donde puede causar quemaduras e hiperpigmentación. Para manchas superficiales en fototipos claros puede ser útil, pero antes de comprometerte a varias sesiones vale la pena preguntar si el láser no sería más efectivo para tu objetivo.",
+    "para_que": [
+      "Manchas superficiales en fototipos claros (I–III)",
+      "Rojeces vasculares leves y algunas telangiectasias",
+      "Rosácea leve con componente vascular (con precaución)",
+      "Depilación parcial en casos muy específicos (piel muy clara, vello muy oscuro)"
+    ],
+    "no_recomendado": [
+      "Fototipos oscuros (III–VI) — riesgo serio de quemaduras e hiperpigmentación",
+      "Como alternativa real al láser para depilación — los resultados son significativamente inferiores",
+      "Embarazo y piel bronceada",
+      "Medicamentos fotosensibilizantes"
+    ],
+    "preguntas_medico": [
+      "¿Por qué recomiendas IPL y no láser para mi objetivo específico?",
+      "¿Cuál es mi fototipo y soy candidata adecuada?",
+      "¿Qué resultados reales puedo esperar, siendo honesta?",
+      "¿Tienes láser disponible como alternativa para comparar?"
+    ],
+    "red_flags_precio": {
+      "MX": {
+        "min": 400,
+        "moneda": "MXN",
+        "por": "sesión",
+        "alerta": "Evalúa si el láser sería más efectivo para tu objetivo antes de pagar varias sesiones de IPL."
+      },
+      "CO": {
+        "min": 80000,
+        "moneda": "COP",
+        "por": "sesión",
+        "alerta": "Cuestiona si IPL es la mejor opción vs láser para tu caso."
+      },
+      "ES": {
+        "min": 40,
+        "moneda": "EUR",
+        "por": "sesión",
+        "alerta": "Compara con opciones láser antes de comprometerte a varias sesiones de IPL."
+      }
+    }
+  },
+  {
+    "id": "hilos",
+    "nombre": "Hilos Tensores",
+    "emoji": "🪡",
+    "categoria": "lifting",
+    "descripcion": "Hilos reabsorbibles que se colocan bajo la piel para elevar y tensar tejidos que han cedido. Dan un resultado combinado: lifting mecánico inmediato (aunque algo de él se va con la inflamación inicial) más estimulación de colágeno progresiva. Son el punto intermedio entre los inyectables y la cirugía.",
+    "duracion": "12–18 meses",
+    "duracion_meses": 14,
+    "dolor": "Moderado",
+    "dolor_nivel": 3,
+    "recuperacion": "5–10 días",
+    "recuperacion_dias": 7,
+    "resultado_inicio": "Inmediato + mejora progresiva",
+    "resultado_maximo": "2–3 meses",
+    "reversible": false,
+    "para_que": [
+      "Caída de mejillas y pérdida del óvalo facial",
+      "Flacidez de cuello y zona submentoniana",
+      "Ptosis leve de cejas",
+      "Quienes buscan lifting sin cirugía y aceptan recuperación de unos días"
+    ],
+    "no_recomendado": [
+      "Embarazo o lactancia",
+      "Flacidez severa — en esos casos el resultado de los hilos es limitado y la cirugía suele ser más efectiva",
+      "Infección activa en la zona",
+      "Trastornos de cicatrización o queloides"
+    ],
+    "preguntas_medico": [
+      "¿Qué tipo de hilos usarás (PDO, PLLA, PCL) y por qué para mi caso?",
+      "¿Cuántos hilos incluye el plan de tratamiento?",
+      "¿Qué hago si hay asimetría después del procedimiento?",
+      "¿Puedo ver casos similares al mío que hayas tratado?"
+    ],
+    "red_flags_precio": {
+      "MX": {
+        "min": 10000,
+        "moneda": "MXN",
+        "por": "sesión",
+        "alerta": "Hilos certificados tienen costo elevado de importación"
+      },
+      "CO": {
+        "min": 2000000,
+        "moneda": "COP",
+        "por": "sesión",
+        "alerta": "Precio muy bajo sugiere hilos no certificados"
+      },
+      "ES": {
+        "min": 600,
+        "moneda": "EUR",
+        "por": "sesión",
+        "alerta": "Exige ver el packaging original de los hilos"
+      }
+    }
+  }
+]

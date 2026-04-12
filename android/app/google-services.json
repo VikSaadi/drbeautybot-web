@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "268830952606",
+    "project_id": "drbeautybot",
+    "storage_bucket": "drbeautybot.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268830952606:android:3c61262b6800070be1ff8f",
+        "android_client_info": {
+          "package_name": "com.drbeautybot.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "268830952606-hghivmif876helcdv781kh2rq1klbl23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drbeautybot.app",
+            "certificate_hash": "4d84584017c3df8c09303a44bad2840addab0637"
+          }
+        },
+        {
+          "client_id": "268830952606-pqhkeflihuep4tvjibqe40nnq811de5d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWcmHw3lPWhI_W-E2vJitn7M8LGhTDXBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "268830952606-pqhkeflihuep4tvjibqe40nnq811de5d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

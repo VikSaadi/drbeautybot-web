@@ -1,0 +1,13 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "chat_sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "uid",          "order": "ASCENDING"  },
+        { "fieldPath": "lastActiveAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

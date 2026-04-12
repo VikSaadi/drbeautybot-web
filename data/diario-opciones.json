@@ -1,0 +1,263 @@
+{
+  "procedimientos": [
+    {
+      "id": "toxina",
+      "label": "Toxina Botulínica",
+      "emoji": "💉",
+      "color": "#b794f4"
+    },
+    {
+      "id": "ah",
+      "label": "Relleno AH",
+      "emoji": "✨",
+      "color": "#ed64a6"
+    },
+    {
+      "id": "caha",
+      "label": "Relleno Radiesse",
+      "emoji": "🔬",
+      "color": "#9f7aea"
+    },
+    {
+      "id": "plla",
+      "label": "Sculptra",
+      "emoji": "🌿",
+      "color": "#68d391"
+    },
+    {
+      "id": "ellanse",
+      "label": "Ellansé",
+      "emoji": "🔮",
+      "color": "#76e4f7"
+    },
+    {
+      "id": "laser",
+      "label": "Depilación Láser",
+      "emoji": "⚡",
+      "color": "#f6ad55"
+    },
+    {
+      "id": "hilos",
+      "label": "Hilos Tensores",
+      "emoji": "🪡",
+      "color": "#fc8181"
+    },
+    {
+      "id": "otro",
+      "label": "Otro",
+      "emoji": "💆",
+      "color": "#a0aec0"
+    }
+  ],
+  "marcas": {
+    "toxina": [
+      "Botox (Allergan/AbbVie)",
+      "Dysport (Ipsen)",
+      "Xeomin (Merz)",
+      "Letybo (Hugel)",
+      "Bocouture",
+      "Nabota",
+      "Linurase",
+      "Otra marca"
+    ],
+    "ah": [
+      "Juvéderm (Allergan)",
+      "Restylane (Galderma)",
+      "Belotero (Merz)",
+      "Teosyal (Teoxane)",
+      "Revofil Fine",
+      "Revofil Plus",
+      "Revofil Ultra",
+      "Otra marca"
+    ],
+    "caha": [
+      "Radiesse (Merz)",
+      "Radiesse+ (Merz)",
+      "Otra marca"
+    ],
+    "plla": [
+      "Sculptra (Galderma)",
+      "Ouline (PLLA)",
+      "Altra",
+      "Otra marca"
+    ],
+    "ellanse": [
+      "Ellansé-S (6-12m)",
+      "Ellansé-M (12-18m)",
+      "Ellansé-L (18-24m)",
+      "Ellansé-E (24-36m)"
+    ],
+    "laser": [
+      "Alexandrita (755nm)",
+      "Diodo (808nm)",
+      "Nd:YAG (1064nm)",
+      "IPL (luz pulsada)",
+      "Otra tecnología"
+    ],
+    "hilos": [
+      "PDO lisos",
+      "PDO cog (tensor)",
+      "PLLA (Silhouette)",
+      "PCL",
+      "Otra marca"
+    ],
+    "otro": [
+      "Especificar en notas"
+    ]
+  },
+  "zonas": {
+    "toxina": [
+      "Entrecejo (glabela)",
+      "Frente",
+      "Patas de gallo",
+      "Bunny lines (nariz)",
+      "Lip flip (labio)",
+      "Gummy smile",
+      "Mentón",
+      "Maseteros (bruxismo)",
+      "Platisma (cuello)",
+      "Axila (hiperhidrosis)",
+      "Full face",
+      "Otra zona"
+    ],
+    "ah": [
+      "Labios — volumen",
+      "Labios — definición",
+      "Ojeras",
+      "Pómulos",
+      "Surcos nasogenianos",
+      "Mentón",
+      "Nariz (rinomodelación)",
+      "Mandíbula",
+      "Sienes",
+      "Manos",
+      "Skinbooster (hidratación)",
+      "Otra zona"
+    ],
+    "caha": [
+      "Mejillas / pómulos",
+      "Surcos nasogenianos",
+      "Mandíbula",
+      "Manos",
+      "Zona temporal",
+      "Otra zona"
+    ],
+    "plla": [
+      "Cara completa (bioestimulación)",
+      "Mejillas",
+      "Zona temporal",
+      "Cuello",
+      "Escote",
+      "Otra zona"
+    ],
+    "ellanse": [
+      "Surcos nasogenianos",
+      "Mejillas / pómulos",
+      "Mandíbula",
+      "Mentón",
+      "Zona temporal",
+      "Nariz (rinomodelación)",
+      "Otra zona"
+    ],
+    "laser": [
+      "Axila",
+      "Bikini / ingle",
+      "Piernas completas",
+      "Piernas — media pierna",
+      "Brazos",
+      "Espalda",
+      "Cara — bozo",
+      "Cara — patillas",
+      "Cara completa",
+      "Bikini brasileño",
+      "Otra zona"
+    ],
+    "hilos": [
+      "Mejillas / jowls",
+      "Óvalo facial",
+      "Cejas (lifting)",
+      "Cuello",
+      "Nasolabial",
+      "Otra zona"
+    ],
+    "otro": [
+      "Especificar en notas"
+    ]
+  },
+  "sesion_laser": [
+    "Sesión 1",
+    "Sesión 2",
+    "Sesión 3",
+    "Sesión 4",
+    "Sesión 5",
+    "Sesión 6",
+    "Sesión 7",
+    "Sesión 8",
+    "Sesión de mantenimiento"
+  ],
+  "cantidades": {
+    "toxina": [
+      "20–30 U (Baby botox)",
+      "30–40 U (Zona media)",
+      "50–60 U (Full face I)",
+      "60–80 U (Full face II)",
+      "80–100 U (Full face completo)",
+      "Especificar en notas"
+    ],
+    "ah": [
+      "0.5 ml",
+      "1 ml",
+      "1.5 ml",
+      "2 ml",
+      "Más de 2 ml",
+      "Especificar en notas"
+    ],
+    "caha": [
+      "0.5 ml",
+      "1 ml",
+      "1.5 ml",
+      "2 ml",
+      "Especificar en notas"
+    ],
+    "plla": [
+      "1 vial",
+      "2 viales",
+      "3 viales",
+      "Especificar en notas"
+    ],
+    "ellanse": [
+      "0.5 ml",
+      "1 ml",
+      "1.5 ml",
+      "2 ml",
+      "Especificar en notas"
+    ],
+    "laser": [
+      "1 zona",
+      "2 zonas",
+      "3+ zonas",
+      "Cuerpo completo",
+      "Especificar en notas"
+    ],
+    "hilos": [
+      "4 hilos",
+      "6 hilos",
+      "8 hilos",
+      "10+ hilos",
+      "Especificar en notas"
+    ],
+    "otro": [
+      "Especificar en notas"
+    ]
+  },
+  "duraciones": {
+    "toxina": 5,
+    "ah": 10,
+    "caha": 15,
+    "plla": 21,
+    "ellanse": 24,
+    "laser": 6,
+    "hilos": 14,
+    "otro": 0
+  }
+}

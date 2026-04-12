@@ -3,6 +3,7 @@
 // Antes se usaba para probar Firebase Admin leyendo un JSON local en /secrets,
 // pero ese archivo no se despliega en Vercel, así que rompía el build.
 
+export const dynamic = "force-static";
 import { NextResponse } from 'next/server';
 
 export async function GET() {

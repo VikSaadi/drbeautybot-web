@@ -1,179 +1,199 @@
 'use client';
 
-/*
-  CHANGELOG — 2025-12-27
-  - Se crea la página /donaciones con look & feel coherente con /chat, /profile y /faq.
-  - Fondo con efecto parallax mediante backgroundPositionY dinámico.
-  - Logo centrado en la parte superior.
-  - Contenido informativo sobre donativos.
-  - Botón "Volver al chat" que detecta si existe drbeautybot_profile en localStorage:
-    - Si existe → /chat?mode=profile
-    - Si no existe → /chat?mode=quick.
-  - 2025-12-27 (B): Tamaño del logo homologado con /faq y /contact (w-full max-w-[260px]).
+/**
+ * CHANGELOG app/donaciones/page.tsx
+ * - 2026-03-26 v2.0:
+ *   - Rediseño completo con paleta lavanda/rosa (v2.0).
+ *   - Hero: robot con corazones (Untitled.png), mix-blend-mode multiply.
+ *   - Card de descripción con ✓ lavanda en las bullets.
+ *   - Badge "Próximamente" con gradiente.
+ *   - 3 tarjetas preview de opciones de donativo futuras.
+ *   - Card de amor con fondo rosa/lavanda suave.
+ *   - Lógica original preservada: chatHref dinámico según localStorage.
+ *   - Eliminado parallax con JS (reemplazado por drb-home-bg estático).
+ *   - Fondo: drb-home-bg (degradado suave, sin tapiz).
+ */
 
-  CHANGELOG — 2026-03-24
-  - Migración de imágenes de ImgBB a assets locales en /public/images/.
-  - Se agrega <BackButton /> para navegación estilo app nativa.
-*/
-
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import BackButton from '@/components/BackButton';
 
-/** ✅ ASSETS (fáciles de encontrar y cambiar) */
-// const DONATIONS_LOGO_URL = 'https://i.ibb.co/0y2m1R74/Untitled.png';
-const DONATIONS_LOGO_URL = '/images/Untitled.png';
+// ── ASSET ─────────────────────────────────────────────────────
+const HEARTS_BOT = '/images/Untitled.png';
 
-/** 🔎🔎🔎 FONDO DONACIONES — CAMBIAR AQUÍ (SEÑALIZACIÓN) 🔎🔎🔎 */
-// const DONATIONS_BG_URL = 'https://i.ibb.co/VWvTYBtj/IMG-7141.jpg';
-const DONATIONS_BG_URL = '/images/IMG_7141.JPG';
-
+// ── COMPONENTE ────────────────────────────────────────────────
 export default function DonacionesPage() {
   const router = useRouter();
+  const [chatHref, setChatHref] = useState('/chat?mode=quick');
 
-  const mainRef = useRef<HTMLElement | null>(null);
-  const rafRef = useRef<number | null>(null);
-
+  // Detecta perfil guardado — misma lógica que el original
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const apply = () => {
-      if (!mainRef.current) return;
-      const y = window.scrollY || 0;
-      const offset = Math.round(y * 0.18);
-      mainRef.current.style.backgroundPosition = `center ${-offset}px`;
-      rafRef.current = null;
-    };
-
-    const onScroll = () => {
-      if (rafRef.current != null) return;
-      rafRef.current = window.requestAnimationFrame(apply);
-    };
-
-    apply();
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (rafRef.current != null) window.cancelAnimationFrame(rafRef.current);
-    };
+    try {
+      if (localStorage.getItem('drbeautybot_profile')) {
+        setChatHref('/chat?mode=profile');
+      }
+    } catch { /* ignore */ }
   }, []);
 
-  const handleBackToChat = () => {
-    try {
-      if (typeof window !== 'undefined') {
-        const raw = window.localStorage.getItem('drbeautybot_profile');
-        if (raw) {
-          router.push('/chat?mode=profile');
-          return;
-        }
-      }
-    } catch (error) {
-      console.error('No se pudo leer drbeautybot_profile desde localStorage:', error);
-    }
-    router.push('/chat?mode=quick');
+  // ── Estilos reutilizables ────────────────────────────────────
+  const card: React.CSSProperties = {
+    background: 'var(--drb-surface-card)',
+    borderRadius: '20px',
+    border: '1px solid rgba(180,140,220,0.22)',
+    padding: '18px',
+    marginBottom: '14px',
   };
 
   return (
-    <main
-      ref={(el) => { mainRef.current = el; }}
-      className="min-h-screen flex flex-col items-center px-4 py-10"
-      style={{
-        backgroundColor: '#FEF9E7',
-        backgroundImage: `url(${DONATIONS_BG_URL})`,
-        backgroundRepeat: 'repeat',
-        backgroundSize: '420px auto',
-        backgroundPosition: 'center 0px',
-      }}
+    <div
+      className="drb-home-bg"
+      style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}
     >
-      {/* Overlay suave */}
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-white/40 via-white/30 to-white/40" />
+      <div
+        className="drb-scroll-hide"
+        style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}
+      >
+        <div style={{
+          width: '100%', maxWidth: '480px', margin: '0 auto',
+          padding: '20px 18px 60px',
+          display: 'flex', flexDirection: 'column',
+        }}>
 
-      <div className="relative w-full max-w-3xl z-10 flex flex-col items-center">
+          {/* ── HEADER ──────────────────────────────────────── */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+            <button
+              onClick={() => router.push('/')}
+              style={{ fontSize: '22px', color: '#8b6fa8', background: 'none', border: 'none', cursor: 'pointer', lineHeight: 1 }}
+            >‹</button>
+            <span style={{ fontSize: '16px', fontWeight: 700, color: 'var(--drb-text-primary)' }}>Donativos</span>
+          </div>
 
-        {/* Botón regresar */}
-        <div className="w-full mb-2 text-left">
-          <BackButton />
-        </div>
-
-        {/* Logo centrado */}
-        <img
-          src={DONATIONS_LOGO_URL}
-          alt="Dr. BeautyBot"
-          draggable={false}
-          className="
-            pointer-events-none select-none
-            w-full max-w-[260px]
-            drop-shadow-[0_18px_40px_rgba(0,0,0,0.35)]
-            mb-4
-          "
-        />
-
-        {/* Tarjeta principal */}
-        <section
-          className="
-            mt-2 w-full
-            rounded-[32px]
-            bg-[#FDF7EC]/95
-            border border-black/10
-            shadow-[0_18px_55px_rgba(0,0,0,0.35)]
-            overflow-hidden
-          "
-        >
-          <header className="bg-[#F8C6C6] px-6 py-4">
-            <h1 className="text-lg md:text-xl font-semibold text-slate-900">Donativos</h1>
-            <p className="text-xs md:text-sm text-slate-800/90 mt-1">
+          {/* ── HERO — Robot con corazones ───────────────────── */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '24px' }}>
+            <img
+              src={HEARTS_BOT}
+              alt="Dr. BeautyBot"
+              className="drb-img-blend"
+              style={{ width: '140px', marginBottom: '12px' }}
+            />
+            <h1 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--drb-text-primary)', marginBottom: '6px' }}>
+              Donativos 💝
+            </h1>
+            <p style={{ fontSize: '13px', color: 'var(--drb-text-muted)', lineHeight: 1.5, maxWidth: '320px' }}>
               Gracias por querer apoyar este proyecto. Cada aporte ayuda a mantener y mejorar Dr. BeautyBot.
             </p>
-          </header>
+          </div>
 
-          <div className="bg-[#FBEEDC] px-5 md:px-7 py-6 md:py-7 space-y-4 text-sm text-slate-800">
-            <p>
+          {/* ── DESCRIPCIÓN ─────────────────────────────────── */}
+          <div style={card}>
+            <p style={{ fontSize: '13px', color: '#4a3568', lineHeight: 1.65, marginBottom: '12px' }}>
               Dr. BeautyBot nació como una herramienta pensada para acercar la{' '}
-              <strong>información en medicina estética</strong> a más personas, de forma clara,
-              responsable y accesible.
+              <strong style={{ color: '#6b46a8' }}>información en medicina estética</strong> a más
+              personas, de forma clara, responsable y accesible.
+            </p>
+            <p style={{ fontSize: '13px', color: '#4a3568', lineHeight: 1.65, marginBottom: '12px' }}>
+              Los donativos ayudan a sostener el tiempo de desarrollo, pruebas, servidores y nuevas
+              funciones que hacen que la experiencia sea cada vez más útil y segura:
             </p>
 
-            <p>
-              Los donativos ayudan a sostener el tiempo de desarrollo, pruebas, servidores y
-              nuevas funciones que hacen que la experiencia sea cada vez más útil y segura.
-            </p>
+            {/* Bullets con ✓ lavanda */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {[
+                'Mejorar las respuestas y flujos de orientación.',
+                'Incorporar más temas, procedimientos y escenarios reales.',
+                'Seguir afinando mensajes de seguridad y advertencias responsables.',
+              ].map((item, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <span style={{ color: '#b794f4', fontWeight: 700, flexShrink: 0, marginTop: '2px', fontSize: '14px' }}>✓</span>
+                  <span style={{ fontSize: '13px', color: '#4a3568', lineHeight: 1.5 }}>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
 
-            <ul className="list-disc list-inside space-y-1">
-              <li>Mejorar las respuestas y flujos de orientación.</li>
-              <li>Incorporar más temas, procedimientos y escenarios reales.</li>
-              <li>Seguir afinando mensajes de seguridad y advertencias responsables.</li>
-            </ul>
+          {/* ── BADGE PRÓXIMAMENTE ───────────────────────────── */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '14px',
+            padding: '14px 16px', borderRadius: '18px', marginBottom: '14px',
+            background: 'linear-gradient(135deg, rgba(183,148,244,0.14), rgba(237,100,166,0.09))',
+            border: '1px solid rgba(183,148,244,0.3)',
+          }}>
+            <span style={{ fontSize: '24px', flexShrink: 0 }}>🚀</span>
+            <div>
+              <span style={{
+                display: 'inline-block',
+                background: 'linear-gradient(135deg, #b794f4, #ed64a6)',
+                color: 'white', fontSize: '10px', fontWeight: 600,
+                padding: '2px 10px', borderRadius: '999px', marginBottom: '5px',
+              }}>Próximamente</span>
+              <p style={{ fontSize: '12px', color: '#6b46a8', lineHeight: 1.5, margin: 0 }}>
+                Se habilitarán diferentes opciones para apoyar el proyecto: donativos únicos,
+                apoyo mensual o modalidades específicas.
+              </p>
+            </div>
+          </div>
 
-            <p className="mt-2">
-              Próximamente se habilitarán diferentes opciones para apoyar el proyecto
-              (por ejemplo, donativos únicos, apoyo mensual o modalidades específicas).
-            </p>
+          {/* ── TARJETAS PREVIEW ────────────────────────────── */}
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '16px' }}>
+            {[
+              { emoji: '☕', label: 'Donativo único',    desc: 'Un café para el proyecto' },
+              { emoji: '💜', label: 'Mensual',           desc: 'Apoya de forma recurrente', highlight: true },
+              { emoji: '⭐', label: 'Modalidad pro',     desc: 'Funciones avanzadas' },
+            ].map((opt) => (
+              <div
+                key={opt.label}
+                style={{
+                  flex: 1, borderRadius: '16px', padding: '14px 10px', textAlign: 'center',
+                  background: opt.highlight
+                    ? 'linear-gradient(135deg, rgba(183,148,244,0.22), rgba(237,100,166,0.14))'
+                    : 'var(--drb-surface)',
+                  border: opt.highlight
+                    ? '1px solid rgba(183,148,244,0.4)'
+                    : '1px solid rgba(180,140,220,0.22)',
+                }}
+              >
+                <div style={{ fontSize: '22px', marginBottom: '6px' }}>{opt.emoji}</div>
+                <div style={{ fontSize: '10.5px', fontWeight: 600, color: '#6b46a8', marginBottom: '3px' }}>
+                  {opt.label}
+                </div>
+                <div style={{ fontSize: '9.5px', color: '#9b82b8', lineHeight: 1.3, marginBottom: '6px' }}>
+                  {opt.desc}
+                </div>
+                <span style={{
+                  display: 'inline-block', background: 'rgba(183,148,244,0.18)',
+                  color: '#8b6fa8', fontSize: '9px', padding: '2px 8px', borderRadius: '999px',
+                }}>Próximamente</span>
+              </div>
+            ))}
+          </div>
 
-            <p className="mt-2 text-slate-700/90">
+          {/* ── CARD DE AMOR ────────────────────────────────── */}
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(237,100,166,0.1), rgba(183,148,244,0.1))',
+            borderRadius: '18px', border: '1px solid rgba(237,100,166,0.25)',
+            padding: '16px 18px', textAlign: 'center', marginBottom: '20px',
+          }}>
+            <p style={{ fontSize: '13px', color: '#6b46a8', lineHeight: 1.6 }}>
               Por ahora, el simple hecho de usar la app, compartir tu experiencia y enviar
               comentarios ya es una forma enorme de apoyar 💕
             </p>
-
-            <div className="pt-4 flex justify-center">
-              <button
-                type="button"
-                onClick={handleBackToChat}
-                className="
-                  px-5 py-2.5 rounded-full
-                  bg-[#FCCD78] hover:bg-[#FAD28C]
-                  text-sm font-semibold text-slate-900
-                  shadow-md border border-[#F4C56F]/80 transition
-                "
-              >
-                Volver al chat
-              </button>
-            </div>
           </div>
-        </section>
 
-        <div className="h-10" />
+          {/* ── BOTÓN CTA ───────────────────────────────────── */}
+          <button
+            onClick={() => router.push(chatHref)}
+            style={{
+              width: '100%', padding: '14px', borderRadius: '999px',
+              background: 'linear-gradient(135deg, #b794f4, #ed64a6)',
+              color: 'white', fontSize: '14px', fontWeight: 600,
+              border: 'none', cursor: 'pointer',
+              boxShadow: '0 4px 18px rgba(183,148,244,0.45)',
+            }}
+          >
+            💬 Volver al chat
+          </button>
+
+        </div>
       </div>
-    </main>
+    </div>
   );
 }

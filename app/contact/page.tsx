@@ -1,59 +1,65 @@
 'use client';
 
+/**
+ * CHANGELOG app/contact/page.tsx
+ * - 2026-03-26 v2.0:
+ *   - Rediseño completo con paleta lavanda/rosa (v2.0).
+ *   - Hero: robot con buzón y carta (robotingo-ok.png), mix-blend-mode multiply.
+ *   - Inputs, selects y textarea con bordes lavanda y border-radius 14px.
+ *   - Checkbox empresa con estilo v2.0 (gradiente al seleccionarse).
+ *   - Consent con tarjeta lavanda suave.
+ *   - Feedback de éxito/error con colores v2.0.
+ *   - Toda la lógica original preservada: fetch /api/contact, validaciones,
+ *     estados isSending/feedback, chatHref dinámico según localStorage.
+ *   - Eliminado tapiz animado y fondo crema → drb-home-bg.
+ */
+
 import { FormEvent, useEffect, useState } from 'react';
-import Link from 'next/link';
-import BackButton from '@/components/BackButton';
+import { useRouter } from 'next/navigation';
 
-/*
-  CHANGELOG — 2025-12-28
-  - Se conecta el formulario a /api/contact (Resend) usando fetch POST.
-  - Se reemplazan alerts por mensajes inline de éxito / error y estado de envío.
+// ── ASSET ─────────────────────────────────────────────────────
+const MAILBOT = '/images/robotingo-ok.png';
 
-  CHANGELOG — 2025-12-27 (B)
-  - Fix móvil: se añade paddingTop con env(safe-area-inset-top) para que el logo no quede cortado.
-  - Layout alineado al estilo /donations y /faq: logo centrado, tarjeta crema con header azul.
-  - Formulario de contacto con campos básicos y mensaje de confirmación simple (alert).
-  - Botón "Volver al chat" con detección de perfil guardado (profile vs quick).
+// ── ESTILOS BASE ─────────────────────────────────────────────
+const inputStyle: React.CSSProperties = {
+  width: '100%', padding: '11px 14px', borderRadius: '14px',
+  border: '1px solid rgba(180,140,220,0.3)',
+  background: 'rgba(255,255,255,0.88)',
+  fontSize: '13px', color: 'var(--drb-text-primary)', outline: 'none',
+  fontFamily: 'inherit',
+};
 
-  CHANGELOG — 2026-03-24
-  - Migración de imágenes de ImgBB a assets locales en /public/images/.
-  - Se agrega <BackButton /> para navegación estilo app nativa.
-*/
+const labelStyle: React.CSSProperties = {
+  fontSize: '12px', fontWeight: 600, color: '#6b46a8',
+  display: 'block', marginBottom: '6px',
+};
 
-// const CONTACT_BG_URL = 'https://i.ibb.co/tT0fGvpq/IMG-7155.jpg';
-const CONTACT_BG_URL = '/images/IMG_7155.JPG';
-
-// const CONTACT_LOGO_URL = 'https://i.ibb.co/5W7zQF67/robotingo-ok.png';
-const CONTACT_LOGO_URL = '/images/robotingo-ok.png';
-
+// ── COMPONENTE ────────────────────────────────────────────────
 export default function ContactPage() {
-  const [chatHref, setChatHref] = useState('/chat?mode=quick');
+  const router = useRouter();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [isCompany, setIsCompany] = useState(false);
-  const [companyName, setCompanyName] = useState('');
-  const [messageType, setMessageType] = useState('');
-  const [message, setMessage] = useState('');
+  const [chatHref,         setChatHref]         = useState('/chat?mode=quick');
+  const [name,             setName]             = useState('');
+  const [email,            setEmail]            = useState('');
+  const [isCompany,        setIsCompany]        = useState(false);
+  const [companyName,      setCompanyName]      = useState('');
+  const [messageType,      setMessageType]      = useState('');
+  const [message,          setMessage]          = useState('');
   const [acceptedEmailUse, setAcceptedEmailUse] = useState(true);
-  const [isSending, setIsSending] = useState(false);
+  const [isSending,        setIsSending]        = useState(false);
+  const [feedback,         setFeedback]         = useState<string | null>(null);
+  const [feedbackType,     setFeedbackType]     = useState<'success' | 'error' | null>(null);
 
-  const [feedback, setFeedback] = useState<string | null>(null);
-  const [feedbackType, setFeedbackType] = useState<'success' | 'error' | null>(null);
-
+  // Detecta perfil guardado
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     try {
-      const raw = window.localStorage.getItem('drbeautybot_profile');
-      if (raw) setChatHref('/chat?mode=profile');
-    } catch {
-      // ignore
-    }
+      if (localStorage.getItem('drbeautybot_profile')) setChatHref('/chat?mode=profile');
+    } catch { /* ignore */ }
   }, []);
 
+  // ── Submit — lógica original preservada ──────────────────────
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
     setFeedback(null);
     setFeedbackType(null);
 
@@ -63,42 +69,30 @@ export default function ContactPage() {
       return;
     }
     if (!name || !email || !messageType || !message) {
-      setFeedback(
-        'Por favor completa los campos principales: nombre, correo, tipo de mensaje y mensaje.'
-      );
+      setFeedback('Por favor completa los campos principales: nombre, correo, tipo de mensaje y mensaje.');
       setFeedbackType('error');
       return;
     }
 
     setIsSending(true);
-
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name,
-          email,
+          name, email,
           company: isCompany ? companyName : undefined,
-          messageType,
-          message,
-          consent: acceptedEmailUse,
+          messageType, message, consent: acceptedEmailUse,
         }),
       });
 
       const data = (await res.json()) as { ok?: boolean; error?: string };
-
-      if (!res.ok || !data?.ok) {
-        throw new Error(data?.error || 'No se pudo enviar el mensaje.');
-      }
+      if (!res.ok || !data?.ok) throw new Error(data?.error || 'No se pudo enviar el mensaje.');
 
       setFeedback('¡Gracias por tu mensaje! Lo revisaré con mucho cuidado 💕');
       setFeedbackType('success');
-
-      setIsCompany(false);
-      setCompanyName('');
-      setMessageType('');
-      setMessage('');
+      setIsCompany(false); setCompanyName('');
+      setMessageType(''); setMessage('');
     } catch (error) {
       console.error('Error al enviar mensaje de contacto:', error);
       setFeedback('Hubo un problema al enviar tu mensaje. Intenta de nuevo más tarde, por favor.');
@@ -108,126 +102,121 @@ export default function ContactPage() {
     }
   };
 
+  // ── RENDER ────────────────────────────────────────────────────
   return (
-    <main
-      className="min-h-screen flex flex-col items-center px-4 pb-10 contact-bg-animated"
-      style={{
-        backgroundColor: '#F5EFFE',
-        backgroundImage: `url(${CONTACT_BG_URL})`,
-        backgroundRepeat: 'repeat',
-        backgroundSize: '420px auto',
-        paddingTop: 'calc(env(safe-area-inset-top, 0px) + 4rem)',
-      }}
+    <div
+      className="drb-home-bg"
+      style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}
     >
-      <style>{`
-        @keyframes contactBgScroll {
-          from { background-position: 0 0; }
-          to   { background-position: -420px -420px; }
-        }
-        .contact-bg-animated {
-          animation: contactBgScroll 160s linear infinite;
-        }
-        @media (max-width: 640px) {
-          .contact-bg-animated {
-            animation-duration: 190s;
-          }
-        }
-      `}</style>
+      <div
+        className="drb-scroll-hide"
+        style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}
+      >
+        <div style={{
+          width: '100%', maxWidth: '480px', margin: '0 auto',
+          padding: '20px 18px 60px',
+          display: 'flex', flexDirection: 'column',
+        }}>
 
-      <section className="w-full max-w-3xl flex flex-col items-center text-center z-10">
+          {/* ── HEADER ────────────────────────────────────────── */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+            <button
+              onClick={() => router.push('/')}
+              style={{ fontSize: '22px', color: '#8b6fa8', background: 'none', border: 'none', cursor: 'pointer', lineHeight: 1 }}
+            >‹</button>
+            <span style={{ fontSize: '16px', fontWeight: 700, color: 'var(--drb-text-primary)' }}>Contacto</span>
+          </div>
 
-        {/* Botón regresar */}
-        <div className="w-full mb-2 text-left">
-          <BackButton />
-        </div>
-
-        {/* Logo */}
-        <img
-          src={CONTACT_LOGO_URL}
-          alt="Dr. BeautyBot"
-          className="mx-auto w-full max-w-[260px] drop-shadow-[0_18px_34px_rgba(0,0,0,0.35)] mb-4"
-          draggable={false}
-        />
-
-        {/* Tarjeta de contacto */}
-        <div className="w-full rounded-[32px] bg-[#FDF7EC]/95 shadow-[0_18px_55px_rgba(0,0,0,0.40)] border border-black/10 overflow-hidden text-left">
-          {/* Header azul */}
-          <header className="bg-[#9BD4F5] px-6 py-5 md:px-8 md:py-6">
-            <h1 className="text-xl md:text-2xl font-bold text-slate-900">Contacto</h1>
-            <p className="mt-1 text-sm md:text-[0.95rem] text-slate-800 max-w-2xl">
-              ¿Tienes dudas, comentarios o ideas para mejorar Dr. BeautyBot? Cuéntame un poco y
-              revisaré tu mensaje con mucho cuidado.
+          {/* ── HERO ──────────────────────────────────────────── */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '24px' }}>
+            <img
+              src={MAILBOT}
+              alt="Dr. BeautyBot con buzón"
+              className="drb-img-blend"
+              style={{ width: '130px', marginBottom: '12px' }}
+            />
+            <h1 style={{ fontSize: '19px', fontWeight: 700, color: 'var(--drb-text-primary)', marginBottom: '6px' }}>
+              Contacto 💌
+            </h1>
+            <p style={{ fontSize: '13px', color: 'var(--drb-text-muted)', lineHeight: 1.5, maxWidth: '320px' }}>
+              ¿Tienes dudas, comentarios o ideas para mejorar Dr. BeautyBot? Cuéntame y revisaré
+              tu mensaje con mucho cuidado.
             </p>
-          </header>
+          </div>
 
-          {/* Formulario */}
-          <div className="bg-[#FBEEDC] px-5 py-6 md:px-7 md:py-7">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-1">
-                <label htmlFor="name" className="text-sm font-semibold text-slate-900">
-                  Nombre completo
-                </label>
+          {/* ── FORMULARIO ────────────────────────────────────── */}
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+
+            {/* Nombre */}
+            <div>
+              <label style={labelStyle}>Nombre completo</label>
+              <input
+                type="text" placeholder="Ej. Laura González"
+                value={name} onChange={(e) => setName(e.target.value)}
+                style={{ ...inputStyle, borderColor: name ? 'rgba(183,148,244,0.5)' : undefined }}
+              />
+            </div>
+
+            {/* Correo */}
+            <div>
+              <label style={labelStyle}>Correo electrónico</label>
+              <input
+                type="email" placeholder="Ej. nombre@correo.com"
+                value={email} onChange={(e) => setEmail(e.target.value)}
+                style={{ ...inputStyle, borderColor: email ? 'rgba(183,148,244,0.5)' : undefined }}
+              />
+            </div>
+
+            {/* Checkbox empresa */}
+            <button
+              type="button"
+              onClick={() => setIsCompany(!isCompany)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '10px',
+                padding: '10px 14px', borderRadius: '14px', textAlign: 'left',
+                background: isCompany
+                  ? 'linear-gradient(135deg, rgba(183,148,244,0.18), rgba(237,100,166,0.1))'
+                  : 'var(--drb-surface-card)',
+                border: isCompany
+                  ? '1px solid rgba(183,148,244,0.4)'
+                  : '1px solid rgba(180,140,220,0.22)',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{
+                width: '18px', height: '18px', borderRadius: '6px', flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: isCompany ? 'linear-gradient(135deg, #b794f4, #ed64a6)' : 'white',
+                border: isCompany ? 'none' : '1.5px solid rgba(180,140,220,0.4)',
+                fontSize: '11px', color: 'white',
+              }}>{isCompany && '✓'}</div>
+              <span style={{ fontSize: '13px', color: '#2d1a4a' }}>
+                Escribo desde una empresa, clínica o institución
+              </span>
+            </button>
+
+            {/* Campo empresa condicional */}
+            {isCompany && (
+              <div>
+                <label style={labelStyle}>Nombre de la empresa / institución</label>
                 <input
-                  id="name"
-                  type="text"
-                  placeholder="Ej. Laura González"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-inner outline-none focus:border-[#9BD4F5] focus:ring-2 focus:ring-[#9BD4F5]/40"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  type="text" placeholder="Ej. Clínica Lumière, Hospital XYZ…"
+                  value={companyName} onChange={(e) => setCompanyName(e.target.value)}
+                  style={{ ...inputStyle, borderColor: companyName ? 'rgba(183,148,244,0.5)' : undefined }}
                 />
               </div>
+            )}
 
-              <div className="space-y-1">
-                <label htmlFor="email" className="text-sm font-semibold text-slate-900">
-                  Correo electrónico
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="Ej. nombre@correo.com"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-inner outline-none focus:border-[#9BD4F5] focus:ring-2 focus:ring-[#9BD4F5]/40"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-sm text-slate-800">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 accent-pink-500"
-                    checked={isCompany}
-                    onChange={(e) => setIsCompany(e.target.checked)}
-                  />
-                  <span>Escribo desde una empresa, clínica o institución</span>
-                </label>
-
-                {isCompany && (
-                  <div className="space-y-1">
-                    <label htmlFor="company" className="text-xs font-semibold text-slate-700">
-                      Nombre de la empresa / institución
-                    </label>
-                    <input
-                      id="company"
-                      type="text"
-                      placeholder="Ej. Clínica Lumière, Hospital XYZ…"
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-inner outline-none focus:border-[#9BD4F5] focus:ring-2 focus:ring-[#9BD4F5]/40"
-                      value={companyName}
-                      onChange={(e) => setCompanyName(e.target.value)}
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-1">
-                <label htmlFor="messageType" className="text-sm font-semibold text-slate-900">
-                  Tipo de mensaje
-                </label>
+            {/* Tipo de mensaje */}
+            <div>
+              <label style={labelStyle}>Tipo de mensaje</label>
+              <div style={{ position: 'relative' }}>
                 <select
-                  id="messageType"
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-inner outline-none focus:border-[#9BD4F5] focus:ring-2 focus:ring-[#9BD4F5]/40"
-                  value={messageType}
-                  onChange={(e) => setMessageType(e.target.value)}
+                  value={messageType} onChange={(e) => setMessageType(e.target.value)}
+                  style={{
+                    ...inputStyle, appearance: 'none',
+                    borderColor: messageType ? 'rgba(183,148,244,0.5)' : undefined,
+                  }}
                 >
                   <option value="">Selecciona una opción</option>
                   <option value="duda">Duda o pregunta general</option>
@@ -236,69 +225,165 @@ export default function ContactPage() {
                   <option value="colaboracion">Colaboración / interés profesional</option>
                   <option value="otro">Otro</option>
                 </select>
+                <span style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', color: '#b794f4', pointerEvents: 'none' }}>▾</span>
               </div>
+            </div>
 
-              <div className="space-y-1">
-                <label htmlFor="message" className="text-sm font-semibold text-slate-900">
-                  Mensaje
-                </label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  placeholder="Cuéntame con calma qué necesitas, qué ocurrió o en qué te gustaría que mejoremos Dr. BeautyBot."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 shadow-inner outline-none focus:border-[#9BD4F5] focus:ring-2 focus:ring-[#9BD4F5]/40 resize-y"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+            {/* Mensaje */}
+            <div>
+              <label style={labelStyle}>Mensaje</label>
+              <textarea
+                rows={5}
+                placeholder="Cuéntame con calma qué necesitas, qué ocurrió o en qué te gustaría que mejoremos Dr. BeautyBot."
+                value={message} onChange={(e) => setMessage(e.target.value)}
+                style={{
+                  ...inputStyle,
+                  resize: 'vertical', lineHeight: 1.55,
+                  borderColor: message ? 'rgba(183,148,244,0.5)' : undefined,
+                }}
+              />
+            </div>
+
+            {/* Consent */}
+            <button
+              type="button"
+              onClick={() => setAcceptedEmailUse(!acceptedEmailUse)}
+              style={{
+                display: 'flex', alignItems: 'flex-start', gap: '10px',
+                padding: '12px 14px', borderRadius: '14px', textAlign: 'left',
+                background: acceptedEmailUse
+                  ? 'linear-gradient(135deg, rgba(183,148,244,0.12), rgba(237,100,166,0.07))'
+                  : 'rgba(255,255,255,0.75)',
+                border: acceptedEmailUse
+                  ? '1px solid rgba(183,148,244,0.3)'
+                  : '1px solid rgba(180,140,220,0.22)',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{
+                width: '18px', height: '18px', borderRadius: '6px', flexShrink: 0, marginTop: '1px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: acceptedEmailUse ? 'linear-gradient(135deg, #b794f4, #ed64a6)' : 'white',
+                border: acceptedEmailUse ? 'none' : '1.5px solid rgba(180,140,220,0.4)',
+                fontSize: '11px', color: 'white',
+              }}>{acceptedEmailUse && '✓'}</div>
+              <p style={{ fontSize: '12px', color: '#6b46a8', lineHeight: 1.5, margin: 0 }}>
+                Acepto que se use mi correo electrónico para responder este mensaje o pedirme más
+                detalles si es necesario. No recibiré newsletters automáticos ni publicidad.
+              </p>
+            </button>
+
+            {/* Feedback inline */}
+            {feedback && (
+              <div style={{
+                padding: '12px 14px', borderRadius: '14px', textAlign: 'center',
+                fontSize: '12px', lineHeight: 1.5,
+                background: feedbackType === 'success'
+                  ? 'rgba(72,187,120,0.12)' : 'rgba(237,100,166,0.12)',
+                border: feedbackType === 'success'
+                  ? '1px solid rgba(72,187,120,0.3)' : '1px solid rgba(237,100,166,0.3)',
+                color: feedbackType === 'success' ? '#276749' : '#9b2c5a',
+              }}>
+                {feedback}
+              </div>
+            )}
+
+            {/* Botones */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', paddingTop: '4px' }}>
+              <button
+                type="submit"
+                disabled={isSending}
+                style={{
+                  width: '100%', padding: '14px', borderRadius: '999px',
+                  background: 'linear-gradient(135deg, #b794f4, #ed64a6)',
+                  color: 'white', fontSize: '14px', fontWeight: 600,
+                  border: 'none', cursor: isSending ? 'not-allowed' : 'pointer',
+                  boxShadow: '0 4px 18px rgba(183,148,244,0.45)',
+                  opacity: isSending ? 0.65 : 1,
+                }}
+              >
+                {isSending ? 'Enviando…' : '📨 Enviar mensaje'}
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push(chatHref)}
+                style={{
+                  width: '100%', padding: '12px', borderRadius: '999px',
+                  background: 'var(--drb-surface-card)', color: 'var(--drb-text-muted)',
+                  fontSize: '13px', fontWeight: 500,
+                  border: '1px solid var(--drb-border-soft)', cursor: 'pointer',
+                }}
+              >
+                💬 Volver al chat
+              </button>
+            </div>
+
+          </form>
+
+          {/* ── REDES SOCIALES ────────────────────────────────── */}
+          <div style={{
+            marginTop: '28px', paddingTop: '24px',
+            borderTop: '1px solid var(--drb-border-soft)',
+            display: 'flex', flexDirection: 'column', gap: '10px',
+          }}>
+            <p style={{ fontSize: '12px', color: 'var(--drb-text-muted)', textAlign: 'center', margin: 0 }}>
+              También puedes encontrarnos en
+            </p>
+            <div style={{ display: 'flex', gap: '10px' }}>
+
+              {/* Instagram */}
+              <a
+                href="https://instagram.com/drbeautybot"
+                target="_blank" rel="noopener noreferrer"
+                className="btn-scale"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  padding: '10px 16px', borderRadius: '999px',
+                  background: 'var(--drb-surface-card)',
+                  border: '1px solid var(--drb-border-soft)',
+                  textDecoration: 'none', flexShrink: 0,
+                }}
+              >
+                <img
+                  src="/images/icons8-instagram-60.png"
+                  alt="Instagram"
+                  style={{ width: '22px', height: '22px', borderRadius: '6px' }}
                 />
-              </div>
+                <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--drb-text-primary)', whiteSpace: 'nowrap' }}>
+                  @drbeautybot
+                </span>
+              </a>
 
-              <div className="space-y-2">
-                <label className="flex items-start gap-2 text-xs text-slate-700">
-                  <input
-                    type="checkbox"
-                    className="mt-[3px] h-4 w-4 accent-pink-500"
-                    checked={acceptedEmailUse}
-                    onChange={(e) => setAcceptedEmailUse(e.target.checked)}
-                  />
-                  <span>
-                    Acepto que se use mi correo electrónico para responder este mensaje o pedirme
-                    más detalles si es necesario. No recibiré newsletters automáticos ni publicidad.
-                  </span>
-                </label>
-              </div>
-
-              {feedback && (
-                <p
-                  className={`text-xs text-center rounded-xl px-3 py-2 border ${
-                    feedbackType === 'success'
-                      ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
-                      : 'bg-rose-100 text-rose-800 border-rose-200'
-                  }`}
-                >
-                  {feedback}
-                </p>
-              )}
-
-              <div className="flex flex-col gap-3 pt-2">
-                <button
-                  type="submit"
-                  disabled={isSending}
-                  className="w-full px-4 py-3 rounded-full bg-pink-500 hover:bg-pink-400 text-sm font-semibold text-white shadow-md transition disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {isSending ? 'Enviando…' : 'Enviar mensaje'}
-                </button>
-
-                <Link
-                  href={chatHref}
-                  className="w-full px-4 py-3 rounded-full bg-[#FCCD78] hover:bg-[#FAD28C] text-sm font-semibold text-slate-900 shadow-md text-center transition"
-                >
-                  Volver al chat
-                </Link>
-              </div>
-            </form>
+              {/* Compartir app */}
+              <button
+                type="button"
+                onClick={() => {
+                  const text = '💜 Descubrí Dr. BeautyBot, tu asistente de medicina estética disponible 24/7.\n\n🤖 Descárgala gratis:\ndrbeautybot.app\n\n📸 @drbeautybot';
+                  if (navigator.share) {
+                    navigator.share({ title: 'Dr. BeautyBot', text }).catch(() => {});
+                  } else {
+                    navigator.clipboard.writeText(text);
+                  }
+                }}
+                className="btn-scale"
+                style={{
+                  flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  gap: '7px', padding: '10px 16px', borderRadius: '999px',
+                  background: 'linear-gradient(135deg, rgba(183,148,244,0.2), rgba(237,100,166,0.12))',
+                  border: '1px solid rgba(183,148,244,0.3)',
+                  cursor: 'pointer',
+                }}
+              >
+                <span style={{ fontSize: '15px' }}>📤</span>
+                <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--drb-text-secondary)', whiteSpace: 'nowrap' }}>
+                  Compartir app
+                </span>
+              </button>
+            </div>
           </div>
+
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }

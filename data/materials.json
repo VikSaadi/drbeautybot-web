@@ -1,12 +1,9 @@
 {
   "__meta": {
-    "updatedAt": "2025-12-13",
+    "updatedAt": "2026-04-05",
     "changelog": [
-      "2025-12-13: Se migró el archivo a formato {__meta, items} (JSON válido, sin comentarios).",
-      "2025-12-13: Se amplió base a 12 materiales (antes 10).",
-      "2025-12-13: Se añadieron rellenos permanentes de alto riesgo: PAAG/Aquafilling y polyalkylimide/Bio-Alcamid.",
-      "2025-12-13: Se expandieron sinonimos/ejemploMarcas para mejorar matching (acentos, plurales, variaciones del paciente).",
-      "2025-12-13: Se mantuvo lógica: listaNegra true para materiales de alto riesgo/no recomendados."
+      "2025-12-13: Creación inicial. 12 materiales.",
+      "2026-04-05 v2.0: descripcionPaciente reescrita en tono DrBeautyBot — cálido, honesto, con contexto real. Sin cambios en lógica ni estructura."
     ]
   },
   "items": [
@@ -16,7 +13,7 @@
       "categoria": "ah",
       "esSeguroEnManosExpertas": true,
       "nivelRiesgo": 1,
-      "descripcionPaciente": "El ácido hialurónico (AH) es un relleno reabsorbible muy usado en medicina estética. Cuando se aplica con técnica adecuada y productos autorizados, su perfil de seguridad es conocido. Aun así puede causar inflamación, moretones, bultos, asimetrías y (en casos raros) eventos graves si se inyecta dentro de un vaso sanguíneo.",
+      "descripcionPaciente": "El ácido hialurónico (AH) es el relleno más usado en medicina estética y, en manos expertas con productos autorizados, tiene un perfil de seguridad muy conocido. Es reabsorbible — tu cuerpo lo va degradando naturalmente con el tiempo — y tiene la gran ventaja de poder disolverse con hialuronidasa si algo no queda como esperabas o si hay una complicación.\n\nComo cualquier inyectable, puede causar moretones, inflamación, asimetrías o bultos — especialmente en los primeros días. Los eventos más serios (oclusión vascular) son raros pero existen, por eso la técnica del médico y el conocimiento de anatomía importan mucho.",
       "ejemploMarcas": [
         "juvederm",
         "restylane",
@@ -50,8 +47,10 @@
       "categoria": "caha",
       "esSeguroEnManosExpertas": true,
       "nivelRiesgo": 2,
-      "descripcionPaciente": "La hidroxiapatita de calcio (CaHA) es un relleno/estimulador de colágeno usado en ciertas indicaciones. Requiere técnica y selección cuidadosa; no se “revierte” como el ácido hialurónico. Puede dar inflamación, nódulos y, rara vez, complicaciones serias si se inyecta en un vaso.",
-      "ejemploMarcas": ["radiesse"],
+      "descripcionPaciente": "El Radiesse (CaHA) hace dos cosas al mismo tiempo: da volumen casi inmediato gracias al gel en el que vienen las microesferas, y a la vez estimula tu piel para que produzca colágeno de forma progresiva. La duración estimada es de 12 a 18 meses.\n\nAlgo importante a saber: no se puede disolver con hialuronidasa como el ácido hialurónico. Si hay una complicación, el manejo es diferente — por eso la selección del candidato y la técnica del médico son especialmente críticas con este material.",
+      "ejemploMarcas": [
+        "radiesse"
+      ],
       "sinonimos": [
         "caha",
         "hidroxiapatita",
@@ -67,8 +66,12 @@
       "categoria": "plla",
       "esSeguroEnManosExpertas": true,
       "nivelRiesgo": 2,
-      "descripcionPaciente": "El ácido poli-L-láctico (PLLA) es un bioestimulador que promueve colágeno de forma gradual. Sus resultados suelen ser progresivos y depende mucho de la técnica (preparación, plano de inyección y cuidados). Puede causar inflamación, bultos o nódulos si no se aplica correctamente.",
-      "ejemploMarcas": ["sculptra", "sculptra aesthetic", "lanluma"],
+      "descripcionPaciente": "El Sculptra (PLLA) no es un relleno clásico — es un bioestimulador. En lugar de añadir volumen directamente, le manda una señal a tu piel para que produzca su propio colágeno. Los resultados son graduales: van apareciendo en semanas y meses, y pueden durar entre 18 y 24 meses.\n\nRequiere varias sesiones (normalmente 2 o 3) y la técnica de preparación y aplicación es crítica. Los nódulos son su complicación más conocida y están directamente relacionados con la técnica — en manos expertas son mucho menos frecuentes.",
+      "ejemploMarcas": [
+        "sculptra",
+        "sculptra aesthetic",
+        "lanluma"
+      ],
       "sinonimos": [
         "plla",
         "poli l lactico",
@@ -86,9 +89,22 @@
       "categoria": "pcl_cmc",
       "esSeguroEnManosExpertas": true,
       "nivelRiesgo": 3,
-      "descripcionPaciente": "La policaprolactona (PCL) en un gel portador (p. ej. CMC) se usa como relleno/bioestimulador de mayor duración en algunos mercados. Por su duración, técnica y selección del paciente son claves. La disponibilidad y autorización varían por país.",
-      "ejemploMarcas": ["ellanse", "ellansé", "ellansé", "ellanse s", "ellanse m", "ellanse l", "ellanse e"],
-      "sinonimos": ["pcl", "policaprolactona", "pcl cmc", "bioestimulador pcl", "microesferas de pcl"],
+      "descripcionPaciente": "El Ellansé (PCL) es el único en su clase: da resultado casi inmediato como relleno y al mismo tiempo estimula colágeno de forma progresiva, con una duración que va de 1 a 3 años dependiendo de la variante (S, M, L o E).\n\nDos cosas importantes: tampoco se puede disolver con hialuronidasa, y si antes tuviste Ellansé en una zona, agregar AH en el mismo lugar puede dar resultados impredecibles. Siempre hay que decirle al médico qué materiales previos tienes y dónde. Su disponibilidad y registro varía por país.",
+      "ejemploMarcas": [
+        "ellanse",
+        "ellansé",
+        "ellanse s",
+        "ellanse m",
+        "ellanse l",
+        "ellanse e"
+      ],
+      "sinonimos": [
+        "pcl",
+        "policaprolactona",
+        "pcl cmc",
+        "bioestimulador pcl",
+        "microesferas de pcl"
+      ],
       "listaNegra": false
     },
     {
@@ -97,8 +113,12 @@
       "categoria": "pmma",
       "esSeguroEnManosExpertas": false,
       "nivelRiesgo": 4,
-      "descripcionPaciente": "El PMMA es un relleno de efecto muy prolongado/permanente. Si hay complicaciones (nódulos, granulomas, irregularidades) puede ser difícil de corregir y a veces requiere manejo especializado. En general se considera de mayor riesgo que los rellenos reabsorbibles.",
-      "ejemploMarcas": ["bellafill", "artefill", "artecoll"],
+      "descripcionPaciente": "El PMMA es un relleno de efecto muy prolongado — prácticamente permanente en muchos casos. Su permanencia es exactamente lo que lo hace más problemático: si hay nódulos, irregularidades o granulomas (que pueden aparecer incluso años después), corregirlos es mucho más complejo que con un relleno reabsorbible.\n\nEn algunos países tiene usos aprobados muy específicos (como cicatrices de acné en EE.UU.), pero en general se considera de mayor riesgo que los materiales reabsorbibles y no es la primera opción recomendada.",
+      "ejemploMarcas": [
+        "bellafill",
+        "artefill",
+        "artecoll"
+      ],
       "sinonimos": [
         "pmma",
         "polimetilmetacrilato",
@@ -114,7 +134,7 @@
       "categoria": "toxina",
       "esSeguroEnManosExpertas": true,
       "nivelRiesgo": 1,
-      "descripcionPaciente": "La toxina botulínica tipo A se usa para relajar temporalmente ciertos músculos faciales. En manos expertas suele ser segura, pero puede causar moretones, asimetrías o caída de párpado (ptosis). Raramente puede haber efectos más extensos, por eso debe aplicarse con técnica y dosis adecuadas.",
+      "descripcionPaciente": "La toxina botulínica tipo A es uno de los procedimientos estéticos más realizados en el mundo y, en manos con formación médica y conocimiento de anatomía, tiene un perfil de seguridad bien documentado.\n\nRelajando temporalmente músculos específicos, suaviza líneas de expresión de forma natural — el resultado es gradual (va entrando en 7-14 días) y dura aproximadamente 4 a 6 meses. Los moretones y asimetrías leves son los efectos secundarios más comunes. Complicaciones más serias (ptosis, efectos más allá de la zona tratada) son poco frecuentes en manos expertas pero existen.",
       "ejemploMarcas": [
         "botox",
         "botox cosmetic",
@@ -127,7 +147,14 @@
         "nuceiva",
         "bocouture"
       ],
-      "sinonimos": ["toxina botulinica", "toxina botulínica", "botulinum toxin", "btx", "botox", "toxina tipo a"],
+      "sinonimos": [
+        "toxina botulinica",
+        "toxina botulínica",
+        "botulinum toxin",
+        "btx",
+        "botox",
+        "toxina tipo a"
+      ],
       "listaNegra": false
     },
     {
@@ -136,7 +163,7 @@
       "categoria": "biopolimeros",
       "esSeguroEnManosExpertas": false,
       "nivelRiesgo": 5,
-      "descripcionPaciente": "El término “biopolímeros” suele usarse para describir rellenos permanentes/no autorizados o de procedencia incierta. Se asocian con complicaciones graves y a veces irreversibles: inflamación crónica, migración, deformidad, infecciones y necesidad de cirugías complejas. No se consideran una alternativa segura en medicina estética.",
+      "descripcionPaciente": "Cuando se habla de \"biopolímeros\" o \"modelantes\" en estética, generalmente se está hablando de rellenos permanentes no autorizados o de procedencia incierta — aceites, silicona de baja calidad, mezclas sin ningún respaldo sanitario.\n\nEl cuerpo los percibe como cuerpos extraños que no puede eliminar, y con el tiempo genera granulomas, infecciones crónicas, migraciones y deformidades que son muy difíciles de manejar incluso para especialistas. No hay una forma segura de retirarlos completamente una vez inyectados.\n\nSe siguen usando porque son baratos y quien los aplica habitualmente no tiene formación médica. Si alguien te ofrece un relleno permanente a precio muy bajo o fuera de un entorno médico, es una señal de alerta seria.",
       "ejemploMarcas": [
         "biopolimeros",
         "biopolímeros",
@@ -161,7 +188,7 @@
       "categoria": "silicona_liquida",
       "esSeguroEnManosExpertas": false,
       "nivelRiesgo": 5,
-      "descripcionPaciente": "La inyección de silicona líquida para fines cosméticos se asocia con complicaciones severas (migración, inflamación crónica, embolias y otros eventos graves). No es una opción recomendada para relleno estético.",
+      "descripcionPaciente": "La silicona líquida inyectable para fines cosméticos tiene una historia muy documentada de complicaciones graves: migración del material a zonas alejadas del punto de inyección, inflamación crónica que puede progresar por años, granulomas, embolias y, en volúmenes grandes, riesgo vital.\n\nNo existe una forma establecida de retirarla completamente una vez inyectada, lo que hace que el manejo de sus complicaciones sea extremadamente complejo. No es una opción recomendada para relleno estético.",
       "ejemploMarcas": [
         "silicona liquida",
         "silicona líquida",
@@ -170,7 +197,11 @@
         "silicona industrial",
         "silicone oil injection"
       ],
-      "sinonimos": ["injectable silicone", "silicone oil injection", "polysiloxane injection"],
+      "sinonimos": [
+        "injectable silicone",
+        "silicone oil injection",
+        "polysiloxane injection"
+      ],
       "listaNegra": true
     },
     {
@@ -179,7 +210,7 @@
       "categoria": "aceites",
       "esSeguroEnManosExpertas": false,
       "nivelRiesgo": 5,
-      "descripcionPaciente": "La inyección de aceites (mineral, industrial u otros) para aumentar volumen se asocia con complicaciones graves: inflamación crónica, infecciones, migración, embolias y deformidades. No es una práctica segura.",
+      "descripcionPaciente": "Inyectar aceites — mineral, de bebé, industrial, parafina o vaselina — para aumentar volumen es una práctica sin ningún respaldo científico ni sanitario, y con consecuencias documentadas muy graves: inflamación crónica, infecciones, migración del material a otras zonas, embolias y deformidades permanentes.\n\nComo en el caso de la silicona líquida, retirarlos completamente es prácticamente imposible, lo que hace que el manejo de complicaciones sea muy difícil y costoso. No es una alternativa a nada en medicina estética.",
       "ejemploMarcas": [
         "aceite de bebe",
         "aceite de bebé",
@@ -190,7 +221,12 @@
         "oil injection",
         "paraffin injection"
       ],
-      "sinonimos": ["mineral oil injection", "paraffin injection", "vaseline injection", "parafina inyectada"],
+      "sinonimos": [
+        "mineral oil injection",
+        "paraffin injection",
+        "vaseline injection",
+        "parafina inyectada"
+      ],
       "listaNegra": true
     },
     {
@@ -199,9 +235,19 @@
       "categoria": "otro",
       "esSeguroEnManosExpertas": false,
       "nivelRiesgo": 5,
-      "descripcionPaciente": "Algunos geles permanentes (por ejemplo, hidrogel de poliacrilamida o “PAAG”) se han asociado con complicaciones como inflamación crónica, infecciones, migración y deformidades, y pueden ser difíciles de retirar por completo. En general no se recomiendan como relleno cosmético.",
-      "ejemploMarcas": ["paag", "poliacrilamida", "polyacrylamide gel", "aquafilling", "aqualift"],
-      "sinonimos": ["hydrogel permanente", "gel permanente", "poliacrilamida inyectable"],
+      "descripcionPaciente": "Los geles de poliacrilamida (PAAG) son rellenos permanentes que fueron usados en algunos países y que tienen un historial de complicaciones tardías importantes: inflamación crónica que puede reaparecer años después, infecciones difíciles de tratar, migración y deformidades.\n\nAunque en teoría son \"solubles en agua\", en la práctica retirarlos completamente es muy complejo — el material se integra con el tejido y forma una red que no puede extraerse limpiamente. No se recomiendan como relleno cosmético.",
+      "ejemploMarcas": [
+        "paag",
+        "poliacrilamida",
+        "polyacrylamide gel",
+        "aquafilling",
+        "aqualift"
+      ],
+      "sinonimos": [
+        "hydrogel permanente",
+        "gel permanente",
+        "poliacrilamida inyectable"
+      ],
       "listaNegra": true
     },
     {
@@ -210,9 +256,17 @@
       "categoria": "otro",
       "esSeguroEnManosExpertas": false,
       "nivelRiesgo": 5,
-      "descripcionPaciente": "Algunos rellenos permanentes tipo gel (por ejemplo, polyalkylimide) se han asociado con complicaciones tardías como inflamación, infecciones, migración y encapsulamiento. Su manejo puede ser complejo y a veces requiere procedimientos especializados.",
-      "ejemploMarcas": ["bio-alcamid", "bioalcamid", "polyalkylimide", "polialquilimida"],
-      "sinonimos": ["gel permanente polyalkylimide", "relleno permanente en gel"],
+      "descripcionPaciente": "La polialquilimida (conocida comercialmente como Bio-Alcamid entre otros) es otro relleno permanente en gel que acumula una historia de complicaciones tardías: inflamación, infecciones que pueden aparecer años después de la aplicación, encapsulamiento y migración.\n\nSu manejo cuando hay complicaciones requiere especialistas con experiencia específica en este tipo de materiales. Como todos los permanentes, las complicaciones son mucho más difíciles de resolver que con materiales reabsorbibles.",
+      "ejemploMarcas": [
+        "bio-alcamid",
+        "bioalcamid",
+        "polyalkylimide",
+        "polialquilimida"
+      ],
+      "sinonimos": [
+        "gel permanente polyalkylimide",
+        "relleno permanente en gel"
+      ],
       "listaNegra": true
     },
     {
@@ -221,9 +275,21 @@
       "categoria": "otro",
       "esSeguroEnManosExpertas": false,
       "nivelRiesgo": 4,
-      "descripcionPaciente": "Si no se puede identificar con certeza qué material se aplicó (marca, lote, etiqueta, trazabilidad), el riesgo aumenta. Lo prudente es solicitar la información del producto y buscar valoración médica si hay síntomas, cambios de color, dolor intenso o alteraciones visuales.",
-      "ejemploMarcas": ["me pusieron algo", "relleno desconocido", "material desconocido", "no se que me inyectaron", "no sé qué me inyectaron"],
-      "sinonimos": ["sustancia desconocida", "relleno sin trazabilidad", "no tengo etiqueta", "sin lote", "sin caja"],
+      "descripcionPaciente": "Cuando no se puede identificar qué material se aplicó — sin marca, sin lote, sin caja, sin trazabilidad — el riesgo sube automáticamente. No porque el material sea necesariamente peligroso, sino porque sin saber qué es, tampoco se puede saber cómo manejar una complicación si ocurre.\n\nSi tienes síntomas y no sabes qué te aplicaron, cuéntaselo al médico con ese contexto — cambia el enfoque del diagnóstico. Y si no tienes síntomas pero sabes que fue algo sin identificar, vale la pena tener una valoración de seguimiento.",
+      "ejemploMarcas": [
+        "me pusieron algo",
+        "relleno desconocido",
+        "material desconocido",
+        "no se que me inyectaron",
+        "no sé qué me inyectaron"
+      ],
+      "sinonimos": [
+        "sustancia desconocida",
+        "relleno sin trazabilidad",
+        "no tengo etiqueta",
+        "sin lote",
+        "sin caja"
+      ],
       "listaNegra": false
     }
   ]

@@ -21,7 +21,7 @@
       "se me inflamo poquito",
       "se me inflamó poquito"
     ],
-    "orientacionPaciente": "Después de los rellenos es frecuente presentar algo de inflamación y pequeños moretones, sobre todo los primeros días. Mientras el dolor sea tolerable, la piel mantenga un color normal y no haya cambios bruscos de temperatura, por lo general se considera una reacción esperable. Puedes aplicar frío local suave (no directo) y seguir las indicaciones de tu médico. Si notas dolor intenso, cambios de color importantes o empeoramiento rápido, es importante contactar a tu médico cuanto antes.",
+    "orientacionPaciente": "Algo de inflamación y moretones en los primeros días después de un relleno es completamente normal — es la respuesta natural de tu piel al procedimiento. Los moretones suelen aparecer en las primeras horas, cambian de color mientras se reabsorben y desaparecen en 1 a 2 semanas dependiendo de la zona.\n\nFrío local suave (sin aplicarlo directo a la piel) en las primeras horas ayuda a que sea menos marcado. Evita calor, ejercicio intenso y alcohol las primeras 24-48h.\n\nLo que sí vale la pena vigilar: si la inflamación empeora en lugar de mejorar después de las primeras 48h, si aparece mucho calor local, o si el dolor aumenta en vez de ceder — en ese caso avísale a tu médico.",
     "notasInternas": "Nivel 1: esperado/leve."
   },
   {
@@ -47,7 +47,7 @@
       "me quedo como abultado",
       "me quedó como abultado"
     ],
-    "orientacionPaciente": "Después de un relleno pueden aparecer pequeñas irregularidades o bolitas, sobre todo en los primeros días, por inflamación o distribución del material. Lo prudente es NO masajear fuerte ni manipular en exceso la zona (a menos que tu médico lo haya indicado). Contacta a tu médico para que valore si es parte de la evolución normal o si requiere ajuste. Si aparece dolor intenso, piel fría o cambios marcados de color, busca valoración inmediata.",
+    "orientacionPaciente": "Pequeñas irregularidades o bolitas después de un relleno son bastante frecuentes en los primeros días — pueden ser por la inflamación inicial, por la distribución del material o por el proceso de integración.\n\nLo más importante en este punto: no masajees fuerte ni manipules la zona por tu cuenta, a menos que tu médico te lo haya indicado expresamente. El masaje sin criterio puede redistribuir el material de forma que empeore el resultado.\n\nLo que sí hay que hacer: contarle a tu médico para que lo valore directamente. En muchos casos se resuelve solo con el tiempo; en otros puede requerir un pequeño ajuste en consulta.\n\nSi además de las bolitas aparece dolor que aumenta, la zona se pone fría o cambia de color de forma marcada — eso ya requiere valoración más urgente, ese mismo día.",
     "notasInternas": "Nivel 2: suele requerir revisión, pero no siempre es urgencia."
   },
   {
@@ -71,8 +71,8 @@
       "me reaparecio la inflamacion",
       "me reapareció la inflamación"
     ],
-    "orientacionPaciente": "Una inflamación que aparece semanas o meses después de un relleno no siempre es grave, pero sí amerita valoración médica. Puede relacionarse con reacción inflamatoria tardía o con procesos intercurrentes. Lo más prudente es contactar al médico que te trató para una evaluación. Si hay fiebre, secreción, dolor intenso o empeora rápido, busca atención prioritaria.",
-    "notasInternas": "Nivel 3: requiere valoración directa; diferenciales (inflamación tardía, infección, granuloma)."
+    "orientacionPaciente": "Una inflamación que aparece semanas o meses después de un relleno — cuando ya todo parecía estar bien — es algo que merece atención, aunque no necesariamente sea una urgencia.\n\nPuede tener varias explicaciones: reacciones inflamatorias tardías que ocurren con algunos materiales (especialmente después de infecciones o inflamaciones en otras partes del cuerpo), procesos relacionados con el relleno en sí, o algo completamente independiente. La causa importa para saber cómo manejarlo.\n\nLo que te recomendaría: contacta al médico que te trató para una revisión — cuéntale cuándo fue el procedimiento, qué material se usó y cómo está evolucionando la inflamación.\n\nSi además aparece fiebre, secreción, dolor que va en aumento o si la inflamación crece rápido — busca atención prioritaria, no esperes días para la cita.",
+    "notasInternas": "Nivel 3: requiere valoración directa."
   },
   {
     "id": "infeccion_post_relleno",
@@ -93,8 +93,8 @@
       "salida de liquido",
       "salida de líquido"
     ],
-    "orientacionPaciente": "Si hay enrojecimiento que progresa, calor local, secreción/pus, fiebre o dolor que empeora después de un relleno, podría tratarse de una infección u otra complicación que requiere valoración médica pronta. DrBeautyBot no puede diagnosticar a distancia: contacta de inmediato a tu médico o acude a una valoración prioritaria, especialmente si hay fiebre o empeoramiento rápido.",
-    "notasInternas": "Nivel 4: atención prioritaria. No dar esquemas de antibiótico."
+    "orientacionPaciente": "Enrojecimiento que se extiende, calor local, secreción, pus, fiebre o dolor que va en aumento después de un relleno son señales de que algo no está bien — y ese algo necesita valoración médica pronto, no mañana.\n\nLas infecciones después de procedimientos estéticos son poco frecuentes, pero cuando ocurren se manejan mejor cuanto antes se detectan. No intentes tratarlo por tu cuenta con antibióticos de farmacia sin que un médico haya visto la zona primero.\n\nContacta hoy a tu médico o acude a una valoración prioritaria. Si tienes fiebre alta, la zona empeora rápidamente o tienes sensación de que algo va muy mal — ve directamente a urgencias.",
+    "notasInternas": "Nivel 4: atención prioritaria."
   },
   {
     "id": "alteracion_visual_post_relleno",
@@ -118,7 +118,7 @@
       "me quedo ciego",
       "me quedé ciego"
     ],
-    "orientacionPaciente": "Las alteraciones visuales (visión borrosa, pérdida de visión, ver doble o sensación de que se nubla la vista) después de una inyección facial pueden ser una señal de complicación grave. DrBeautyBot no puede valorarlo a distancia. Debes buscar atención médica urgente de inmediato (urgencias) y contactar al médico que realizó el procedimiento ya.",
+    "orientacionPaciente": "Cualquier alteración en la visión después de una inyección facial — que veas borroso, doble, que se nuble, o que pierdas visión aunque sea parcialmente — es una señal de alarma que no puede esperar.\n\nBusca atención médica urgente ahora mismo. Ve a urgencias o llama al médico que realizó el procedimiento de inmediato. No esperes a ver si mejora solo.",
     "notasInternas": "Nivel 5: urgencia real.",
     "marcarComoUrgencia": true
   },
@@ -146,11 +146,10 @@
       "piel fria",
       "piel fría"
     ],
-    "orientacionPaciente": "Por la combinación de dolor intenso y cambios llamativos de color o temperatura en la piel después de un relleno, esto podría corresponder a una complicación grave. DrBeautyBot no puede valorar ni tratar este tipo de situaciones a distancia. Debes contactar de inmediato al médico que realizó el procedimiento o acudir a un servicio de urgencias. No esperes a ver si mejora solo y no intentes manejarlo por tu cuenta en casa.",
-    "notasInternas": "Nivel 5. Debe activar urgencias.",
+    "orientacionPaciente": "Dolor intenso combinado con cambios de color en la piel (palidez, morado, piel moteada) o que la zona se sienta fría después de un relleno son señales de una posible complicación grave que necesita atención inmediata.\n\nContacta ahora al médico que realizó el procedimiento o ve directamente a urgencias. No esperes a ver si mejora — en este tipo de situaciones el tiempo importa mucho.",
+    "notasInternas": "Nivel 5: urgencia.",
     "marcarComoUrgencia": true
   },
-
   {
     "id": "moreton_leve_toxina",
     "procedimiento": "toxina",
@@ -166,7 +165,7 @@
       "hematoma pequeno",
       "hematoma pequeño"
     ],
-    "orientacionPaciente": "Tras la aplicación de toxina botulínica pueden aparecer pequeños moretones en los puntos de punción. Suelen ser temporales. Evita manipular la zona y sigue las indicaciones de tu médico. Si hay dolor intenso, fiebre, o cambios de visión, busca valoración médica.",
+    "orientacionPaciente": "Los moretones pequeños en los puntos de punción son súper comunes después de toxina — hay muchos vasos pequeños en el área facial y las agujas los rozan fácilmente. No significa que algo salió mal.\n\nSuelen aparecer en las primeras horas, van cambiando de color (morado → verde → amarillo) y desaparecen en 1 a 2 semanas. Frío local suave en las primeras horas ayuda.\n\nEvita presionar la zona y sigue las indicaciones de tu médico. Si aparece algo más que un moretón pequeño — como dolor intenso, cambios de temperatura o de visión — eso sí merece una llamada.",
     "notasInternas": "Nivel 1."
   },
   {
@@ -185,7 +184,7 @@
       "se ve disparejo",
       "se ve desigual"
     ],
-    "orientacionPaciente": "La toxina botulínica puede causar asimetrías leves durante los primeros días o cuando empieza a hacer efecto. Lo más prudente es esperar la evolución inicial y contactar a tu médico para una revisión/ajuste si es necesario. No intentes corregirlo por tu cuenta.",
+    "orientacionPaciente": "Algo de asimetría en los primeros días después de toxina es bastante frecuente — los músculos no responden todos al mismo ritmo, y el producto puede tardar hasta 2 semanas en hacer efecto completo. Lo que se ve al principio no es el resultado final.\n\nLo más prudente es esperar esas 2 semanas completas antes de evaluar el resultado. Si después de ese tiempo la asimetría persiste o te preocupa, agenda una revisión con tu médico — a veces se puede ajustar con una pequeña dosis adicional.\n\nNo intentes corregirlo por tu cuenta con masajes o presión en la zona.",
     "notasInternas": "Nivel 2."
   },
   {
@@ -203,7 +202,7 @@
       "se me baja el párpado",
       "no puedo abrir bien el ojo"
     ],
-    "orientacionPaciente": "La caída de párpado (ptosis) puede ocurrir como efecto adverso de la toxina botulínica. No suele ser una urgencia vital, pero sí amerita valoración y seguimiento con tu médico. Evita automedicarte. Si además hay dificultad para hablar, tragar o respirar, busca atención urgente.",
+    "orientacionPaciente": "La caída del párpado (ptosis) puede ocurrir como efecto no deseado de la toxina botulínica cuando el producto difunde hacia el músculo que lo mantiene abierto. No es la complicación más frecuente, pero sí existe.\n\nLa buena noticia: es temporal. Como el botox dura 3-4 meses, la ptosis también va mejorando sola con el tiempo. Hay algunas gotas que el médico puede indicar para manejarla transitoriamente mientras pasa.\n\nLo que hay que hacer es contarle a tu médico para que lo valore — no para alarmarte, sino para que te acompañe en el proceso y descarte que no haya algo más.\n\nSi además del párpado caído tienes dificultad para hablar, tragar, respirar o debilidad en otras partes del cuerpo — eso ya es diferente, busca atención médica urgente.",
     "notasInternas": "Nivel 3."
   },
   {
@@ -224,11 +223,10 @@
       "me siento muy debil",
       "me siento muy débil"
     ],
-    "orientacionPaciente": "Si presentas dificultad para respirar, tragar, hablar, debilidad generalizada o síntomas que se sienten “más allá” del área tratada después de toxina botulínica, es importante buscar valoración médica urgente. DrBeautyBot no puede manejar urgencias en tiempo real. Acude a urgencias o contacta servicios de emergencia de inmediato.",
+    "orientacionPaciente": "Dificultad para respirar, tragar o hablar, o una sensación de debilidad que va más allá de la zona donde se aplicó la toxina, son señales que necesitan atención médica urgente — no esperes.\n\nVe a urgencias ahora o llama a los servicios de emergencia. Cuéntales que te aplicaron toxina botulínica y cuándo fue.",
     "notasInternas": "Nivel 5: urgencia.",
     "marcarComoUrgencia": true
   },
-
   {
     "id": "eritema_leve_laser",
     "procedimiento": "laser",
@@ -243,7 +241,7 @@
       "siento caliente",
       "me arde poquito"
     ],
-    "orientacionPaciente": "Tras un procedimiento con láser puede presentarse enrojecimiento o ardor leve por un corto periodo. Sigue las indicaciones de cuidado de tu clínica/médico (fotoprotección estricta, evitar calor, no irritar la zona). Si aparecen ampollas, dolor intenso o secreción, requiere valoración.",
+    "orientacionPaciente": "Enrojecimiento y algo de ardor después de una sesión de láser son completamente normales — es la respuesta de tu piel al calor del tratamiento. En la mayoría de los casos mejora en horas o, a lo mucho, en 1-2 días.\n\nLo importante en este periodo: fotoprotección estricta (el sol es lo peor que le puedes hacer a la piel después de láser), nada de calor adicional (sauna, ejercicio intenso, agua muy caliente), y no aplicar productos irritantes.\n\nSi el enrojecimiento persiste más de 48h, aumenta o aparecen ampollas o costras — avísale al equipo que realizó el procedimiento.",
     "notasInternas": "Nivel 1."
   },
   {
@@ -262,7 +260,7 @@
       "costra grande",
       "dolor muy fuerte"
     ],
-    "orientacionPaciente": "La aparición de ampollas, quemadura o dolor intenso después de láser puede requerir valoración médica pronta para evitar complicaciones como infección o manchas persistentes. Evita reventar ampollas o manipular la piel. Contacta a tu médico/clínica para evaluación prioritaria.",
+    "orientacionPaciente": "La aparición de ampollas, piel que se levanta o dolor muy intenso después de una sesión de láser no es algo normal y necesita valoración médica pronto.\n\nMientras tanto: no revientes las ampollas ni manipules la zona — la piel abierta es una puerta de entrada para infecciones. Tampoco apliques productos por tu cuenta (cremas, pomadas caseras) sin indicación de tu médico.\n\nContacta hoy a la clínica o al médico que realizó el procedimiento para una revisión prioritaria. Si hay fiebre o la zona empeora rápido, ve directamente a urgencias.",
     "notasInternas": "Nivel 4: prioritaria."
   },
   {
@@ -281,11 +279,10 @@
       "me arde el ojo",
       "ojo rojo y dolor"
     ],
-    "orientacionPaciente": "Si hay dolor ocular, visión borrosa, destellos o alteraciones visuales después de un procedimiento con láser (especialmente cerca de ojos), es importante buscar valoración médica urgente (idealmente oftalmología/urgencias).",
-    "notasInternas": "Nivel 5: urgencia por posible daño ocular.",
+    "orientacionPaciente": "Dolor en el ojo, visión borrosa, destellos, manchas en la visión o ardor ocular después de un procedimiento con láser cerca de los ojos son señales de que algo necesita atención urgente.\n\nBusca valoración médica hoy — idealmente urgencias u oftalmología. No esperes a ver si pasa solo.",
+    "notasInternas": "Nivel 5: urgencia.",
     "marcarComoUrgencia": true
   },
-
   {
     "id": "infeccion_hilos",
     "procedimiento": "hilos",
@@ -301,7 +298,7 @@
       "caliente al tacto",
       "mal olor"
     ],
-    "orientacionPaciente": "Si después de colocación de hilos hay enrojecimiento progresivo, calor local, secreción/pus, fiebre o dolor que empeora, puede tratarse de una infección u otra complicación que requiere valoración médica pronta. Contacta a tu médico para revisión prioritaria.",
+    "orientacionPaciente": "Enrojecimiento que avanza, calor local, secreción o pus, fiebre, o dolor que va en aumento después de la colocación de hilos tensores son señales de que algo no está bien y que necesita revisión médica pronto — hoy.\n\nContacta al médico que realizó el procedimiento para que lo valore directamente. Si hay fiebre alta, la zona empeora muy rápido o no puedes comunicarte con el médico, ve a urgencias.",
     "notasInternas": "Nivel 4."
   },
   {
@@ -319,10 +316,9 @@
       "se me abrio un puntito",
       "se me abrió un puntito"
     ],
-    "orientacionPaciente": "Si se observa o se siente que un hilo se está exponiendo, lo prudente es evitar manipular la zona y contactar al médico que lo colocó para valoración. A veces requiere ajuste o manejo en consultorio. Si hay pus, fiebre o dolor importante, requiere atención prioritaria.",
+    "orientacionPaciente": "Si sientes o ves que un hilo está asomando por la piel, lo que hay que evitar es manipularlo, jalarlo o intentar meterlo de nuevo por tu cuenta — eso puede aumentar el riesgo de infección o dañar el tejido.\n\nContacta al médico que lo colocó para una revisión — a veces requiere un pequeño ajuste en consultorio que es bastante sencillo cuando se atiende a tiempo.\n\nSi además hay enrojecimiento que crece, calor, pus o fiebre — eso ya requiere atención prioritaria, no puede esperar.",
     "notasInternas": "Nivel 3."
   },
-
   {
     "id": "nodulos_bioestimuladores",
     "procedimiento": "bioestimuladores",
@@ -338,7 +334,7 @@
       "se me hicieron bolitas",
       "me salieron bolitas"
     ],
-    "orientacionPaciente": "Tras bioestimuladores pueden aparecer bultos o nódulos, especialmente si la técnica o el plano no fueron adecuados o si hay reacción inflamatoria. Lo prudente es que tu médico te valore directamente. Evita masajear fuerte o manipular en exceso salvo indicación médica.",
+    "orientacionPaciente": "Los nódulos son la complicación más conocida de los bioestimuladores (Sculptra, Radiesse, Ellansé) y suelen relacionarse con técnica de aplicación, plano incorrecto o dilución inadecuada del producto.\n\nLo importante: no masajees con fuerza ni calientes la zona por tu cuenta — el manejo depende del tipo de nódulo y del material, y cada caso es diferente.\n\nHabla con tu médico para que los valore directamente. Detectados a tiempo tienen manejo; el problema es cuando se ignoran o se intentan resolver sin criterio clínico.",
     "notasInternas": "Nivel 3."
   },
   {
@@ -355,10 +351,9 @@
       "bultos que crecen",
       "dolor que empeora"
     ],
-    "orientacionPaciente": "Si la inflamación es persistente, recurrente o progresa, o si aparecen bultos duros que aumentan, es importante una valoración médica prioritaria. Algunas reacciones pueden requerir manejo especializado y seguimiento.",
+    "orientacionPaciente": "Inflamación que persiste o que regresa repetidamente, bultos que crecen en lugar de mejorar, o dolor que va en aumento después de un bioestimulador son señales que van más allá de la evolución esperada.\n\nEsto requiere valoración médica prioritaria — no como urgencia vital en la mayoría de los casos, pero sí pronto y con alguien que conozca el manejo de complicaciones de estos materiales. Algunas reacciones requieren tratamiento específico y seguimiento.",
     "notasInternas": "Nivel 4."
   },
-
   {
     "id": "pah_criolipolisis",
     "procedimiento": "criolipolisis",
@@ -374,10 +369,9 @@
       "empeoro en vez de mejorar",
       "empeoró en vez de mejorar"
     ],
-    "orientacionPaciente": "En casos poco frecuentes, tras criolipólisis puede ocurrir un aumento paradójico del tejido en la zona tratada. No suele ser una urgencia inmediata, pero sí requiere valoración con un especialista para confirmar el diagnóstico y discutir opciones.",
+    "orientacionPaciente": "El aumento paradójico de tejido (PAH por sus siglas en inglés) es una complicación poco frecuente de la criolipólisis en la que, en vez de reducirse, la zona tratada desarrolla un endurecimiento o aumento de volumen firme con el tiempo.\n\nNo es una urgencia vital, pero sí requiere que un especialista lo evalúe para confirmar el diagnóstico y hablar contigo sobre las opciones. Cuanto antes se detecta, más opciones hay para manejarlo.",
     "notasInternas": "Nivel 2: seguimiento y confirmación."
   },
-
   {
     "id": "quemadura_quimica_peeling",
     "procedimiento": "peelings",
@@ -393,10 +387,9 @@
       "costras grandes",
       "me arde horrible"
     ],
-    "orientacionPaciente": "Si hay ardor muy intenso, dolor importante, ampollas o desprendimiento de piel después de un peeling, es importante una valoración médica prioritaria. Evita aplicar productos irritantes por tu cuenta y sigue las indicaciones de tu médico.",
+    "orientacionPaciente": "Ardor muy intenso, dolor importante, ampollas o piel que se levanta después de un peeling son señales de que hubo una reacción más fuerte de lo esperada y necesitas valoración médica hoy.\n\nMientras tanto: no apliques ningún producto por tu cuenta (ni cremas antibióticas, ni cicatrizantes sin indicación), no revengas ampollas y protege la zona del sol completamente.\n\nContacta a tu médico o clínica para revisión prioritaria. Si hay fiebre o la zona empeora rápidamente, ve a urgencias.",
     "notasInternas": "Nivel 4."
   },
-
   {
     "id": "infeccion_microneedling",
     "procedimiento": "microneedling",
@@ -411,10 +404,9 @@
       "caliente al tacto",
       "dolor que empeora"
     ],
-    "orientacionPaciente": "Si tras microneedling hay fiebre, secreción, enrojecimiento que progresa, calor local o dolor creciente, puede tratarse de infección u otra complicación. Busca valoración médica prioritaria.",
+    "orientacionPaciente": "Fiebre, secreción, enrojecimiento que se extiende, calor local que aumenta o dolor creciente después de microneedling son señales de que puede haber una infección — y eso necesita valoración médica pronto.\n\nContacta a tu médico para revisión prioritaria hoy. Si tienes fiebre alta o la zona empeora muy rápido, ve directamente a urgencias.",
     "notasInternas": "Nivel 4."
   },
-
   {
     "id": "anafilaxia_reaccion_alergica_grave",
     "procedimiento": "otros",
@@ -434,7 +426,7 @@
       "me desmaye",
       "me desmayé"
     ],
-    "orientacionPaciente": "Si hay dificultad para respirar, hinchazón de labios/lengua/cara, ronchas generalizadas o desmayo tras un procedimiento o sustancia, puede ser una reacción alérgica grave. Busca atención médica urgente de inmediato (urgencias).",
+    "orientacionPaciente": "Dificultad para respirar, hinchazón de labios, lengua o cara, ronchas generalizadas, o sensación de desmayo después de un procedimiento o sustancia son señales de una reacción alérgica grave.\n\nLlama a emergencias o ve a urgencias ahora mismo. Es una situación que no puede esperar.",
     "notasInternas": "Nivel 5: urgencia.",
     "marcarComoUrgencia": true
   }
