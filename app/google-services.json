@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:268830952606:android:3c61262b6800070be1ff8f",
         "android_client_info": {
-          "package_name": "com.drbeautybot.app"
+          "package_name": "app.drbeautybot"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "268830952606-hghivmif876helcdv781kh2rq1klbl23.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.drbeautybot.app",
+            "package_name": "app.drbeautybot",
             "certificate_hash": "4d84584017c3df8c09303a44bad2840addab0637"
           }
         },
