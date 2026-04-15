@@ -8,6 +8,8 @@
  *   - Carousel: active state dinámico via usePathname (no hardcodeado).
  *   - Hot Topics pills: gradiente solo al hacer tap (activeTopicId).
  *   - Select dark mode: manejado via globals.css (color-scheme: dark).
+ * - 2026-04-15 v2.2.0:
+ *   - Reintegrada card de Donaciones debajo de Chats recientes.
  */
 
 import Link from 'next/link';
@@ -19,7 +21,6 @@ import Onboarding, { useOnboarding } from '@/components/Onboarding';
 interface RecentChat { id: string; title: string; meta: string; }
 
 // ── CONSTANTES ────────────────────────────────────────────────
-// Sin 'active' hardcodeado — se calcula dinámicamente con usePathname
 const CAROUSEL_ITEMS = [
   { icon: '🗂️', label: 'Mis Datos',   href: '/profile'    },
   { icon: '📔', label: 'Mi Diario',   href: '/diario'     },
@@ -48,47 +49,32 @@ const THEME_KEY   = 'drb_theme';
 // ── COMPONENTE ────────────────────────────────────────────────
 export default function HomePage() {
   const router   = useRouter();
-  const pathname = usePathname(); // para carousel dinámico
+  const pathname = usePathname();
 
-  // Dark mode
   const [isDark, setIsDark] = useState(false);
-
-  // Onboarding
   const { show: showOnboarding, dismiss: dismissOnboarding } = useOnboarding();
-
-  // Datos
   const [hasProfile,   setHasProfile]   = useState<boolean | null>(null);
   const [recentChats,  setRecentChats]  = useState<RecentChat[]>([]);
   const [searchQuery,  setSearchQuery]  = useState('');
   const [showAllChats, setShowAllChats] = useState(false);
-
-  // Feedback tap en Hot Topics — solo activo 600ms tras el tap
   const [activeTopicLabel, setActiveTopicLabel] = useState<string | null>(null);
-
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // ── Init ──────────────────────────────────────────────────
   useEffect(() => {
-    // Tema guardado
     try {
       const saved = localStorage.getItem(THEME_KEY) ?? 'light';
       const dark  = saved === 'dark';
       setIsDark(dark);
       document.documentElement.setAttribute('data-theme', saved);
     } catch { /* ignore */ }
-
-    // Perfil
     try { setHasProfile(!!localStorage.getItem(PROFILE_KEY)); }
     catch { setHasProfile(false); }
-
-    // Historial
     try {
       const raw = localStorage.getItem(HISTORY_KEY);
       if (raw) setRecentChats(JSON.parse(raw) as RecentChat[]);
     } catch { /* ignore */ }
   }, []);
 
-  // ── Toggle dark mode ──────────────────────────────────────
   const toggleTheme = () => {
     const next = isDark ? 'light' : 'dark';
     setIsDark(!isDark);
@@ -98,7 +84,6 @@ export default function HomePage() {
     } catch { /* ignore */ }
   };
 
-  // ── Iniciar chat ──────────────────────────────────────────
   const startChat = (topic?: string) => {
     if (topic) {
       setActiveTopicLabel(topic);
@@ -113,15 +98,12 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── ONBOARDING — se monta encima de todo ───────────── */}
       {showOnboarding && <Onboarding onDismiss={dismissOnboarding} />}
 
-      {/* ── APP ────────────────────────────────────────────── */}
       <div
         className="drb-home-bg"
         style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}
       >
-        {/* ── ÁREA SCROLLABLE ─────────────────────────────── */}
         <div
           className="flex-1 overflow-y-auto drb-scroll-hide"
           style={{ WebkitOverflowScrolling: 'touch' }}
@@ -148,7 +130,6 @@ export default function HomePage() {
                     : 'drop-shadow(0 4px 20px rgba(100,60,180,0.25))',
                 }}
               />
-              {/* Toggle dark mode */}
               <button
                 onClick={toggleTheme}
                 className="drb-theme-toggle"
@@ -266,7 +247,6 @@ export default function HomePage() {
                         padding: '9px 16px', borderRadius: '999px',
                         fontSize: '13px', fontWeight: 500, whiteSpace: 'nowrap',
                         cursor: 'pointer', border: 'none',
-                        /* Gradiente solo durante el tap — nunca permanente */
                         background: isTapped
                           ? 'linear-gradient(135deg, rgba(183,148,244,0.55), rgba(237,100,166,0.4))'
                           : 'var(--drb-surface-card)',
@@ -288,9 +268,7 @@ export default function HomePage() {
             </div>
 
             {/* ── CHATS RECIENTES ────────────────────────── */}
-            <div style={{ width: '100%' }}>
-
-              {/* Header */}
+            <div style={{ width: '100%', marginBottom: '24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--drb-text-muted)', letterSpacing: '0.01em' }}>
                   Chats recientes
@@ -305,7 +283,6 @@ export default function HomePage() {
                 )}
               </div>
 
-              {/* Buscador — solo visible si hay chats */}
               {recentChats.length > 0 && (
                 <div style={{ position: 'relative', marginBottom: '12px' }}>
                   <span style={{
@@ -331,7 +308,6 @@ export default function HomePage() {
                       transition: 'border-color 0.2s',
                     }}
                   />
-                  {/* Botón limpiar búsqueda */}
                   {searchQuery && (
                     <button
                       onClick={() => { setSearchQuery(''); setShowAllChats(false); }}
@@ -347,7 +323,6 @@ export default function HomePage() {
                 </div>
               )}
 
-              {/* Lista filtrada */}
               {recentChats.length > 0 ? (() => {
                 const filtered = searchQuery
                   ? recentChats.filter((c) =>
@@ -361,7 +336,7 @@ export default function HomePage() {
                     background: 'var(--drb-surface-card)', border: '1px solid var(--drb-border-soft)',
                   }}>
                     <p style={{ fontSize: '13px', color: 'var(--drb-text-muted)', margin: 0 }}>
-                      Sin resultados para "{searchQuery}" 🔍
+                      Sin resultados para &ldquo;{searchQuery}&rdquo; 🔍
                     </p>
                     <button
                       onClick={() => setSearchQuery('')}
@@ -394,7 +369,6 @@ export default function HomePage() {
                           background: 'var(--drb-gradient-cta)', flexShrink: 0,
                         }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          {/* Título con highlight de búsqueda */}
                           <p style={{ fontSize: '13.5px', fontWeight: 500, color: 'var(--drb-text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {searchQuery ? (
                               (() => {
@@ -417,10 +391,9 @@ export default function HomePage() {
                         <span style={{ fontSize: '12px', color: 'var(--drb-border)', flexShrink: 0 }}>›</span>
                       </button>
                     ))}
-                    {/* Contador de resultados al buscar */}
                     {searchQuery && (
                       <p style={{ fontSize: '11px', color: 'var(--drb-text-hint)', textAlign: 'center', marginTop: '4px' }}>
-                        {filtered.length} resultado{filtered.length !== 1 ? 's' : ''} para "{searchQuery}"
+                        {filtered.length} resultado{filtered.length !== 1 ? 's' : ''} para &ldquo;{searchQuery}&rdquo;
                       </p>
                     )}
                   </>
@@ -439,15 +412,47 @@ export default function HomePage() {
               )}
             </div>
 
+            {/* ── DONATIVOS ──────────────────────────────────── */}
+            <Link
+              href="/donaciones"
+              className="btn-scale"
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', gap: '14px',
+                padding: '16px 18px', borderRadius: '20px', marginBottom: '24px',
+                background: 'linear-gradient(135deg, rgba(237,100,166,0.1), rgba(183,148,244,0.1))',
+                border: '1px solid rgba(237,100,166,0.25)',
+                textDecoration: 'none',
+                transition: 'border-color 0.2s, box-shadow 0.2s',
+              }}
+            >
+              <span style={{ fontSize: '28px', flexShrink: 0 }}>💝</span>
+              <div style={{ flex: 1 }}>
+                <p style={{
+                  fontSize: '13.5px', fontWeight: 600,
+                  color: 'var(--drb-text-primary)',
+                  margin: 0, lineHeight: 1.3,
+                }}>
+                  Apoya el proyecto
+                </p>
+                <p style={{
+                  fontSize: '12px', color: 'var(--drb-text-muted)',
+                  margin: '3px 0 0', lineHeight: 1.4,
+                }}>
+                  Tu apoyo nos ayuda a seguir mejorando Dr. BeautyBot
+                </p>
+              </div>
+              <span style={{
+                fontSize: '12px', color: 'var(--drb-accent)',
+                fontWeight: 600, flexShrink: 0,
+              }}>→</span>
+            </Link>
+
             {/* ── REDES SOCIALES ─────────────────────────────── */}
             <div style={{
               width: '100%', display: 'flex', flexDirection: 'column',
               alignItems: 'center', gap: '10px', paddingTop: '8px',
             }}>
-              {/* Fila: Instagram + Compartir app */}
               <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
-
-                {/* Instagram */}
                 <a
                   href="https://instagram.com/drbeautybot"
                   target="_blank" rel="noopener noreferrer"
@@ -470,7 +475,6 @@ export default function HomePage() {
                   </span>
                 </a>
 
-                {/* Compartir app */}
                 <button
                   onClick={() => {
                     const text = '💜 Descubrí Dr. BeautyBot, tu asistente de medicina estética disponible 24/7.\n\n🤖 Descárgala gratis:\ndrbeautybot.app\n\n📸 @drbeautybot';
@@ -496,7 +500,6 @@ export default function HomePage() {
                 </button>
               </div>
 
-              {/* Footer mínimo */}
               <p style={{
                 fontSize: '10.5px', color: 'var(--drb-text-hint)',
                 textAlign: 'center', marginTop: '2px',
