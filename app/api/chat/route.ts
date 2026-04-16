@@ -1,50 +1,18 @@
 // app/api/chat/route.ts
 
 /*
+  CHANGELOG — 2026-04-15 v2.3
+  - ✅ CORS headers añadidos para soporte de app Capacitor (Android).
+    · Handler OPTIONS para preflight.
+    · Helper corsJson() que envuelve todas las Response.json.
+    · Headers CORS en el streaming response.
+  - Por qué: La WebView de Capacitor tiene origen `https://localhost` o
+    `capacitor://localhost`, que Vercel bloquea sin Access-Control-Allow-Origin.
+*/
+
+/*
   CHANGELOG — 2026-04-05 v2.2
-  - closingSuffix = '' siempre. El disclaimer se muestra en la UI del chat
-    (header + primer mensaje del bot), no en cada respuesta del API.
-    Elimina la leyenda repetida al final de cada respuesta.
-*/
-
-/*
-  CHANGELOG — 2025-12-13
-  - Se agregó "intención de definición" para que CAPA DEFINICIONES responda también a mensajes tipo:
-    "ptosis", "ptosis?", "hialuronidasa", "biofilm", "vision borrosa", "acido hialuronico" (corto).
-  - ✅ Opción 1 (mínimo cambio, conservador): permitir 2 tokens aunque no haya "?" SOLO si el mensaje es corto.
-  - Triage guard: "definición pura" ahora reconoce intención de definición (no solo "qué es").
-  - QualityEvent: evita contar danger_signal cuando el mensaje era intención de definición.
-*/
-
-/*
-  CHANGELOG — 2025-12-15
-  - ✅ Fix Firestore counts (robusto).
-  - ✅ Router (mínimo y seguro).
-  - ✅ Integración OpenAI (SDK oficial).
-  - ✅ Multi-material.
-  - ✅ Fix buildContextPack.
-  - ✅ Micro-refactor.
-*/
-
-/*
-  CHANGELOG — 2025-12-17
-  - ✅ Cerco temático (solo medicina estética).
-  - ✅ isSmallTalk refinado.
-*/
-
-/*
-  CHANGELOG — 2025-12-22
-  - ✅ buildIntro simplificado.
-  - ✅ domainHint por sesión.
-  - ✅ Cerco temático contextual.
-  - ✅ isSmallTalk acepta sessionDomain.
-*/
-
-/*
-  CHANGELOG — 2026-03-30 v2.1
-  - ✅ StoredProfile ampliado: botoxZones, fillerMaterials, fillerZones,
-    healthConditions, healthOther, procedureDates.
-  - ✅ buildContextPack enriquecido.
+  - closingSuffix = '' siempre. El disclaimer se muestra en la UI del chat.
 */
 
 import { NextRequest } from 'next/server';
@@ -64,6 +32,29 @@ export const runtime = 'nodejs';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const BRAIN_MODEL = process.env.DRBEAUTYBOT_MODEL ?? 'gpt-5';
+
+// ── CORS ──────────────────────────────────────────────────────
+
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Max-Age': '86400',
+};
+
+function corsJson(data: unknown, init?: ResponseInit) {
+  return Response.json(data, {
+    ...init,
+    headers: { ...CORS_HEADERS, ...(init?.headers ?? {}) },
+  });
+}
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: CORS_HEADERS,
+  });
+}
 
 // ── TIPOS ─────────────────────────────────────────────────────
 
@@ -137,8 +128,6 @@ const OFFTOPIC_KEYWORDS = [
   'campaña publicitaria','publicidad','anuncio',
 ];
 
-// ── v2.2: El disclaimer ya no se incluye en las respuestas del API.
-// Se muestra en la UI: header del chat (con botón X) y primer mensaje del bot.
 const CLOSING = '';
 
 // ── HELPERS ───────────────────────────────────────────────────
@@ -663,7 +652,6 @@ function buildContextPack(args: {
   return parts.join('\n');
 }
 
-// ── INTENCIÓN GRANULAR ────────────────────────────────────────
 type GranularIntent =
   | 'timing'
   | 'comparison'
@@ -914,7 +902,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as ChatRequestBody;
     const rawMessage = body.message?.trim();
-    if (!rawMessage) return Response.json({ error: 'Mensaje vacío' }, { status: 400 });
+    if (!rawMessage) return corsJson({ error: 'Mensaje vacío' }, { status: 400 });
 
     const lower = normalizeText(rawMessage);
     const mode = body.mode ?? null;
@@ -924,7 +912,6 @@ export async function POST(req: NextRequest) {
     const history: HistoryMessage[] = Array.isArray(body.history) ? body.history.slice(-8) : [];
     const effectiveProfile = mode === 'quick' ? null : profile;
 
-    // v2.2: closingSuffix siempre vacío — el disclaimer vive en la UI, no en el API
     const closingSuffix = '';
     const intro = buildIntro(mode, effectiveProfile);
 
@@ -949,14 +936,14 @@ export async function POST(req: NextRequest) {
 
       if (sessionDomain === 'esthetic') {
         if (!hasEstheticKeyword && hasOffTopicKeyword) {
-          return Response.json({ reply: intro + 'Parece que este mensaje es de otro tema. DrBeautyBot está centrado exclusivamente en medicina estética. Si quieres, seguimos con tus dudas sobre rellenos, toxina botulínica, láser u otros procedimientos estéticos.' });
+          return corsJson({ reply: intro + 'Parece que este mensaje es de otro tema. DrBeautyBot está centrado exclusivamente en medicina estética. Si quieres, seguimos con tus dudas sobre rellenos, toxina botulínica, láser u otros procedimientos estéticos.' });
         }
       } else {
         if (!hasEstheticKeyword && hasOffTopicKeyword) {
-          return Response.json({ reply: intro + 'Soy DrBeautyBot y estoy diseñada exclusivamente para resolver dudas de medicina estética (rellenos, toxina botulínica, láser, manchas, acné, cicatrices, ojeras, flacidez, etc.). Tu mensaje parece ser de otro tema, así que en este caso no puedo ayudarte.\n\nSi quieres, cuéntame qué zona o tratamiento estético tienes en mente.' });
+          return corsJson({ reply: intro + 'Soy DrBeautyBot y estoy diseñada exclusivamente para resolver dudas de medicina estética (rellenos, toxina botulínica, láser, manchas, acné, cicatrices, ojeras, flacidez, etc.). Tu mensaje parece ser de otro tema, así que en este caso no puedo ayudarte.\n\nSi quieres, cuéntame qué zona o tratamiento estético tienes en mente.' });
         }
         if (!hasEstheticKeyword && !hasOffTopicKeyword) {
-          return Response.json({ reply: intro + 'Para poder ayudarte necesito que tu pregunta esté claramente relacionada con medicina estética. Por ejemplo, puedes decirme si te interesa hablar de rellenos, toxina botulínica, láser para manchas o depilación, cicatrices de acné, ojeras, flacidez, etc., y en qué zona del cuerpo te preocupa más.' });
+          return corsJson({ reply: intro + 'Para poder ayudarte necesito que tu pregunta esté claramente relacionada con medicina estética. Por ejemplo, puedes decirme si te interesa hablar de rellenos, toxina botulínica, láser para manchas o depilación, cicatrices de acné, ojeras, flacidez, etc., y en qué zona del cuerpo te preocupa más.' });
         }
       }
     }
@@ -967,7 +954,6 @@ export async function POST(req: NextRequest) {
       await upsertSessionLog({ sessionId, uid, mode, profileSnapshot: effectiveProfile, userText: rawMessage, botText: reply, qualityEvent, route });
     };
 
-    // ── CAPA 0.5: TRIAGE GUARD ────────────────────────────────
     let dangerSignalsForDefinition: string[] | null = null;
     if (facts.dangerSignals.length > 0) {
       const critical = facts.hasVision || facts.hasBreathingChest;
@@ -982,12 +968,11 @@ export async function POST(req: NextRequest) {
         const reply = intro + detectedLine + '\n\nSi esto te está ocurriendo ahora (especialmente después de una inyección o procedimiento facial), es importante **buscar valoración médica urgente de inmediato**. DrBeautyBot no puede valorar ni manejar urgencias en tiempo real. Acude a **urgencias** o contacta al médico que realizó el procedimiento **ya**.\n\n' + emergencyLine;
         const route: RouteDecision = { route: 'deterministic', reason: 'emergency' };
         await maybeLogSession(reply, route);
-        return Response.json({ reply });
+        return corsJson({ reply });
       }
       if (isReallyDefinitionOnly) dangerSignalsForDefinition = facts.dangerSignals;
     }
 
-    // ── CAPA DEFINICIONES ─────────────────────────────────────
     let hasDefinitionHit = false;
     if (facts.definitionIntent) {
       const def = findDefinitionInMessage(rawMessage);
@@ -996,15 +981,13 @@ export async function POST(req: NextRequest) {
         const safetyParts: string[] = [];
         if (dangerSignalsForDefinition?.length) safetyParts.push('⚠️ Nota de seguridad: mencionaste señales como **' + dangerSignalsForDefinition.join(', ') + '**. Si le está ocurriendo a alguien (especialmente tras un procedimiento/inyección), conviene valoración médica inmediata.');
         if (def.safetyNote) safetyParts.push('⚠️ ' + def.safetyNote);
-//      const reply = intro + '**Definición — ' + def.term + ':**\n' + def.definition + '\n\n' + (safetyParts.length ? safetyParts.join('\n\n') : '');
         const reply = intro + def.definition + (safetyParts.length ? '\n\n' + safetyParts.join('\n\n') : '');
         const route: RouteDecision = { route: 'deterministic', reason: 'definition' };
         await maybeLogSession(reply, route);
-        return Response.json({ reply });
+        return corsJson({ reply });
       }
     }
 
-    // ── CAPA TRIAGE ───────────────────────────────────────────
     const complication = findHighestSeverityComplication(rawMessage);
     if (complication) {
       if (complication.nivel >= 4 || complication.marcarComoUrgencia) {
@@ -1012,23 +995,22 @@ export async function POST(req: NextRequest) {
         const reply = complication.orientacionPaciente + '\n\nDrBeautyBot no puede valorar ni manejar urgencias en tiempo real. Debes acudir de inmediato al servicio de urgencias más cercano o contactar al médico que realizó el procedimiento. ' + emergencyLine;
         const route: RouteDecision = { route: 'deterministic', reason: 'triage_complication' };
         await maybeLogSession(reply, route);
-        return Response.json({ reply });
+        return corsJson({ reply });
       }
       if (complication.nivel <= 2) {
         const reply = intro + complication.orientacionPaciente + '\n\nAunque algunas reacciones leves pueden ser esperables, siempre es recomendable comentar cualquier cambio con tu médico tratante, sobre todo si algo te preocupa o cambia de forma brusca.';
         const route: RouteDecision = { route: 'deterministic', reason: 'triage_complication' };
         await maybeLogSession(reply, route);
-        return Response.json({ reply });
+        return corsJson({ reply });
       }
       if (complication.nivel === 3) {
         const reply = intro + complication.orientacionPaciente + '\n\nPor el tipo de síntomas que describes, lo más prudente es que un médico con experiencia en medicina estética te valore directamente.';
         const route: RouteDecision = { route: 'deterministic', reason: 'triage_complication' };
         await maybeLogSession(reply, route);
-        return Response.json({ reply });
+        return corsJson({ reply });
       }
     }
 
-    // ── CAPA MATERIALES ───────────────────────────────────────
     if (facts.highRiskMaterial) {
       if (facts.dangerSignals.length > 0) {
         const emergencyLine = buildEmergencyLine(effectiveProfile?.country);
@@ -1038,23 +1020,22 @@ export async function POST(req: NextRequest) {
         const reply = intro + detectedLine + '\n\nSi te aplicaron un material de alto riesgo/no autorizado y además hay señales de alarma, lo más prudente es **acudir a urgencias de inmediato** o contactar al médico tratante **ya**.\n\n' + emergencyLine;
         const route: RouteDecision = { route: 'deterministic', reason: 'high_risk_material' };
         await maybeLogSession(reply, route);
-        return Response.json({ reply });
+        return corsJson({ reply });
       }
       if (facts.materialContext === 'considering') {
         const reply = intro + facts.highRiskMaterial.descripcionPaciente + '\n\nSi te lo están ofreciendo o estás considerando aplicártelo: **no es recomendable**. Los rellenos permanentes/no autorizados (p. ej., "modelantes", "silicona", "aceites", "biopolímeros") se asocian con complicaciones difíciles de manejar y a veces irreversibles.\n\nSi buscas un relleno, lo más seguro es hablar con un médico especialista y preguntar por materiales **autorizados, trazables y reabsorbibles** cuando corresponda.';
         const route: RouteDecision = { route: 'deterministic', reason: 'high_risk_material' };
         await maybeLogSession(reply, route);
-        return Response.json({ reply });
+        return corsJson({ reply });
       }
       if (facts.materialContext === 'already') {
         const reply = intro + facts.highRiskMaterial.descripcionPaciente + '\n\nSi ya te aplicaron algo de este tipo o sospechas que fue un "relleno permanente/modelante": lo más prudente es **no manipular la zona** y buscar valoración con un médico con experiencia en complicaciones de rellenos.\n\nSi presentas dolor intenso, cambios de color, piel fría, inflamación que progresa rápido, fiebre, secreción, dificultad para respirar o alteraciones visuales, busca atención inmediata.';
         const route: RouteDecision = { route: 'deterministic', reason: 'high_risk_material' };
         await maybeLogSession(reply, route);
-        return Response.json({ reply });
+        return corsJson({ reply });
       }
     }
 
-    // ── ROUTER → CEREBRO IA ───────────────────────────────────
     const route = decideRoute({
       rawMessage, hasDefinitionHit,
       definitionIntent: facts.definitionIntent,
@@ -1092,6 +1073,7 @@ export async function POST(req: NextRequest) {
 
       return new Response(streamForClient, {
         headers: {
+          ...CORS_HEADERS,
           'Content-Type': 'text/event-stream',
           'Cache-Control': 'no-cache',
           'Connection': 'keep-alive',
@@ -1100,18 +1082,17 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── FALLBACK ──────────────────────────────────────────────
     const mainText = lower.includes('gracias') || lower.includes('muchas gracias')
       ? 'Gracias a ti por confiar en DrBeautyBot 💜. Siempre que tengas dudas sobre tratamientos estéticos, puedo ayudarte a entender mejor los conceptos y los posibles riesgos, pero recuerda que la decisión final y la valoración detallada siempre deben hacerse con tu médico.'
       : 'En medicina estética es muy importante equilibrar expectativas, seguridad y evidencia científica. Puedo ayudarte a entender conceptos generales y a identificar señales de alerta. Si puedes contarme un poco más de qué tratamiento o zona quieres hablar, podré orientarte de forma más específica.';
 
     const reply = intro + mainText;
     await maybeLogSession(reply, route.route === 'general' ? route : { route: 'general', reason: 'fallback' });
-    return Response.json({ reply });
+    return corsJson({ reply });
 
   } catch (error) {
     console.error('Error en /api/chat:', error);
-    return Response.json({
+    return corsJson({
       reply: 'Ha ocurrido un problema al procesar tu mensaje. Intenta de nuevo en unos minutos o revisa tu conexión. Si tienes síntomas que te preocupan, prioriza contactar directamente a tu médico o a un servicio de urgencias.',
     }, { status: 500 });
   }

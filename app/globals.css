@@ -143,6 +143,7 @@ body {
   background: var(--drb-bg-base);
   min-height: 100dvh;
   transition: background 0.3s ease;
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 /* Chat — tapiz con parallax animado (light) / patrón geométrico (dark) */
