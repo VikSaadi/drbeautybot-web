@@ -9,14 +9,11 @@
  * - 2026-04-04 v2.4: deleteAccount() con modal de confirmación.
  * - 2026-04-05 v2.5: referrerPolicy en avatares, nameWasEmpty en deps.
  * - 2026-04-05 v2.6: Botón eliminar cuenta en Estado 1 cuando isGoogle.
- * - 2026-04-05 v2.7:
- *   - Botón "🗑️ Eliminar mi perfil" en Estado 2 para todas las usuarias.
- *     Borra Firestore + localStorage pero mantiene la cuenta de Auth.
- *   - Modal propio para confirmar eliminación de perfil (diferente al de cuenta).
- *   - Jerarquía de acciones:
- *       ✏️ Actualizar mis datos   → edita campos
- *       🗑️ Eliminar mi perfil    → borra datos, mantiene cuenta
- *       💀 Eliminar mi cuenta    → borra todo (solo si isGoogle)
+ * - 2026-04-05 v2.7: Botón "Eliminar mi perfil" en Estado 2.
+ * - 2026-04-16 v2.8:
+ *   - Detección de Capacitor: oculta botones de Google Auth en la app Android
+ *     (signInWithRedirect no funciona en WebView de Capacitor).
+ *   - Mantiene intacto: eliminar perfil, eliminar cuenta, todo el formulario.
  */
 
 import { FormEvent, useEffect, useState } from 'react';
@@ -216,11 +213,14 @@ export default function ProfilePage() {
   const [hasSavedProfile,      setHasSavedProfile]      = useState<boolean | null>(null);
   const [isEditing,            setIsEditing]            = useState(false);
   const [showSavedDialog,      setShowSavedDialog]      = useState(false);
-  const [showDeleteModal,      setShowDeleteModal]      = useState(false);      // eliminar cuenta
-  const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false); // eliminar perfil
+  const [showDeleteModal,      setShowDeleteModal]      = useState(false);
+  const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
   const [isDeletingProfile,    setIsDeletingProfile]    = useState(false);
   const [nameFromGoogle,       setNameFromGoogle]       = useState(false);
   const [nameWasEmpty,         setNameWasEmpty]         = useState(false);
+
+  // v2.8: Detectar si estamos en Capacitor (app Android)
+  const isCapacitor = typeof window !== 'undefined' && !!(window as any).Capacitor;
 
   const [name,               setName]               = useState('');
   const [ageRange,           setAgeRange]           = useState('');
@@ -529,7 +529,8 @@ export default function ProfilePage() {
           {/* ── ESTADO 1 ──────────────────────────────────── */}
           {!showSaved && (
             <>
-              {!isGoogle && (
+              {/* v2.8: Ocultar botón Google Auth en Capacitor */}
+              {!isGoogle && !isCapacitor && (
                 <button type="button" onClick={linkGoogle} disabled={linking} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '11px 16px', borderRadius: '16px', marginBottom: '20px', background: 'white', border: '1px solid rgba(66,133,244,0.3)', cursor: linking ? 'not-allowed' : 'pointer', opacity: linking ? 0.7 : 1, boxShadow: '0 2px 10px rgba(66,133,244,0.1)', textAlign: 'left' }}>
                   <GoogleIcon />
                   <div style={{ flex: 1 }}>
@@ -539,7 +540,7 @@ export default function ProfilePage() {
                   <span style={{ fontSize: '18px', color: '#bdc1c6', flexShrink: 0 }}>›</span>
                 </button>
               )}
-              {isGoogle && (
+              {isGoogle && !isCapacitor && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px', borderRadius: '14px', marginBottom: '20px', background: 'rgba(52,168,83,0.08)', border: '1px solid rgba(52,168,83,0.25)' }}>
                   {photoURL && <img src={photoURL} alt="" referrerPolicy="no-referrer" style={{ width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0 }} />}
                   <p style={{ fontSize: '12px', fontWeight: 600, color: '#2d6a4f', margin: 0 }}>✓ Conectada con Google · {email ?? displayName}</p>
@@ -551,7 +552,7 @@ export default function ProfilePage() {
                 <p style={{ fontSize: '13px', color: 'var(--drb-text-muted)', lineHeight: 1.5, maxWidth: '300px' }}>Cuéntame un poco sobre ti para orientar mejor la información. No tomará más de 1 minuto.</p>
               </div>
               {FormContent}
-              {isGoogle && (
+              {isGoogle && !isCapacitor && (
                 <button type="button" onClick={() => setShowDeleteModal(true)} style={{ width: '100%', padding: '11px', borderRadius: '999px', background: 'transparent', color: '#d4537e', fontSize: '13px', border: '1px solid rgba(212,83,126,0.3)', cursor: 'pointer', marginTop: '8px' }}>
                   💀 Eliminar mi cuenta
                 </button>
@@ -574,8 +575,8 @@ export default function ProfilePage() {
                 <button onClick={() => setIsEditing(true)} style={{ padding: '6px 14px', borderRadius: '999px', background: 'var(--drb-surface-card)', color: 'var(--drb-text-muted)', fontSize: '12px', fontWeight: 500, border: '1px solid var(--drb-border-soft)', cursor: 'pointer', flexShrink: 0 }}>✏️ Editar</button>
               </div>
 
-              {/* Google card */}
-              {!isGoogle ? (
+              {/* v2.8: Google card — oculta en Capacitor */}
+              {isCapacitor ? null : !isGoogle ? (
                 <div style={{ width: '100%', padding: '14px 16px', borderRadius: '18px', marginBottom: '14px', background: 'linear-gradient(135deg, rgba(66,133,244,0.08), rgba(52,168,83,0.06))', border: '1px solid rgba(66,133,244,0.2)' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                     <span style={{ fontSize: '22px', flexShrink: 0 }}>☁️</span>
@@ -656,7 +657,7 @@ export default function ProfilePage() {
                 <button onClick={() => router.push('/chat?mode=profile')} style={{ width: '100%', padding: '14px', borderRadius: '999px', background: 'linear-gradient(135deg, #b794f4, #ed64a6)', color: 'white', fontSize: '14px', fontWeight: 600, border: 'none', cursor: 'pointer', boxShadow: '0 4px 18px rgba(183,148,244,0.45)' }}>💬 Ir al chat personalizado</button>
                 <button onClick={() => setIsEditing(true)} style={{ width: '100%', padding: '12px', borderRadius: '999px', background: 'var(--drb-surface-card)', color: 'var(--drb-text-muted)', fontSize: '13px', fontWeight: 500, border: '1px solid var(--drb-border-soft)', cursor: 'pointer' }}>✏️ Actualizar mis datos</button>
 
-                {/* 🆕 Eliminar perfil — disponible para todas */}
+                {/* Eliminar perfil — disponible para todas */}
                 <button
                   onClick={() => setShowDeleteProfileModal(true)}
                   style={{ width: '100%', padding: '11px', borderRadius: '999px', background: 'transparent', color: '#d4537e', fontSize: '13px', border: '1px solid rgba(212,83,126,0.3)', cursor: 'pointer' }}
@@ -664,8 +665,8 @@ export default function ProfilePage() {
                   🗑️ Eliminar mi perfil
                 </button>
 
-                {/* Eliminar cuenta — solo si Google */}
-                {isGoogle && (
+                {/* Eliminar cuenta — solo si Google Y no Capacitor */}
+                {isGoogle && !isCapacitor && (
                   <button
                     onClick={() => setShowDeleteModal(true)}
                     style={{ width: '100%', padding: '11px', borderRadius: '999px', background: 'transparent', color: '#a0395e', fontSize: '12px', border: '1px solid rgba(160,57,94,0.2)', cursor: 'pointer' }}
