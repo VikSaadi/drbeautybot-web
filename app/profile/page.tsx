@@ -11,9 +11,9 @@
  * - 2026-04-05 v2.6: Botón eliminar cuenta en Estado 1 cuando isGoogle.
  * - 2026-04-05 v2.7: Botón "Eliminar mi perfil" en Estado 2.
  * - 2026-04-16 v2.8:
- *   - Detección de Capacitor: oculta botones de Google Auth en la app Android
- *     (signInWithRedirect no funciona en WebView de Capacitor).
- *   - Mantiene intacto: eliminar perfil, eliminar cuenta, todo el formulario.
+ *   - GOOGLE_AUTH_ENABLED = false: oculta TODOS los botones/banners de Google Auth
+ *     tanto en web como en Capacitor hasta que el flujo esté validado.
+ *   - Para reactivar: cambiar GOOGLE_AUTH_ENABLED a true.
  */
 
 import { FormEvent, useEffect, useState } from 'react';
@@ -22,6 +22,9 @@ import { db, getAnonymousUid, deleteProfile as firebaseDeleteProfile } from '@/l
 import { doc, setDoc } from 'firebase/firestore';
 import { usePushNotifications } from '@/hooks/usePushNotifications';
 import { useAuth } from '@/hooks/useAuth';
+
+// ── FEATURE FLAGS ─────────────────────────────────────────────
+const GOOGLE_AUTH_ENABLED = false; // TODO: habilitar cuando Google Auth esté listo
 
 // ── ASSETS ────────────────────────────────────────────────────
 const CLIPBOARD_BOT = '/images/Untitled-(1).png';
@@ -219,9 +222,6 @@ export default function ProfilePage() {
   const [nameFromGoogle,       setNameFromGoogle]       = useState(false);
   const [nameWasEmpty,         setNameWasEmpty]         = useState(false);
 
-  // v2.8: Detectar si estamos en Capacitor (app Android)
-  const isCapacitor = typeof window !== 'undefined' && !!(window as any).Capacitor;
-
   const [name,               setName]               = useState('');
   const [ageRange,           setAgeRange]           = useState('');
   const [country,            setCountry]            = useState('');
@@ -245,7 +245,7 @@ export default function ProfilePage() {
 
   // ── Auto-relleno nombre desde Google ──────────────────────
   useEffect(() => {
-    if (isGoogle && displayName && (!name || nameWasEmpty)) {
+    if (GOOGLE_AUTH_ENABLED && isGoogle && displayName && (!name || nameWasEmpty)) {
       setName(displayName.split(' ')[0]);
       setNameFromGoogle(true);
       setNameWasEmpty(false);
@@ -351,7 +351,7 @@ export default function ProfilePage() {
 
   const showSaved = hasSavedProfile === true && !isEditing;
   const flag      = countryFlag[country] ?? '🌎';
-  const avatarSrc = isGoogle && photoURL ? photoURL : DON_REDONDON;
+  const avatarSrc = (GOOGLE_AUTH_ENABLED && isGoogle && photoURL) ? photoURL : DON_REDONDON;
 
   // ── FORMULARIO ────────────────────────────────────────────
   const FormContent = (
@@ -529,8 +529,8 @@ export default function ProfilePage() {
           {/* ── ESTADO 1 ──────────────────────────────────── */}
           {!showSaved && (
             <>
-              {/* v2.8: Ocultar botón Google Auth en Capacitor */}
-              {!isGoogle && !isCapacitor && (
+              {/* Google Auth banners — controlados por GOOGLE_AUTH_ENABLED */}
+              {GOOGLE_AUTH_ENABLED && !isGoogle && (
                 <button type="button" onClick={linkGoogle} disabled={linking} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '11px 16px', borderRadius: '16px', marginBottom: '20px', background: 'white', border: '1px solid rgba(66,133,244,0.3)', cursor: linking ? 'not-allowed' : 'pointer', opacity: linking ? 0.7 : 1, boxShadow: '0 2px 10px rgba(66,133,244,0.1)', textAlign: 'left' }}>
                   <GoogleIcon />
                   <div style={{ flex: 1 }}>
@@ -540,19 +540,22 @@ export default function ProfilePage() {
                   <span style={{ fontSize: '18px', color: '#bdc1c6', flexShrink: 0 }}>›</span>
                 </button>
               )}
-              {isGoogle && !isCapacitor && (
+              {GOOGLE_AUTH_ENABLED && isGoogle && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px', borderRadius: '14px', marginBottom: '20px', background: 'rgba(52,168,83,0.08)', border: '1px solid rgba(52,168,83,0.25)' }}>
                   {photoURL && <img src={photoURL} alt="" referrerPolicy="no-referrer" style={{ width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0 }} />}
                   <p style={{ fontSize: '12px', fontWeight: 600, color: '#2d6a4f', margin: 0 }}>✓ Conectada con Google · {email ?? displayName}</p>
                 </div>
               )}
+
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '20px' }}>
                 <img src={CLIPBOARD_BOT} alt="Dr. BeautyBot" className="drb-img-blend" style={{ width: '110px', marginBottom: '10px' }} />
                 <h1 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--drb-text-primary)', marginBottom: '6px' }}>Consulta personalizada</h1>
                 <p style={{ fontSize: '13px', color: 'var(--drb-text-muted)', lineHeight: 1.5, maxWidth: '300px' }}>Cuéntame un poco sobre ti para orientar mejor la información. No tomará más de 1 minuto.</p>
               </div>
               {FormContent}
-              {isGoogle && !isCapacitor && (
+
+              {/* Eliminar cuenta — solo si Google Auth está habilitado y vinculado */}
+              {GOOGLE_AUTH_ENABLED && isGoogle && (
                 <button type="button" onClick={() => setShowDeleteModal(true)} style={{ width: '100%', padding: '11px', borderRadius: '999px', background: 'transparent', color: '#d4537e', fontSize: '13px', border: '1px solid rgba(212,83,126,0.3)', cursor: 'pointer', marginTop: '8px' }}>
                   💀 Eliminar mi cuenta
                 </button>
@@ -566,7 +569,7 @@ export default function ProfilePage() {
               {/* Banner */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 16px', borderRadius: '20px', marginBottom: '16px', background: 'linear-gradient(135deg, rgba(183,148,244,0.2), rgba(237,100,166,0.12))', border: '1px solid rgba(183,148,244,0.35)' }}>
                 <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid rgba(183,148,244,0.4)', background: '#e8f5ee' }}>
-                  <img src={avatarSrc} alt={isGoogle && displayName ? displayName : 'Don Redondón'} referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={avatarSrc} alt={GOOGLE_AUTH_ENABLED && isGoogle && displayName ? displayName : 'Don Redondón'} referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: '15px', fontWeight: 600, color: 'var(--drb-text-primary)', margin: 0 }}>Hola{name ? `, ${name}` : ''} 👋</p>
@@ -575,8 +578,8 @@ export default function ProfilePage() {
                 <button onClick={() => setIsEditing(true)} style={{ padding: '6px 14px', borderRadius: '999px', background: 'var(--drb-surface-card)', color: 'var(--drb-text-muted)', fontSize: '12px', fontWeight: 500, border: '1px solid var(--drb-border-soft)', cursor: 'pointer', flexShrink: 0 }}>✏️ Editar</button>
               </div>
 
-              {/* v2.8: Google card — oculta en Capacitor */}
-              {isCapacitor ? null : !isGoogle ? (
+              {/* Google card — controlado por GOOGLE_AUTH_ENABLED */}
+              {!GOOGLE_AUTH_ENABLED ? null : !isGoogle ? (
                 <div style={{ width: '100%', padding: '14px 16px', borderRadius: '18px', marginBottom: '14px', background: 'linear-gradient(135deg, rgba(66,133,244,0.08), rgba(52,168,83,0.06))', border: '1px solid rgba(66,133,244,0.2)' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                     <span style={{ fontSize: '22px', flexShrink: 0 }}>☁️</span>
@@ -665,8 +668,8 @@ export default function ProfilePage() {
                   🗑️ Eliminar mi perfil
                 </button>
 
-                {/* Eliminar cuenta — solo si Google Y no Capacitor */}
-                {isGoogle && !isCapacitor && (
+                {/* Eliminar cuenta — solo si Google Auth habilitado y vinculado */}
+                {GOOGLE_AUTH_ENABLED && isGoogle && (
                   <button
                     onClick={() => setShowDeleteModal(true)}
                     style={{ width: '100%', padding: '11px', borderRadius: '999px', background: 'transparent', color: '#a0395e', fontSize: '12px', border: '1px solid rgba(160,57,94,0.2)', cursor: 'pointer' }}
@@ -691,7 +694,7 @@ export default function ProfilePage() {
               <p style={{ fontSize: '13px', color: 'var(--drb-text-muted)', lineHeight: 1.55, margin: 0 }}>
                 Se borrarán tus datos — nombre, procedimientos, salud e intereses.
               </p>
-              {isGoogle && (
+              {GOOGLE_AUTH_ENABLED && isGoogle && (
                 <p style={{ fontSize: '12px', color: 'var(--drb-text-hint)', marginTop: '6px' }}>
                   Tu cuenta de Google se mantiene vinculada.
                 </p>
